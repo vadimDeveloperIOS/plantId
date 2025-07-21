@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Empty.Button.Middle.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

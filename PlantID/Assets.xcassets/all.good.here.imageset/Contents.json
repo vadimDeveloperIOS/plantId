@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "all.good.here.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

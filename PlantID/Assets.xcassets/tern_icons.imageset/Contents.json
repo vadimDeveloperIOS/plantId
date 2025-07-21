@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tern_icons.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
