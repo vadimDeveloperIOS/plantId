@@ -45,7 +45,7 @@ workflows:
            set -x
             xcode-project use-profiles
             xcode-project build-ipa \
-              --workspace "$XCODE_WORKSPACE" \
+              --project "$XCODE_PROJECT" \
               --scheme "$XCODE_SCHEME" \
               --archive-flags "-destination 'generic/platform=iOS'" \
               --archive-xcargs "CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES"
