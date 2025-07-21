@@ -73,9 +73,8 @@ final class PaywallViewController: UIViewController {
                 .init(
                     header: .init(page: 3),
                     price: [
-                        .init(price: "The $ 39.99/Year", priceWeek: "0.76", productType: .yearly),
-                        .init(price: "The $ 12.99/Month", priceWeek: "3.25", productType: .monthly),
-                        .init(price: "The $ 4.99/Week", priceWeek: "4.99", productType: .weekly)
+                        .init(price: "The $ no price/ no period", priceWeek: "0.00", productType: .yearly),
+                        
                     ],
                     comments: .init(i: true)
                 )
