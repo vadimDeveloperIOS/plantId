@@ -27,7 +27,6 @@ final class OnboardingSecondViewController: UIViewController {
             case .restore:
                 ProFeatureService.shared.restorePurchases()
             }
-            
         }
     }
     
