@@ -9,42 +9,47 @@ import UIKit
 
 final class SearchTextField: View {
     
-    var placeholder = "Search"
-    
     private(set) lazy var textField: CustomTextField = {
         let view = CustomTextField()
-        view.placeholder = placeholder
-        view.backgroundColor = .white
-        view.textColor = .black
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         
         view.attributedPlaceholder = NSAttributedString(
-            string: "Search",
+            string: TextForHomeScene.search,
             attributes: [
-                .foregroundColor: UIColor(red: 0.19, green: 0.291, blue: 0.178, alpha: 1),
-                .font: UIFont(name: "Onest-Regular", size: 16)
+                .foregroundColor: UIColor(red: 1, green: 1, blue: 1, alpha: 1),
+                .font: UIFont(name: "OpenSans-Regular", size: 16)!
             ]
         )
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setBackgroundImage(UIImage(named: "search1"), for: .normal)
-        view.addSubview(button)
+        let img = UIImageView(image: UIImage(named: "search1"))
+        img.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(img)
 
-        button.widthAnchor ~= 32
-        button.heightAnchor ~= 32
-        button.rightAnchor ~= view.rightAnchor - 6
-        button.centerYAnchor ~= view.centerYAnchor
+        img.widthAnchor ~= 32
+        img.heightAnchor ~= 32
+        img.leftAnchor ~= view.leftAnchor + 16
+        img.centerYAnchor ~= view.centerYAnchor
 
         return view
     }()
     
+    private lazy var blurView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .systemThinMaterial) // “тонкий” системный блюр
+        let v = UIVisualEffectView(effect: effect)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.isUserInteractionEnabled = false // чтоб не перехватывать тапы
+        return v
+    }()
     
     public override func setupContent() {
-        addSubview(textField)
+        heightAnchor ~= 60
+        addSubview(blurView)
+        blurView.addSubview(textField)
         textField.enableReturnKeyToDismissKeyboard()
     }
 
     public override func setupLayout() {
+        blurView.pinToSuperview()
         textField.pinToSuperview()
     }
 }

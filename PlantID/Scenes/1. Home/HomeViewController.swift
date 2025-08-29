@@ -111,7 +111,34 @@ class HomeViewController: UIViewController {
                     haveOnCoreDataPlant: myWith == [] ? false : true,
                     haveOnCoreDataHistory: array == [] ? false : true
                 )
-            coreDataIsEmpty = myWith == [] && array == [] ? true : false
+            
+            if myWith == [] && array == [] {
+                
+                self.viewModel =
+                    .init(
+                        myPlantsWithPhoto: [
+                            .init(
+                                photo: UIImage(named: "not.plant.1") ,
+                                plantName: "Some name",
+                                plantDescription: "Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text ",
+                                rateWatering: 2
+                            )
+                        ],
+                        historyWithPhoto: [
+                            .init(
+                                photo: UIImage(named: "not.plant.2"),
+                                name:  "Some name",
+                                descr: "Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text "
+                            )
+                        ],
+                        haveOnCoreDataPlant: true,
+                        haveOnCoreDataHistory: true
+                    )
+            }
+            
+//            coreDataIsEmpty = myWith == [] && array == [] ? true : false
+            coreDataIsEmpty = false
+
         }
     }
     
