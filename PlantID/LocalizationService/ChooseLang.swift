@@ -14,4 +14,6 @@ enum TextForHomeScene {
     static let carePlan = "care_plan".localized
     static let askYourPlantAIAssistant = "ask_your_plant_ai_assistant".localized
     static let aiAssistantIsReadyToHelp = "ai_assistant_is_ready_to_help".localized
+    static let addToMyPlants = "add_to_my_plants".localized
+    static let add = "add".localized
 }
