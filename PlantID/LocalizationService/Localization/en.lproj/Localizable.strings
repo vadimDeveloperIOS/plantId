@@ -125,3 +125,7 @@
 //новшество
 "read_more" = "Read more";
 "care_plan" = "Care Plan";
+
+"ask_your_plant_ai_assistant" = "Ask Your Plant AI Assistant!";
+
+"ai_assistant_is_ready_to_help" = "AI Assistant is ready to help with health checks, reminders, and personalized advice.";
