@@ -11,5 +11,6 @@ enum TextForHomeScene {
     
     static let search = "search".localized
     static let readMore = "read_more".localized
+    static let carePlan = "care_plan".localized
     
 }
