@@ -99,5 +99,8 @@ final class MyplantsN: BaseViewWithNavigationBarGreen {
         
         thirdLbl.topAnchor ~= secondLbl.bottomAnchor + 10
         thirdLbl.centerXAnchor ~= centerXAnchor
+        
+        btn.bottomAnchor ~= bottomAnchor - 80
+        btn.centerXAnchor ~= centerXAnchor
     }
 }
