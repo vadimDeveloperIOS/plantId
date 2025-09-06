@@ -9,7 +9,7 @@ import UIKit
 
 final class CareView: View {
     
-    private let filledColor   = #colorLiteral(red: 0.2967152596, green: 0.6072086692, blue: 0.1338145733, alpha: 1)
+    private let filledColor   = #colorLiteral(red: 0.136728853, green: 0.3129242063, blue: 0.06877711415, alpha: 1)
     private let unfilledColor = #colorLiteral(red: 0.5067764521, green: 0.602879405, blue: 0.4750113487, alpha: 1)
     
     var bigView: Bool = false
@@ -24,14 +24,16 @@ final class CareView: View {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.image = UIImage(named: "r_home_kapla")?.withRenderingMode(.alwaysTemplate)
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.tintColor = unfilledColor
         
         if bigView == true {
             iv.widthAnchor ~= 16
+            iv.heightAnchor ~= 16
         }
         else if bigView == false {
             iv.widthAnchor ~= 11
+            iv.heightAnchor ~= 11
         }
         return iv
     }
@@ -41,23 +43,25 @@ final class CareView: View {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
         view.alignment = .center
-        view.distribution = .equalSpacing
+        view.distribution = .fillEqually
+        view.isLayoutMarginsRelativeArrangement = true
+        view.directionalLayoutMargins = .init(top: 0, leading: 6, bottom: 0, trailing: 6)
         return view
     }()
     
     override func setupContent() {
         backgroundColor = #colorLiteral(red: 0.830952704, green: 0.9365895391, blue: 0.7739595771, alpha: 1)
         
-        if bigView == true {
-            widthAnchor ~= 63
-            heightAnchor ~= 18
-            layer.cornerRadius = 9
-        }
-        else if bigView == false {
-            widthAnchor ~= 83
-            heightAnchor ~= 24
-            layer.cornerRadius = 12
-        }
+//        if bigView == true {
+//            widthAnchor ~= 63
+//            heightAnchor ~= 18
+//            layer.cornerRadius = 6
+//        }
+//        else if bigView == false {
+//            widthAnchor ~= 83
+//            heightAnchor ~= 24
+//            layer.cornerRadius = 12
+//        }
         
         addSubview(hStack)
         images.forEach { hStack.addArrangedSubview($0) }

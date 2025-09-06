@@ -18,15 +18,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let pageVC = PageContainerViewController()
         let nav = UINavigationController(rootViewController: pageVC)
+        let tabsViewController = TabsViewController()
 
-        if UserDefaultsService.shared.hasSeenOnboarding == false {
-            nav.navigationBar.isHidden = true
-            window.rootViewController = nav
-        }
-        else {
-            let tabsViewController = TabsViewController()
-            window.rootViewController = tabsViewController
-        }
+        window.rootViewController = tabsViewController
+//        if UserDefaultsService.shared.hasSeenOnboarding == false {
+//            nav.navigationBar.isHidden = true
+//            window.rootViewController = nav
+//        }
+//        else {
+//            let tabsViewController = TabsViewController()
+//            window.rootViewController = tabsViewController
+//        }
         
         window.makeKeyAndVisible()
         self.window = window

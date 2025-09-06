@@ -1,5 +1,5 @@
 //
-//  4 AIAssistantCell.swift
+//  4. AIAssistantHomeCell.swift
 //  PlantID
 //
 //  Created by Вадим Игнатенко on 30.08.25.
@@ -11,7 +11,7 @@ import UIKit
 // MARK: - CELL
 /// ----------------------------------------------
 
-final class AIAssistantCell: UICollectionViewCell {
+final class AIAssistantHomeCell: UICollectionViewCell {
     
     private lazy var cellContentView: AIAssistantCellContent = {
         let view = AIAssistantCellContent()
@@ -25,7 +25,7 @@ final class AIAssistantCell: UICollectionViewCell {
 // MARK: - CONTENT
 /// ----------------------------------------------
 
-fileprivate final class AIAssistantCellContent: View {
+final class AIAssistantCellContent: View {
     
     private lazy var bgImage: UIImageView = {
         let view = UIImageView()

@@ -1,5 +1,5 @@
 //
-//  MyPlansCell.swift
+//  MyPlantsHomeCell.swift
 //  PlantID
 //
 //  Created by Вадим Игнатенко on 19.06.25.
@@ -11,9 +11,9 @@ import UIKit
 // MARK: - CELL
 /// ----------------------------------------------
 
-final class MyPlansCell: UICollectionViewCell {
+final class MyPlantsHomeCell: UICollectionViewCell {
     
-    var viewModel: MyPlansCellContent.Model? {
+    var viewModel: MyPlantsCellContent.Model? {
         didSet {
             if let viewModel {
                 cellContentView.viewModel = viewModel
@@ -21,8 +21,8 @@ final class MyPlansCell: UICollectionViewCell {
         }
     }
     
-    private lazy var cellContentView: MyPlansCellContent = {
-        let view = MyPlansCellContent()
+    private lazy var cellContentView: MyPlantsCellContent = {
+        let view = MyPlantsCellContent()
         contentView.addSubview(view)
         view.pinToSuperview()
         return view
@@ -34,7 +34,7 @@ final class MyPlansCell: UICollectionViewCell {
 /// ----------------------------------------------
 
 
-final class MyPlansCellContent: BaseCell {
+final class MyPlantsCellContent: BaseCell {
     
     struct Model: Hashable {
         var image: UIImage
@@ -47,15 +47,17 @@ final class MyPlansCellContent: BaseCell {
             guard let viewModel else { return }
             photo.image = viewModel.image
             firstLbl.text = viewModel.name
+            careView.careValue = viewModel.carePlan
         }
     }
     
     private lazy var photo: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor ~= 90
-        view.heightAnchor ~= 90
-        view.layer.cornerRadius = 16
+        view.widthAnchor ~= 70
+        view.contentMode = .scaleAspectFill
+        view.layer.cornerRadius = 9
+        view.clipsToBounds = true
         return view
     }()
     
@@ -89,6 +91,9 @@ final class MyPlansCellContent: BaseCell {
      
     override func setupContent() {
         super.setupContent()
+        backgroundColor = ColorsForHomeScene.colorsForMyPlants.randomElement()
+        layer.cornerRadius = 20
+        
         addSubview(photo)
         addSubview(firstLbl)
         addSubview(secondLbl)
@@ -97,16 +102,21 @@ final class MyPlansCellContent: BaseCell {
     
     override func setupLayout() {
         super.setupLayout()
-        photo.centerYAnchor ~= centerYAnchor
+        photo.topAnchor ~= topAnchor + 10
+        photo.bottomAnchor ~= bottomAnchor - 10
         photo.rightAnchor ~= rightAnchor - 10
         
         firstLbl.topAnchor ~= topAnchor + 10
-        firstLbl.leftAnchor ~= leftAnchor + 10
+        firstLbl.leftAnchor ~= leftAnchor + 12
+        firstLbl.rightAnchor ~= photo.leftAnchor - 2
         
-        secondLbl.topAnchor ~= firstLbl.bottomAnchor + 15
-        secondLbl.leftAnchor ~= firstLbl.leftAnchor
-        
-        careView.topAnchor ~= secondLbl.bottomAnchor + 10
+        careView.bottomAnchor ~= bottomAnchor - 12
         careView.leftAnchor ~= firstLbl.leftAnchor
+        careView.widthAnchor ~= 63
+        careView.heightAnchor ~= 18
+        careView.layer.cornerRadius = 9
+        
+        secondLbl.bottomAnchor ~= careView.topAnchor - 10
+        secondLbl.leftAnchor ~= firstLbl.leftAnchor
     }
 }

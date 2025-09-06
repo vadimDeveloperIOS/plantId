@@ -13,12 +13,19 @@ import UIKit
 
 final class SearchHomeCell: UICollectionViewCell {
     
-    var viewModel: String {
+    var viewModel: SearchHomeCellContent.Model? {
+        didSet {
+            guard let viewModel else { return }
+            cellContentView.viewModel = viewModel
+        }
+    }
+    
+    var onQueryChange: (String) -> Void {
         get {
-            cellContentView.textForWeather ?? .init()
+            cellContentView.onQueryChange
         }
         set {
-            cellContentView.textForWeather = newValue
+            cellContentView.onQueryChange = newValue
         }
     }
     
@@ -35,20 +42,27 @@ final class SearchHomeCell: UICollectionViewCell {
 /// ----------------------------------------------
 
 
-fileprivate final class SearchHomeCellContent: View {
+final class SearchHomeCellContent: View {
     
-    var textForWeather: String? {
-        didSet {
-            
-        }
-        
+    struct Model: Hashable {
+        let textForWeather: String
     }
+    
+    var viewModel: Model? {
+        didSet {
+            guard let viewModel else { return }
+            weatherText.text = viewModel.textForWeather
+        }
+    }
+    
+    var onQueryChange: ((String) -> Void) = { _ in }
     
     private lazy var bgImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "r_home_backgr_for_search")
+        view.image = UIImage(named: "r_home_backgr_ for_search")
         view.isUserInteractionEnabled = false
+        view.heightAnchor ~= 210
         return view
     }()
     
@@ -56,6 +70,7 @@ fileprivate final class SearchHomeCellContent: View {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.text = "Sun Cloudy 220"
+        view.textColor = .white
         
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -64,15 +79,17 @@ fileprivate final class SearchHomeCellContent: View {
         image.widthAnchor ~= 20
         image.heightAnchor ~= 20
         image.centerYAnchor ~= view.centerYAnchor
-        image.leftAnchor ~= view.leftAnchor
+        image.leftAnchor ~= view.leftAnchor - 30
         return view
     }()
     
     private lazy var searchTextField: SearchTextField = {
         let view = SearchTextField()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 30
-        view.clipsToBounds = true
+        view.onQueryChange = { [weak self] query in
+            guard let self else { return }
+            self.onQueryChange(query)
+        }
         return view
     }()
     
@@ -90,6 +107,6 @@ fileprivate final class SearchHomeCellContent: View {
         searchTextField.rightAnchor ~= rightAnchor - 16
         
         weatherText.bottomAnchor ~= searchTextField.topAnchor - 20
-        weatherText.leftAnchor ~= leftAnchor + 16
+        weatherText.leftAnchor ~= leftAnchor + 46
     }
 }

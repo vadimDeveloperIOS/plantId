@@ -6,47 +6,54 @@
 //
 
 import UIKit
-import Combine
 
 final class HomeView: View {
-    
-    private var subscriptions = Set<AnyCancellable>()
-    
+        
     private typealias DataSource = UICollectionViewDiffableDataSource<SectionItem, CellItem>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<SectionItem, CellItem>
-    
-//    private typealias MyPlants = UICollectionView.CellRegistration<MyPlantsViewCell, MyPlantsCellContentView.Model>
-    private typealias MyPlantsWithPhoto = UICollectionView.CellRegistration<MyPlantsWithPhotoCell, MyPlantsWithPhotoContent.Model>
-//    private typealias History = UICollectionView.CellRegistration<HistoryViewCell, HistoryCellContentView.Model>
-    private typealias HistoryWithPhoto = UICollectionView.CellRegistration<HistoryWhenHavePlantsCell, HistoryWhenHavePlantsContent.Model>
-    
     private typealias SectionSnapshot = NSDiffableDataSourceSectionSnapshot<CellItem>
     
+    // CELLS REGISTRATION
+    private typealias SearchCell = UICollectionView.CellRegistration<SearchHomeCell, SearchHomeCellContent.Model>
+    private typealias LearnAboutPlants = UICollectionView.CellRegistration<LearnAboutPlantsHomeCell, LearnAboutPlantsHomeCellContent.BigCellModel>
+    private typealias MyPlants = UICollectionView.CellRegistration<MyPlantsHomeCell, MyPlantsCellContent.Model>
+    private typealias AIAssistant = UICollectionView.CellRegistration<AIAssistantHomeCell, String>
+    private typealias History = UICollectionView.CellRegistration<HistoryHomeCell, HistoryCellContent.BigCellModel>
+    
+    // SECTIONS REGISTRATION
+    private typealias SectionSnap = NSDiffableDataSourceSectionSnapshot<CellItem>
+    
+    // MARK: - COLLECTIONVIEW SETTINGS
+    
     private enum SectionItem: Hashable, CaseIterable {
+        case search
+        case learnAboutPlants
         case myPlants
+        case aiAssistant
         case history
     }
     
     private enum CellItem: Hashable {
-//        case myPlants(MyPlantsCellContentView.Model)
-        case myPlantsWithPhoto(MyPlantsWithPhotoContent.Model)
-//        case history(HistoryCellContentView.Model)
-        case historyWithPhoto(HistoryWhenHavePlantsContent.Model)
+        case search(SearchHomeCellContent.Model)
+        case learnAboutPlants(LearnAboutPlantsHomeCellContent.BigCellModel)
+        case myPlants(MyPlantsCellContent.Model)
+        case aiAssistant
+        case history(HistoryCellContent.BigCellModel)
     }
     
     enum Action {
-        case addMyPlants(indexPath: Int)
+        case readMore
+        case add(indexPath: Int)
+        case viewAllMyPlants
+        case viewAllHistory
     }
     var actionHandler: (Action) -> Void = { _ in }
 
-    
     struct Model {
-//        let myPlants: [MyPlantsCellContentView.Model]
-        let myPlantsWithPhoto: [MyPlantsWithPhotoContent.Model]
-//        let history: [HistoryCellContentView.Model]
-        let historyWithPhoto: [HistoryWhenHavePlantsContent.Model]
-        let haveOnCoreDataPlant: Bool
-        let haveOnCoreDataHistory: Bool
+        let search: SearchHomeCellContent.Model
+        let learnAboutPlants: [LearnAboutPlantsHomeCellContent.BigCellModel]
+        let myPlants: [MyPlantsCellContent.Model]
+        let history: [HistoryCellContent.BigCellModel]
     }
     
     var viewModel: Model? {
@@ -54,34 +61,35 @@ final class HomeView: View {
             guard let viewModel else { return }
             
             var snapshot = Snapshot()
-            snapshot.appendSections([.myPlants, .history])
+            snapshot.appendSections([
+                .search,
+                .learnAboutPlants,
+                .myPlants,
+                .aiAssistant,
+                .history
+            ])
+            let search = viewModel.search
+            snapshot.appendItems( [.search(search)], toSection: .search)
             
-            let myPlantsItems = viewModel.myPlantsWithPhoto.map { CellItem.myPlantsWithPhoto($0) }
-            snapshot.appendItems(myPlantsItems, toSection: .myPlants)
-            let historyItems = viewModel.historyWithPhoto.map { CellItem.historyWithPhoto($0) }
-            snapshot.appendItems(historyItems, toSection: .history)
-     
+            let learnAboutPlants = viewModel.learnAboutPlants.map {
+                CellItem.learnAboutPlants($0)
+            }
+            snapshot.appendItems( learnAboutPlants, toSection: .learnAboutPlants)
+            
+            let myPlants = viewModel.myPlants.map {
+                CellItem.myPlants($0)
+            }
+            snapshot.appendItems(myPlants, toSection: .myPlants)
+            
+            let historyPrefix = viewModel.history.prefix(2)
+            let history = historyPrefix.map {
+                CellItem.history($0)
+            }
+            snapshot.appendItems(history, toSection: .history)
+            
             dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
-    
-    private lazy var titleLabel: UILabel = {
-        let view = UILabel()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = "plants_app".localized
-        view.font = UIFont(name: "Onest-SemiBold", size: 20)
-        view.textColor = UIColor(red: 0.063, green: 0.082, blue: 0.067, alpha: 1)
-        view.textAlignment = .center
-        return view
-    }()
-
-    private lazy var searchTextField: SearchTextField = {
-        let view = SearchTextField()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 24
-        view.clipsToBounds = true
-        return view
-    }()
     
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: HomeView.layout())
@@ -91,49 +99,125 @@ final class HomeView: View {
         view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = false
         view.backgroundColor = .clear
-        view.contentInset = .init(top: 50, left: 0, bottom: 40, right: 0)
+        view.contentInset = .init(top: 0, left: 0, bottom: 90, right: 0)
+        view.contentInsetAdjustmentBehavior = .never
+        view.bounces = false
         return view
     }()
     
     private lazy var dataSource: DataSource = {
         
-        let myWithPhoto = MyPlantsWithPhoto { cell, indexPath, item in
-            cell.viewModel = item
-        }
-        
-        let hisWithPhoto = HistoryWithPhoto { cell, indexPath, item in
-            cell.viewModel = item
-            cell.actionHandler = { [weak self] action in
+        let searchCellRegistration = SearchCell { cell, indexPath, itemIdentifier in
+            cell.viewModel = itemIdentifier
+            cell.onQueryChange = { [weak self] query in
                 guard let self else { return }
-                self.actionHandler(.addMyPlants(indexPath: indexPath.row))
+                self.applyFilter(query: query)
             }
         }
         
+        let learnAboutPlantsCellRegistration = LearnAboutPlants { cell, indexPath, itemIdentifier in
+            cell.viewModel = itemIdentifier
+            cell.actionHandler = { [weak self] action in
+                guard let self else { return }
+                switch action {
+                case .readMore:
+                    self.actionHandler(.readMore)
+                }
+            }
+        }
+        
+        let myPlantsCellRegistration = MyPlants { cell, indexPath, itemIdentifier in
+            cell.viewModel = itemIdentifier
+        }
+        
+        let aiAssistantCellRegistration = AIAssistant { _, _, _ in
+            
+        }
+        
+        let historyCellRegistration = History {cell, indexPath, itemIdentifier in
+            cell.viewModel = itemIdentifier
+            cell.actionHandler = { [weak self] action in
+                guard let self else { return }
+                switch action {
+                case .add:
+                    self.actionHandler(.add(indexPath: indexPath.row))
+                }
+            }
+        }
+
         let headerRegistration = UICollectionView.SupplementaryRegistration<SectionHeaderView>(
             elementKind: "Header"
         ) { [weak self] view, kind, indexPath in
-            guard let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section] else { return }
-            switch section {
-            case .myPlants:
-                view.isMyPlant = true
-                view.setTitle("my_plants_little".localized)
-            case .history:
-                view.isMyPlant = false
-                view.setTitle("history_ little".localized)
+//            guard let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section] else { return }
+            
+            guard let section = self?.dataSource.sectionIdentifier(for: indexPath.section) else { return }
+            
+            if section == .learnAboutPlants {
+                view.textForSection = TextForHomeScene.learnAboutPlants
+            }
+            if section == .myPlants {
+                view.textForSection = TextForHomeScene.myPlants
+                view.needToShowButton = true
+                view.actionHandler = { [weak self] action in
+                    guard let self else { return }
+                    switch action {
+                    case .viewAll:
+                        self.actionHandler(.viewAllMyPlants)
+                    }
+                }
+            }
+            if section == .history {
+                view.textForSection = TextForHomeScene.history
+                view.needToShowButton = true
+                view.actionHandler = { [weak self] action in
+                    guard let self else { return }
+                    switch action {
+                    case .viewAll:
+                        self.actionHandler(.viewAllHistory)
+                    }
+                }
             }
         }
         
         let dataSource = DataSource (
             collectionView: collectionView
         ) { collectionView, indexPath, item -> UICollectionViewCell in
+            
             switch item {
-            case .myPlantsWithPhoto(let v):
-                return collectionView.dequeueConfiguredReusableCell(using: myWithPhoto, for: indexPath, item: v)
-            case .historyWithPhoto(let v):
-                return collectionView.dequeueConfiguredReusableCell(using: hisWithPhoto, for: indexPath, item: v)
-                }
+                
+            case .search(let viewModel):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: searchCellRegistration,
+                    for: indexPath,
+                    item: viewModel
+                )
+            case .learnAboutPlants(let viewModel):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: learnAboutPlantsCellRegistration,
+                    for: indexPath,
+                    item: viewModel
+                )
+            case .myPlants(let viewModel):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: myPlantsCellRegistration,
+                    for: indexPath,
+                    item: viewModel
+                )
+            case .aiAssistant:
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: aiAssistantCellRegistration,
+                    for: indexPath,
+                    item: ""
+                )
+            case .history(let viewModel):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: historyCellRegistration,
+                    for: indexPath,
+                    item: viewModel
+                )
             }
-        
+        }
+
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard kind == "Header" else { return nil }
             return collectionView.dequeueConfiguredReusableSupplementary(
@@ -144,34 +228,14 @@ final class HomeView: View {
     }()
     
     override func setupContent() {
-        setMainBgGradient()
-        addSubview(titleLabel)
-        addSubview(searchTextField)
+        backgroundColor = .white
         addSubview(collectionView)
-        
-        NotificationCenter.default
-            .publisher(for: UITextField.textDidChangeNotification, object: searchTextField.textField)
-            .map { notification in
-                (notification.object as? UITextField)?.text ?? ""
-            }
-            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
-            .removeDuplicates()
-            .sink { [weak self] query in
-                self?.applyFilter(query: query)
-            }
-            .store(in: &subscriptions)
     }
     
     override func setupLayout() {
-        titleLabel.topAnchor ~= topAnchor + 60
-        titleLabel.centerXAnchor ~= centerXAnchor
-            
-        searchTextField.topAnchor ~= titleLabel.bottomAnchor + 16
-        searchTextField.heightAnchor ~= 48
-        searchTextField.leftAnchor ~= leftAnchor + 16
-        searchTextField.rightAnchor ~= rightAnchor - 16
-            
-        collectionView.topAnchor ~= searchTextField.bottomAnchor
+        collectionView.pinToSuperview()
+        
+        collectionView.topAnchor ~= topAnchor
         collectionView.leftAnchor ~= leftAnchor
         collectionView.rightAnchor ~= rightAnchor
         collectionView.bottomAnchor ~= bottomAnchor
@@ -183,21 +247,19 @@ final class HomeView: View {
         var snapshot = Snapshot()
         snapshot.appendSections([.myPlants, .history])
         
-        var allMyPlants: [CellItem] = []
-        if vm.haveOnCoreDataPlant == true {
-            allMyPlants = vm.myPlantsWithPhoto.map(CellItem.myPlantsWithPhoto)
-        }
-        let filteredMyPlants = allMyPlants.filter { item in
+        var myPlants: [CellItem] = []
+        myPlants = vm.myPlants.map { CellItem.myPlants($0) }
+        
+        let filteredMyPlants = myPlants.filter { item in
             let name = itemModelName(item).lowercased()
             return query.isEmpty || name.contains(query.lowercased())
         }
         snapshot.appendItems(filteredMyPlants, toSection: .myPlants)
         
-        var allHistory: [CellItem] = []
-        if vm.haveOnCoreDataHistory == true {
-            allHistory = vm.historyWithPhoto.map(CellItem.historyWithPhoto)
-        }
-        let filteredHistory = allHistory.filter { item in
+        var history: [CellItem] = []
+        history = vm.history.map { CellItem.history($0) }
+        
+        let filteredHistory = history.filter { item in
             let name = itemModelName(item).lowercased()
             return query.isEmpty || name.contains(query.lowercased())
         }
@@ -206,13 +268,21 @@ final class HomeView: View {
     }
     
     private func itemModelName(_ item: CellItem) -> String {
+        
         switch item {
-        case .myPlantsWithPhoto(let m):
-            guard let name = m.plantName else { break }
-            return name
-        case .historyWithPhoto(let m):
-            guard let name = m.name else { break }
-            return name
+
+        case .search(_):
+            break
+        case .learnAboutPlants(_):
+            break
+        case .myPlants(let viewModel):
+            guard viewModel.name != "" else { break }
+            return viewModel.name
+        case .aiAssistant:
+            break
+        case .history(let viewModel):
+            guard viewModel.firstText != "" else { break }
+            return viewModel.firstText
         }
         return ""
     }
@@ -225,31 +295,123 @@ private extension HomeView {
             let section = SectionItem.allCases[sectionIndex]
 
             switch section {
+            case .search:
+                return defaultSingleItemSection(
+                    estimatedHeight: 210,
+                    inset: 0,
+                    top: 0,
+                    bot: 40
+                )
+            case .learnAboutPlants:
+                return learnAboutPlantsSection(
+                       estimatedHeight: 128
+                   )
             case .myPlants:
-                return myPlantsSection()
+                return myPlantsSection(
+                    estimatedHeight: 124
+                )
+            case .aiAssistant:
+                return defaultSingleItemSection(
+                    estimatedHeight: 130
+                )
             case .history:
-                return historySection()
+                return historySection(
+                    estimatedHeight: 112
+                )
             }
         }
     }
-
-    static func myPlantsSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.9),
-            heightDimension: .absolute(220)
-        )
+    
+    private static func defaultSingleItemSection(
+        estimatedHeight: CGFloat,
+        inset: CGFloat = 16,
+        top: CGFloat = 20,
+        bot: CGFloat = 20,
+        betweenCells: CGFloat = 12
+    )
+    -> NSCollectionLayoutSection {
         
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(estimatedHeight)
+        )
+        let item  = NSCollectionLayoutItem(layoutSize: itemSize)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: itemSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: top,
+            leading: inset,
+            bottom: bot,
+            trailing: inset
+        )
+        section.interGroupSpacing = betweenCells
+        return section
+    }
+    
+    private static func learnAboutPlantsSection(
+        estimatedHeight: CGFloat,
+        widthFraction: CGFloat = 0.88
+    ) -> NSCollectionLayoutSection {
+        // item заполняет группу
+        let item = NSCollectionLayoutItem(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+        )
+        // «страница»-карточка ~88% ширины
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(widthFraction),
+                heightDimension: .estimated(estimatedHeight)
+            ),
             subitems: [item]
         )
-        group.interItemSpacing = .fixed(16) // расстояние между ячейками
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(10)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: "Header",
+            alignment: .top
+        )
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.contentInsets =
+            .init(
+                top: 10,
+                leading: 16,
+                bottom: 35,
+                trailing: 16
+            )
+        section.interGroupSpacing = 16
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        return section
+    }
+
+    static func myPlantsSection(
+        estimatedHeight: CGFloat
+    ) -> NSCollectionLayoutSection {
+        
+        // Каждая карточка занимает половину ширины группы и всю её высоту
+        let item = NSCollectionLayoutItem(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(0.5),
+                heightDimension: .fractionalHeight(1.0)
+            )
+        )
+        // Группа-«страница» с двумя карточками
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(0.92),
+                heightDimension: .estimated(estimatedHeight)
+            ),
+            repeatingSubitem: item,
+            count: 2
+        )
+        group.interItemSpacing = .fixed(16) // расстояние между карточками в группе
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -260,230 +422,138 @@ private extension HomeView {
             elementKind: "Header",
             alignment: .top
         )
-
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
-        section.interGroupSpacing = 16
-        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+        section.contentInsets = .init(
+            top: 10,
+            leading: 16,
+            bottom: 35,
+            trailing: 16
+        )
+        section.interGroupSpacing = 16 // расстояние между карточками (ячейками)
         section.boundarySupplementaryItems = [sectionHeader]
+        
         return section
     }
-
-    static func historySection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(140)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(140)
-        )
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+    
+    private static func historySection( estimatedHeight: CGFloat ) -> NSCollectionLayoutSection {
         
+        let item  = NSCollectionLayoutItem(
+            layoutSize:
+                .init(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(estimatedHeight)
+                )
+        )
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize:
+                    .init(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .estimated(estimatedHeight)
+                    ),
+            subitems: [item]
+        )
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(40)
+            heightDimension: .absolute(10)
         )
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: "Header",
             alignment: .top
         )
-
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 22 // расстояние между ячейками
-        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 10,
+            leading: 16,
+            bottom: 20,
+            trailing: 16
+        )
+        section.interGroupSpacing = 16
         section.boundarySupplementaryItems = [sectionHeader]
-
         return section
     }
 }
 
-extension HomeView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-}
+extension HomeView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout { }
 
+// ----------------------------------------------------
+// MARK: - SectionHeaderView
+// ----------------------------------------------------
 
-// SectionHeaderView
 final class SectionHeaderView: UICollectionReusableView {
     static let reuseIdentifier = "SectionHeaderView"
+    
+    enum Action {
+        case viewAll
+    }
+    var actionHandler: (Action) -> Void = { _ in }
+    
+    var textForSection: String? {
+        didSet {
+            if let textForSection {
+                titleLabel.text = textForSection
+            }
+        }
+    }
+    
+    var needToShowButton: Bool = false {
+        didSet {
+            btn.isHidden = !needToShowButton
+        }
+    }
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Onest-SemiBold", size: 20)
-        label.textColor = UIColor(red: 0.063, green: 0.082, blue: 0.067, alpha: 1)
-        return label
+    private lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont(name: "Poppins-Medium", size: 18)
+        view.textColor = UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 1)
+        view.numberOfLines = 1
+        view.textAlignment = .left
+        return view
+    }()
+    
+    private lazy var btn: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        let title = TextForHomeScene.viewAll
+        let attributes: [NSAttributedString.Key: Any] = [
+                .foregroundColor: UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 0.8),
+                .font: UIFont(name: "Poppins-Medium", size: 12)!,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        let attributed = NSAttributedString(string: title, attributes: attributes)
+        view.setAttributedTitle(attributed, for: .normal)
+        view.addAction(
+            UIAction(
+                handler: { [weak self] _ in
+                    guard let self else { return }
+                    self.actionHandler(.viewAll)
+                }
+            )
+            , for: .touchUpInside
+        )
+        view.widthAnchor ~= 50
+        view.heightAnchor ~= 20
+        view.isHidden = true
+        return view
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(titleLabel)
+        addSubview(btn)
+        
+        titleLabel.leftAnchor ~= leftAnchor + 16
+        titleLabel.bottomAnchor ~= bottomAnchor
+        
+        btn.centerYAnchor ~= titleLabel.centerYAnchor
+        btn.rightAnchor ~= rightAnchor - 16
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    var isMyPlant: Bool = false {
-        didSet {
-            if isMyPlant == true {
-                titleLabel.centerXAnchor ~= centerXAnchor
-                titleLabel.bottomAnchor ~= bottomAnchor
-            }
-            else {
-                titleLabel.leftAnchor ~= leftAnchor + 16
-                titleLabel.bottomAnchor ~= bottomAnchor
-            }
-        }
-    }
-
-    func setTitle(_ text: String) {
-        titleLabel.text = text
-    }
-}
-
-
-// ----------------------------------
-//
-// MARK: - MY Plant CELL
-// ----------------------------------
-
-
-final class MyPlantsWithPhotoCell: UICollectionViewCell {
-    
-    var viewModel: MyPlantsWithPhotoContent.Model {
-        get {
-            cellContentView.viewModel ?? .init()
-        }
-        set {
-            cellContentView.viewModel = newValue
-        }
-    }
-    
-    private lazy var cellContentView: MyPlantsWithPhotoContent = {
-        let view = MyPlantsWithPhotoContent()
-        contentView.addSubview(view)
-        view.pinToSuperview()
-        return view
-    }()
-}
-
-    // MARK: ContentView
-
-final class MyPlantsWithPhotoContent: View {
-    
-    struct Model: Hashable {
-        var photo: UIImage?
-        var plantName: String?
-        var plantDescription: String?
-        var rateWatering: Int?
-    }
-    
-    var viewModel: Model? {
-        didSet {
-            guard let viewModel else { return }
-            photo.image = viewModel.photo
-            plantNameLabel.text = viewModel.plantName
-            plantDescriptionLabel.text = viewModel.plantDescription
-            setupStackWithRateWatering(viewModel.rateWatering ?? 2)
-        }
-    }
-    
-    private lazy var photo: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFill
-        view.heightAnchor ~= 86
-        view.layer.cornerRadius = 16
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-        view.layer.masksToBounds = true
-        return view
-    }()
-    
-    private lazy var plantNameLabel: UILabel = {
-        let view = UILabel()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 12)
-        view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
-        view.contentMode = .right
-        view.numberOfLines = 0
-        return view
-    }()
-    
-    private lazy var plantDescriptionLabel: UILabel = {
-        let view = UILabel()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-Regular", size: 10)
-        view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
-        view.numberOfLines = 4
-        return view
-    }()
-    
-    private lazy var stack: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .horizontal
-        view.spacing = 8
-        view.distribution = .equalSpacing
-        return view
-    }()
-    
-    private lazy var rateWateringImage: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "copcop")
-        view.contentMode = .scaleAspectFit
-        view.widthAnchor ~= 32
-        view.heightAnchor ~= 32
-        return view
-    }()
-    
-    override func setupContent() {
-        let col1: UIColor = #colorLiteral(red: 0.8565542102, green: 0.9519869685, blue: 0.8682914376, alpha: 1)
-        let col2: UIColor = #colorLiteral(red: 0.8092304468, green: 0.9251116514, blue: 0.8062599301, alpha: 1)
-        backgroundGradient = .init(colors: [ col1, col2])
-        layer.cornerRadius = 16
-        clipsToBounds = true
-        
-        addSubview(photo)
-        addSubview(plantNameLabel)
-        addSubview(plantDescriptionLabel)
-        addSubview(stack)
-    }
-    
-    override func setupLayout() {
-        photo.topAnchor ~= topAnchor
-        photo.leftAnchor ~= leftAnchor
-        photo.rightAnchor ~= rightAnchor
-                
-        plantNameLabel.leftAnchor ~= leftAnchor + 10
-        plantNameLabel.topAnchor ~= photo.bottomAnchor + 10
-        
-        plantDescriptionLabel.topAnchor ~= plantNameLabel.bottomAnchor + 10
-        plantDescriptionLabel.rightAnchor ~= rightAnchor - 10
-        plantDescriptionLabel.leftAnchor ~= leftAnchor + 10
-        
-        stack.topAnchor ~= plantDescriptionLabel.bottomAnchor + 10
-        stack.leftAnchor ~= leftAnchor + 10
-    }
-    
-    private func setupStackWithRateWatering(_ amountVal: Int) {
-        stack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
-        for _ in 0..<amountVal {
-            let iv = UIImageView()
-            iv.translatesAutoresizingMaskIntoConstraints = false
-            iv.image = UIImage(named: "copcop")
-            iv.contentMode = .scaleAspectFit
-            iv.widthAnchor ~= 32
-            iv.heightAnchor ~= 32
-            stack.addArrangedSubview(iv)
-        }
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  HistoryCellContentView.swift
+//  5. HistoryHomeCell.swift
 //  PlantID
 //
 //  Created by Вадим Игнатенко on 19.06.25.
@@ -11,7 +11,7 @@ import UIKit
 // MARK: - CELL
 /// ----------------------------------------------
 
-final class HistoryCell: UICollectionViewCell {
+final class HistoryHomeCell: UICollectionViewCell {
     
     var viewModel: HistoryCellContent.BigCellModel? {
         didSet {
@@ -63,19 +63,24 @@ final class HistoryCellContent: BaseBigCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setBackgroundImage(UIImage(named: "r_home_small_btn"), for: .normal)
         view.setTitle(TextForHomeScene.add, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 14)
         view.addAction(
             UIAction(
                 handler: { [weak self] _ in
-                print("+++")
+                    guard let self else { return }
+                    self.actionHandler(.add)
             })
             , for: .touchUpInside
         )
+        view.widthAnchor ~= 64
+        view.heightAnchor ~= 32
         return view
     }()
     
     override func setupContent() {
         super.setupContent()
-        
+        backgroundColor = ColorsForHomeScene.colorsForHistory.randomElement()
+        layer.cornerRadius = 20
         addSubview(greenLbl)
         addSubview(addBtn)
     }
@@ -83,7 +88,7 @@ final class HistoryCellContent: BaseBigCell {
     override func setupLayout() {
         super.setupLayout()
         
-        greenLbl.topAnchor ~= secondLbl.bottomAnchor + 15
+        greenLbl.bottomAnchor ~= bottomAnchor - 20
         greenLbl.leftAnchor ~= secondLbl.leftAnchor
         
         addBtn.centerYAnchor ~= greenLbl.centerYAnchor

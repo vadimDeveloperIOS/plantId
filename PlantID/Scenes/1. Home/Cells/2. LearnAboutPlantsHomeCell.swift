@@ -86,13 +86,15 @@ final class LearnAboutPlantsHomeCellContent: BaseBigCell {
     
     override func setupContent() {
         super.setupContent()
+        backgroundColor = ColorsForHomeScene.colorsForLearnAboutPlants
+        layer.cornerRadius = 20
         addSubview(readMoreBtn)
     }
     
     override func setupLayout() {
         super.setupLayout()
         
-        readMoreBtn.topAnchor ~= secondLbl.bottomAnchor + 10
+        readMoreBtn.bottomAnchor ~= bottomAnchor - 16
         readMoreBtn.rightAnchor ~= rightAnchor - 16
     }
 }
