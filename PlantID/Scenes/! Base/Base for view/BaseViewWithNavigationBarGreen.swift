@@ -18,7 +18,7 @@ class BaseViewWithNavigationBarGreen: BaseView {
     private(set) lazy var greenNabBg: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "r_home_backgr_ for_search")
+        view.image = UIImage(named: "navbar_green_bg")
         view.contentMode = .scaleAspectFill
         view.heightAnchor ~= 137
         return view
@@ -31,8 +31,10 @@ class BaseViewWithNavigationBarGreen: BaseView {
             UIImage(named: "navbar_str"),
             for: .normal
         )
+        view.imageView?.contentMode = .scaleAspectFit
         view.heightAnchor ~= 40
         view.widthAnchor ~= 40
+        view.layer.cornerRadius = 20
         view.backgroundColor = .clear.withAlphaComponent(0.5)
         view.addAction(
             UIAction(
@@ -42,6 +44,13 @@ class BaseViewWithNavigationBarGreen: BaseView {
                 })
             , for: .touchUpInside
         )
+        view.contentEdgeInsets =
+            .init(
+                top: 7,
+                left: 7,
+                bottom: 7,
+                right: 7
+            )
         return view
     }()
     
@@ -49,11 +58,13 @@ class BaseViewWithNavigationBarGreen: BaseView {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(
-            UIImage(named: "navbar_str"),
+            UIImage(named: "navbar_set"),
             for: .normal
         )
+        view.imageView?.contentMode = .scaleAspectFit
         view.heightAnchor ~= 40
         view.widthAnchor ~= 40
+        view.layer.cornerRadius = 20
         view.backgroundColor = .clear.withAlphaComponent(0.5)
         view.addAction(
             UIAction(
@@ -63,6 +74,13 @@ class BaseViewWithNavigationBarGreen: BaseView {
                 })
             , for: .touchUpInside
         )
+        view.contentEdgeInsets =
+            .init(
+                top: 7,
+                left: 7,
+                bottom: 7,
+                right: 7
+            )
         return view
     }()
     
@@ -81,7 +99,7 @@ class BaseViewWithNavigationBarGreen: BaseView {
         greenNabBg.leftAnchor ~= leftAnchor
         greenNabBg.rightAnchor ~= rightAnchor
         
-        backBtn.centerYAnchor ~= greenNabBg.centerYAnchor
+        backBtn.centerYAnchor ~= greenNabBg.centerYAnchor + 20
         backBtn.leftAnchor ~= leftAnchor + 16
         
         settingsBtn.centerYAnchor ~= backBtn.centerYAnchor

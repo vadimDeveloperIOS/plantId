@@ -10,9 +10,10 @@ import UIKit
 class PlantViewController: UIViewController {
 
     private lazy var rootView = PlantView()
+    private lazy var root = MyplantsN()
 
     override func loadView() {
-        view = rootView
+        view = root
         
         rootView.actionHandler = { [weak self] action in
             guard let self else { return }
