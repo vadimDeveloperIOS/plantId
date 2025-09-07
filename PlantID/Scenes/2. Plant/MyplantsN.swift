@@ -12,7 +12,7 @@ final class MyplantsN: BaseViewWithNavigationBarGreen {
     enum ActionChild {
         case enableCamera
     }
-    var actionHandlerChild: (Action) -> Void = { _ in }
+    var actionHandlerChild: (ActionChild) -> Void = { _ in }
     
     private(set) lazy var firstLbl: UILabel = {
         let view = UILabel()
@@ -73,6 +73,7 @@ final class MyplantsN: BaseViewWithNavigationBarGreen {
         view.addAction(
             UIAction(handler: { [weak self] _ in
                 guard let self else { return }
+                self.actionHandlerChild(.enableCamera)
             }),
             for: .touchUpInside
         )

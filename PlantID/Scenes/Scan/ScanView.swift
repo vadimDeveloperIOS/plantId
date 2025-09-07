@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-final class ScannerView: View {
+final class ScannerView: BaseViewWithNavigationBar {
     
     var thumbnails: [UIImage] = []
     
@@ -31,15 +31,13 @@ final class ScannerView: View {
         }
     }
 
-    enum Action {
+    enum ActionChild {
         case back
-        case help
         case gallery
         case createPhoto
         case add
-        case refresh
     }
-    var actionHandler: (Action) -> Void = { _ in }
+    var actionHandlerChild: (ActionChild) -> Void = { _ in }
 
     private lazy var preview: PreView = {
         let view = PreView()
@@ -47,74 +45,23 @@ final class ScannerView: View {
         view.photoCapturedHandler = { [weak self] image in
             self?.addThumbnail(image)
         }
-        return view
-    }()
-
-    private lazy var backButton: UIButton = {
-        let view = UIButton()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setBackgroundImage(UIImage(named: "icon_back"), for: .normal)
-        view.imageView?.contentMode = .scaleAspectFit
-        view.widthAnchor ~= 58
-        view.heightAnchor ~= 58
-        view.addAction(
-            UIAction(
-                handler: { [weak self] _ in
-                    self?.actionHandler(.back)
-                }
-            ),
-            for: .touchUpInside
-        )
-        return view
-    }()
-    
-    private lazy var helpButton: UIButton = {
-        let view = UIButton()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setBackgroundImage(UIImage(named: "icon_help"), for: .normal)
-        view.imageView?.contentMode = .scaleAspectFit
-        view.widthAnchor ~= 58
-        view.heightAnchor ~= 58
-        view.addAction(
-            UIAction(
-                handler: { [weak self] _ in
-                    self?.actionHandler(.help)
-                }
-            ),
-            for: .touchUpInside
-        )
-        return view
-    }()
-    
-    private lazy var refreshButton: UIButton = {
-        let view = UIButton()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setBackgroundImage(UIImage(named: "icon_refresh"), for: .normal)
-        view.imageView?.contentMode = .scaleAspectFit
-        view.widthAnchor ~= 58
-        view.heightAnchor ~= 58
-        view.addAction(
-            UIAction(
-                handler: { [weak self] _ in
-                    self?.actionHandler(.refresh)
-                }
-            ),
-            for: .touchUpInside
-        )
+        view.layer.cornerRadius = 24
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        view.clipsToBounds = true
         return view
     }()
     
     private lazy var galleryButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setBackgroundImage(UIImage(named: "icon_gallery"), for: .normal)
+        view.setBackgroundImage(UIImage(named: "scan_galeryy"), for: .normal)
         view.imageView?.contentMode = .scaleAspectFit
         view.widthAnchor ~= 50
         view.heightAnchor ~= 50
         view.addAction(
             UIAction(
                 handler: { [weak self] _ in
-                    self?.actionHandler(.gallery)
+                    self?.actionHandlerChild(.gallery)
                 }
             ),
             for: .touchUpInside
@@ -125,7 +72,7 @@ final class ScannerView: View {
     private lazy var captureButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setBackgroundImage(UIImage(named: "icon_capture"), for: .normal)
+        view.setBackgroundImage(UIImage(named: "scan_create_photo"), for: .normal)
         view.imageView?.contentMode = .scaleAspectFit
         view.widthAnchor ~= 105
         view.heightAnchor ~= 105
@@ -144,14 +91,14 @@ final class ScannerView: View {
     private lazy var addButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setBackgroundImage(UIImage(named: "icon_add"), for: .normal)
+        view.setBackgroundImage(UIImage(named: "scan_addd"), for: .normal)
         view.imageView?.contentMode = .scaleAspectFit
         view.widthAnchor ~= 50
         view.heightAnchor ~= 50
         view.addAction(
             UIAction(
                 handler: { [weak self] _ in
-                    self?.actionHandler(.add)
+                    self?.actionHandlerChild(.back)
                 }
             ),
             for: .touchUpInside
@@ -162,9 +109,9 @@ final class ScannerView: View {
     private let scannerImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "PhotoRamka")
-        view.widthAnchor ~= 343
-        view.heightAnchor ~= 428
+        view.image = UIImage(named: "scan_scanner")
+        view.widthAnchor ~= 328
+        view.heightAnchor ~= 344
         return view
     }()
     
@@ -177,12 +124,12 @@ final class ScannerView: View {
         return v
     }()
     
-    private lazy var whiteView: View = {
-        let view = View()
+    private lazy var whiteView: UIImageView = {
+        let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor ~= 86
-        view.layer.cornerRadius = 24
-        view.backgroundColor = .white
+        view.image = UIImage(named: "scan_white_view")
+        view.heightAnchor ~= 95
+        view.widthAnchor ~= 370
         return view
     }()
     
@@ -209,10 +156,9 @@ final class ScannerView: View {
 
     override func setupContent() {
         super.setupContent()
+        
+        backgroundColor = #colorLiteral(red: 0.9484557509, green: 0.9733623862, blue: 0.9513770938, alpha: 1)
         addSubview(preview)
-        addSubview(backButton)
-        addSubview(refreshButton)
-        addSubview(helpButton)
         addSubview(whiteView)
         addSubview(galleryButton)
         addSubview(captureButton)
@@ -222,48 +168,43 @@ final class ScannerView: View {
         addSubview(thumbsStack)
         addSubview(indicator)
         preview.configureSession()
-
     }
 
     override func setupLayout() {
         super.setupLayout()
-        preview.pinToSuperview()
-
-        backButton.topAnchor ~= safeAreaLayoutGuide.topAnchor + 10
-        backButton.leftAnchor ~= leftAnchor + 8
         
-        refreshButton.topAnchor ~= safeAreaLayoutGuide.topAnchor + 10
-        refreshButton.rightAnchor ~= rightAnchor - 8
+        whiteView.centerXAnchor ~= centerXAnchor
+        whiteView.bottomAnchor ~= bottomAnchor - 30
         
-        helpButton.topAnchor ~= safeAreaLayoutGuide.topAnchor + 10
-        helpButton.rightAnchor ~= refreshButton.leftAnchor + 10
+        galleryButton.centerYAnchor ~= whiteView.centerYAnchor
+        galleryButton.leftAnchor ~= whiteView.leftAnchor + 45
         
-        whiteView.leftAnchor ~= leftAnchor
-        whiteView.rightAnchor ~= rightAnchor
-        whiteView.bottomAnchor ~= bottomAnchor
+        captureButton.centerXAnchor ~= whiteView.centerXAnchor
+        captureButton.centerYAnchor ~= whiteView.centerYAnchor - 30
         
-        galleryButton.centerYAnchor ~= whiteView.centerYAnchor - 10
-        galleryButton.leftAnchor ~= leftAnchor + 45
+        addButton.centerYAnchor ~= whiteView.centerYAnchor
+        addButton.rightAnchor ~= whiteView.rightAnchor - 45
         
-        captureButton.centerXAnchor ~= centerXAnchor
-        captureButton.centerYAnchor ~= whiteView.centerYAnchor - 40
+        preview.topAnchor ~= topAnchor
+        preview.leftAnchor ~= leftAnchor
+        preview.rightAnchor ~= rightAnchor
+        preview.bottomAnchor ~= captureButton.topAnchor - 100
         
-        addButton.centerYAnchor ~= whiteView.centerYAnchor - 10
-        addButton.rightAnchor ~= rightAnchor - 45
-        
-        scannerImage.centerYAnchor ~= centerYAnchor - 40
-        scannerImage.centerXAnchor ~= centerXAnchor
+        scannerImage.centerYAnchor ~= preview.centerYAnchor + 25
+        scannerImage.centerXAnchor ~= preview.centerXAnchor
         
         scanOverlay.topAnchor ~= scannerImage.topAnchor
         scanOverlay.leftAnchor ~= scannerImage.leftAnchor
         scanOverlay.rightAnchor ~= scannerImage.rightAnchor
         scanOverlay.heightAnchor ~= 180
         
+        thumbsStack.topAnchor ~= preview.bottomAnchor + 10
         thumbsStack.centerXAnchor ~= centerXAnchor
-        thumbsStack.bottomAnchor ~= captureButton.topAnchor - 8
         
         indicator.centerXAnchor ~= centerXAnchor
         indicator.centerYAnchor ~= centerYAnchor
+        
+        addNavbarButtons(preview)
     }
     
     private func animateScanThenCapture() {
@@ -356,7 +297,10 @@ final class ScannerView: View {
     }
 }
 
-// PreView
+// -------------------------------------------------
+// MARK: - PreView
+// -------------------------------------------------
+
 private class PreView: UIView {
 //    private let captureSession = AVCaptureSession()
     
