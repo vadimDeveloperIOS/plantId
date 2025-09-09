@@ -10,6 +10,7 @@ import UIKit
 
 // MARK: - Cell
 
+
 final class AboutPlantInfoCell: UICollectionViewCell {
 
     var viewModel: AboutPlantInfoContent.Model? {
