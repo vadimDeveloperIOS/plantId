@@ -119,3 +119,23 @@
 "try_again" = "TRY AGAIN";
 
 "plant_api_lang" = "en";
+
+
+
+//новшество
+"read_more" = "Read more";
+"care_plan" = "Care Plan";
+
+"ask_your_plant_ai_assistant" = "Ask Your Plant AI Assistant!";
+
+"ai_assistant_is_ready_to_help" = "AI Assistant is ready to help with health checks, reminders, and personalized advice.";
+"add" = "Add";
+"learn_about_plants" = "Learn About Plants";
+"view_all" = "View all";
+
+// My plants scene
+"hello" = "Hello! Let's Recognize";
+"your_plants" = "Your Plants";
+"simply_activate_your_camera" = "Simply activate your camera to begin.";
+
+

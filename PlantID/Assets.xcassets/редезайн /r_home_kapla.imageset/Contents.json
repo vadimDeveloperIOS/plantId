@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "r_home_kapla.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

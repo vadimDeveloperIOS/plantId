@@ -19,27 +19,22 @@ class HomeViewController: UIViewController {
             rootView.viewModel = viewModel
         }
     }
-    
-    var coreDataIsEmpty: Bool = false {
-        didSet {
-            view = coreDataIsEmpty ? emptyRootView : rootView
-        }
-    }
 
     override func loadView() {
         view = rootView
         rootView.actionHandler = { [weak self] action in
             guard let self else { return }
             switch action {
-            case .addMyPlants(let index):
-                self.showCarePlan(index: index)
-            }
-        }
-        
-        emptyRootView.actionHandler = { [weak self] action in
-            guard let self else { return }
-            if action == .scan {
-                self.showScan()
+//            case .addMyPlants(let index):
+//                self.showCarePlan(index: index)
+            case .readMore:
+                print("")
+            case .add(indexPath: let indexPath):
+                print("")
+            case .viewAllMyPlants:
+                print("")
+            case .viewAllHistory:
+                print("")
             }
         }
     }
@@ -68,7 +63,54 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.hideTabBar(false)
-        getInf()
+        
+        viewModel =
+            .init(
+                search:
+                        .init(
+                            textForWeather: "Some text1"
+                        ),
+                learnAboutPlants: [
+                    .init(
+                        photo: UIImage(named: "fake123")!,
+                        firstText: "Some text2",
+                        secondText: "Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9",
+                        cellStyle: .homeLearnAboutPlants
+                    ),
+                    .init(
+                        photo: UIImage(named: "fake123")!,
+                        firstText: "Some text4",
+                        secondText: "Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9",
+                        cellStyle: .homeLearnAboutPlants
+                    )
+                ],
+                myPlants: [
+                    .init(
+                        image: UIImage(named: "fake123")!,
+                        name: "Some text6",
+                        carePlan: 2
+                    ),
+                    .init(
+                        image: UIImage(named: "fake123")!,
+                        name: "Some text7",
+                        carePlan: 1
+                    )
+                ],
+                history: [
+                    .init(
+                        photo: UIImage(named: "fake123")!,
+                        firstText: "Some text8",
+                        secondText: "Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9",
+                        cellStyle: .homeHistory
+                    ),
+                    .init(
+                        photo: UIImage(named: "fake123")!,
+                        firstText: "Some text10 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9 Some text9",
+                        secondText: "Some text11",
+                        cellStyle: .homeHistory
+                    )
+                ]
+            )
     }
     
     @objc private func getNotifiction() {
@@ -76,43 +118,70 @@ class HomeViewController: UIViewController {
     }
     
     private func getInf() {
-        vm.getArrayOfPlants { [weak self] in
-            guard let self = self else { return }
-            
-            var myWith: [MyPlantsWithPhotoContent.Model] = []
-            self.vm.myPlants.forEach { my in
-                let photoData = (my.photos as? [Data])?.first
-                let image = photoData.flatMap(UIImage.init(data:))
-                myWith.append(
-                    .init(
-                        photo: image,
-                        plantName: my.plantName,
-                        plantDescription: my.plantDescr,
-                        rateWatering: Int(my.amountVal))
-                )
-            }
-            var array: [HistoryWhenHavePlantsContent.Model] = []
-            self.vm.history.forEach { his in
-                let photoData = (his.photos as? [Data])?.first
-                let image = photoData.flatMap(UIImage.init(data:))
-                
-                array.append(
-                    .init(
-                        photo: image,
-                        name: his.plantName,
-                        descr: his.plantDescr
-                    )
-                )
-            }
-            self.viewModel =
-                .init(
-                    myPlantsWithPhoto: myWith,
-                    historyWithPhoto: array,
-                    haveOnCoreDataPlant: myWith == [] ? false : true,
-                    haveOnCoreDataHistory: array == [] ? false : true
-                )
-            coreDataIsEmpty = myWith == [] && array == [] ? true : false
-        }
+//        vm.getArrayOfPlants { [weak self] in
+//            guard let self = self else { return }
+//            
+//            var myWith: [MyPlantsWithPhotoContent.Model] = []
+//            self.vm.myPlants.forEach { my in
+//                let photoData = (my.photos as? [Data])?.first
+//                let image = photoData.flatMap(UIImage.init(data:))
+//                myWith.append(
+//                    .init(
+//                        photo: image,
+//                        plantName: my.plantName,
+//                        plantDescription: my.plantDescr,
+//                        rateWatering: Int(my.amountVal))
+//                )
+//            }
+//            var array: [HistoryWhenHavePlantsContent.Model] = []
+//            self.vm.history.forEach { his in
+//                let photoData = (his.photos as? [Data])?.first
+//                let image = photoData.flatMap(UIImage.init(data:))
+//                
+//                array.append(
+//                    .init(
+//                        photo: image,
+//                        name: his.plantName,
+//                        descr: his.plantDescr
+//                    )
+//                )
+//            }
+//            self.viewModel =
+//                .init(
+//                    myPlantsWithPhoto: myWith,
+//                    historyWithPhoto: array,
+//                    haveOnCoreDataPlant: myWith == [] ? false : true,
+//                    haveOnCoreDataHistory: array == [] ? false : true
+//                )
+//            
+//            if myWith == [] && array == [] {
+//                
+//                self.viewModel =
+//                    .init(
+//                        myPlantsWithPhoto: [
+//                            .init(
+//                                photo: UIImage(named: "not.plant.1") ,
+//                                plantName: "Some name",
+//                                plantDescription: "Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text ",
+//                                rateWatering: 2
+//                            )
+//                        ],
+//                        historyWithPhoto: [
+//                            .init(
+//                                photo: UIImage(named: "not.plant.2"),
+//                                name:  "Some name",
+//                                descr: "Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text Some text "
+//                            )
+//                        ],
+//                        haveOnCoreDataPlant: true,
+//                        haveOnCoreDataHistory: true
+//                    )
+//            }
+//            
+////            coreDataIsEmpty = myWith == [] && array == [] ? true : false
+//            coreDataIsEmpty = false
+//
+//        }
     }
     
     private func showCarePlan(index: Int) {
