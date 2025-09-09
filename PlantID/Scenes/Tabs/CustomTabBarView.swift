@@ -8,60 +8,106 @@
 import UIKit
 
 class CustomTabBarView: View {
-    
+
     var items: [TabBarItem] = [] {
         didSet {
-            stackView.arrangedSubviews.forEach { view in view.removeFromSuperview() }
+            stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            itemViews.removeAll()
+
             items.enumerated().forEach { index, item in
-                stackView.addArrangedSubview(
-                    item.createView(selected: selectedIndex == index) { [weak self] in
-                        self?.actionTap(index)
-                    }
-                )
+                if index == 2 {
+                    stackView.addArrangedSubview(UIView())
+                }
+                let view = item.createView(selected: selectedIndex == index) { [weak self] in
+                    self?.actionTap(index)
+                }
+                itemViews.append(view)
+                stackView.addArrangedSubview(view)
             }
+
             selectedIndex = 0
         }
     }
+
     var actionTap: (Int) -> Void = { _ in }
-    
-    var selectedIndex: Int = 0 {
+    var centerAction: () -> Void = {}
+
+    var centerImage: UIImage? {
         didSet {
-            stackView.arrangedSubviews.enumerated().forEach { index, view in
-                view.isSelected = selectedIndex == index
-            }
+            centerButton.setImage(centerImage, for: .normal)
         }
     }
+    var centerSelectedImage: UIImage? {
+        didSet {
+            centerButton.setImage(centerSelectedImage, for: .selected)
+        }
+    }
+
+    var selectedIndex: Int = -1 {
+        didSet {
+            itemViews.enumerated().forEach { index, view in
+                view.isSelected = selectedIndex == index
+            }
+            centerButton.isSelected = selectedIndex == -1
+        }
+    }
+
+    private var itemViews: [CustomTabbarItemView] = []
 
     private let stackView: UIStackView = {
         let view  = UIStackView()
         view.axis = .horizontal
-        view.distribution = .fillEqually
+        view.distribution = .equalSpacing
+        view.alignment = .center
+        view.isLayoutMarginsRelativeArrangement = true
+        view.layoutMargins = .init(top: 0, left: 24, bottom: 0, right: 24)
         return view
+    }()
+
+    private let centerButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = UIColor.systemGreen
+        button.layer.cornerRadius = 32
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.15
+        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+        button.layer.shadowRadius = 6
+        return button
     }()
 
     public override func setupContent() {
         super.setupContent()
         addSubview(stackView)
+        addSubview(centerButton)
         backgroundColor = .white
+        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        layer.cornerRadius = 28
+        centerButton.addTarget(self, action: #selector(centerTapped), for: .touchUpInside)
     }
 
     public override func setupLayout() {
         super.setupLayout()
         stackView.pinToSuperview()
+        centerButton.centerXAnchor ~= centerXAnchor
+        centerButton.centerYAnchor ~= topAnchor - 20
+        centerButton.widthAnchor ~= 64
+        centerButton.heightAnchor ~= 64
+    }
+
+    @objc private func centerTapped() {
+        centerAction()
     }
 }
 
 // CustomTabbarItemView
 private class CustomTabbarItemView: View {
-    var imageView: UIImageView?
-    
+
     var image: UIImage? {
         didSet {
             noSelectedimageView.image = image
-            
         }
     }
-    
+
     var selectedImage: UIImage? {
         didSet {
             selectedImageView.image = selectedImage
@@ -70,11 +116,10 @@ private class CustomTabbarItemView: View {
 
     var action: (() -> Void)?
 
-    override var isSelected: Bool {
+    var isSelected: Bool {
         get {
             !noSelectedimageView.isHidden
         }
-        
         set {
             selectedImageView.isHidden = !newValue
             noSelectedimageView.isHidden = newValue
@@ -116,7 +161,6 @@ private class CustomTabbarItemView: View {
     override func setupContent() {
         super.setupContent()
         addSubview(stackView)
-        
         selectedImageView.isHidden = true
         noSelectedimageView.isHidden = false
     }
@@ -132,23 +176,12 @@ private class CustomTabbarItemView: View {
 }
 
 extension TabBarItem {
-    func createView(selected: Bool, _ action: (() -> Void)?) -> UIView {
+    func createView(selected: Bool, _ action: (() -> Void)?) -> CustomTabbarItemView {
         let view = CustomTabbarItemView()
         view.image = image
         view.selectedImage = selectedImage
         view.action = action
+        view.isSelected = selected
         return view
-    }
-}
-
-@objc private extension UIView {
-    var isSelected: Bool {
-        get { false }
-        set {}
-    }
-
-    var hasUpdates: Bool {
-        get { false }
-        set {}
     }
 }

@@ -19,7 +19,14 @@ final class TabsView: View {
 
     var selectedIndex: Int = 0 {
         didSet {
-            self.customBar.selectedIndex = selectedIndex
+            switch selectedIndex {
+            case 0: customBar.selectedIndex = 0
+            case 1: customBar.selectedIndex = 1
+            case 2: customBar.selectedIndex = -1
+            case 3: customBar.selectedIndex = 2
+            case 4: customBar.selectedIndex = 3
+            default: customBar.selectedIndex = -1
+            }
         }
     }
     
@@ -38,35 +45,37 @@ final class TabsView: View {
         let view = CustomTabBarView()
         view.actionTap = { [weak self] index in
             guard let self else { return }
-            let item = self.customBar.items[index]
-            self.selectedIndex = index
-            self.actionHandler(Action(rawValue: index) ?? .home)
+            let vcIndex = [0, 1, 3, 4][index]
+            let actions: [Action] = [.home, .plant, .myPlans, .settings]
+            self.selectedIndex = vcIndex
+            self.actionHandler(actions[index])
         }
-        
+        view.centerAction = { [weak self] in
+            guard let self else { return }
+            self.selectedIndex = 2
+            self.actionHandler(.diagnostics)
+        }
+
         view.items = [
             RegularTabBarItem(
-                image: UIImage(named: "tabbar_home"),
-                selectedImage: UIImage(named: "selected.home")
+                image: UIImage(named: "tabbar_home"), // TODO: home icon name
+                selectedImage: UIImage(named: "tabbar_home_selected") // TODO: selected home icon
             ),
             RegularTabBarItem(
-                image: UIImage(named: "tabbar_plant"),
-                selectedImage: UIImage(named: "selected.plant")
+                image: UIImage(named: "tabbar_myplants"), // TODO: my plants icon name
+                selectedImage: UIImage(named: "tabbar_myplants_selected") // TODO: selected my plants icon
             ),
             RegularTabBarItem(
-                image: UIImage(named: "tabbar_diagnostics"),
-                selectedImage: UIImage(named: "selected.diagnostic")
+                image: UIImage(named: "tabbar_careplan"), // TODO: care plan icon name
+                selectedImage: UIImage(named: "tabbar_careplan_selected") // TODO: selected care plan icon
             ),
             RegularTabBarItem(
-                image: UIImage(named: "tabbar_myPlans"),
-                selectedImage: UIImage(named: "selected.Myplans")
-            ),
-            RegularTabBarItem(
-                image: UIImage(named: "tabbar_settings"),
-                selectedImage: UIImage(named: "selected.settings")
+                image: UIImage(named: "tabbar_settings"), // TODO: settings icon name
+                selectedImage: UIImage(named: "tabbar_settings_selected") // TODO: selected settings icon
             )
         ]
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.layer.cornerRadius = 28
+        view.centerImage = UIImage(named: "tabbar_scan") // TODO: center scan icon name
+        view.centerSelectedImage = UIImage(named: "tabbar_scan_selected") // TODO: selected center icon
         return view
     }()
 
