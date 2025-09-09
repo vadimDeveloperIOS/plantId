@@ -58,23 +58,23 @@ final class TabsView: View {
 
         view.items = [
             RegularTabBarItem(
-                image: UIImage(named: "tabbar_home"), // TODO: home icon name
+                image: UIImage(named: "newtab_home"), // TODO: home icon name
                 selectedImage: UIImage(named: "tabbar_home_selected") // TODO: selected home icon
             ),
             RegularTabBarItem(
-                image: UIImage(named: "tabbar_myplants"), // TODO: my plants icon name
+                image: UIImage(named: "newtab_myplants"), // TODO: my plants icon name
                 selectedImage: UIImage(named: "tabbar_myplants_selected") // TODO: selected my plants icon
             ),
             RegularTabBarItem(
-                image: UIImage(named: "tabbar_careplan"), // TODO: care plan icon name
+                image: UIImage(named: "newtab_careplan"), // TODO: care plan icon name
                 selectedImage: UIImage(named: "tabbar_careplan_selected") // TODO: selected care plan icon
             ),
             RegularTabBarItem(
-                image: UIImage(named: "tabbar_settings"), // TODO: settings icon name
+                image: UIImage(named: "newtab_chat"), // TODO: settings icon name
                 selectedImage: UIImage(named: "tabbar_settings_selected") // TODO: selected settings icon
             )
         ]
-        view.centerImage = UIImage(named: "tabbar_scan") // TODO: center scan icon name
+        view.centerImage = UIImage(named: "newtab_center") // TODO: center scan icon name
         view.centerSelectedImage = UIImage(named: "tabbar_scan_selected") // TODO: selected center icon
         return view
     }()
