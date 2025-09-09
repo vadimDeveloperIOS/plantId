@@ -40,6 +40,7 @@ final class DiagnosticsResultView: View {
             infornationView.viewModel = .init(
                 head:
                         .init(
+                            namePlant: viewModel.namePlant,
                             currentDiagnoses: viewModel.currentDiagnoses,
                             plantType: viewModel.plantType,
                             currentCondition: viewModel.currentCondition
@@ -51,7 +52,7 @@ final class DiagnosticsResultView: View {
                             conditionValue: viewModel.conditionValue
                         ),
                 diagnosis: viewModel.disease,
-                button: .init())
+                button: .init(buttonName: "create.care.plan"))
         }
     }
     
