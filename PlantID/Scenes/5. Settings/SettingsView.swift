@@ -16,6 +16,7 @@ final class SettingsView: View {
         case privacyPolicy
         case termOfUse
         case rateUs
+        case back
     }
 
     var actionHandler: (Action) -> Void = { _ in }
@@ -28,7 +29,7 @@ final class SettingsView: View {
     
     var needToHidePremium: Bool = false {
         didSet {
-            premiumButton.isHidden = needToHidePremium
+            upgradeView.isHidden = needToHidePremium
         }
     }
     
@@ -44,22 +45,50 @@ final class SettingsView: View {
         return v
     }()
     
+    private lazy var headerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private lazy var headerImage: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "settings.image")
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 32
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        return view
+    }()
+
     private lazy var headerTitle: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.font = UIFont(name: "Onest-SemiBold", size: 20)
         view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
         view.text = "profile".localized
-        view.contentMode = .center
+        view.textAlignment = .center
         return view
     }()
-    
-    private lazy var image: UIImageView = {
-        let view = UIImageView()
+
+    private lazy var backButton: UIButton = {
+        let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "settings.image")
-        view.contentMode = .scaleAspectFill
-        view.heightAnchor ~= 156
+        let image = UIImage(named: "back.button")
+        view.setBackgroundImage(image, for: .normal)
+        view.addAction(UIAction(handler: { [weak self] _ in
+            guard let self else { return }
+            self.actionHandler(.back)
+        }), for: .touchUpInside)
+        return view
+    }()
+
+    private lazy var helpButton: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        let image = UIImage(named: "help.button")
+        view.setBackgroundImage(image, for: .normal)
         return view
     }()
     
@@ -154,26 +183,13 @@ final class SettingsView: View {
         return view
     }()
     
-    private lazy var premiumButton: UIButton = {
-        let view = UIButton()
+    private lazy var upgradeView: UpgradeView = {
+        let view = UpgradeView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setTitle("Go Premium", for: .normal)
-        view.setTitleColor(
-            UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1),
-            for: .normal
-        )
-        view.titleLabel?.font = UIFont(name: "Onest-Medium", size: 16)
-        view.backgroundColor = .white
-        view.widthAnchor ~= 120
-        view.heightAnchor ~= 32
-        view.layer.cornerRadius = 16
-        view.addAction(
-            UIAction(handler: { [weak self] _ in
-                guard let self else { return }
-                self.actionHandler(.showPaywall)
-            }),
-            for: .touchUpInside
-        )
+        view.actionHandler = { [weak self] in
+            guard let self else { return }
+            self.actionHandler(.showPaywall)
+        }
         return view
     }()
     
@@ -193,11 +209,15 @@ final class SettingsView: View {
         
         addSubview(scrollView)
         scrollView.addSubview(contentView)
-        
-        contentView.addSubview(headerTitle)
-        contentView.addSubview(image)
+
+        contentView.addSubview(headerView)
+        headerView.addSubview(headerImage)
+        headerView.addSubview(headerTitle)
+        headerView.addSubview(backButton)
+        headerView.addSubview(helpButton)
+
+        contentView.addSubview(upgradeView)
         contentView.addSubview(stack)
-        contentView.addSubview(premiumButton)
         stack.addArrangedSubview(notificationsCell)
         stack.addArrangedSubview(supportCell)
         stack.addArrangedSubview(privacyCell)
@@ -214,19 +234,33 @@ final class SettingsView: View {
         contentView.bottomAnchor ~= scrollView.bottomAnchor
         contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
         
-        headerTitle.centerXAnchor ~= centerXAnchor
-        headerTitle.topAnchor ~= contentView.topAnchor + 30
-        
-        image.leftAnchor ~= leftAnchor + 6
-        image.rightAnchor ~= rightAnchor - 6
-        image.topAnchor ~= headerTitle.bottomAnchor + 30
-        
-        premiumButton.rightAnchor ~= image.rightAnchor - 45
-        premiumButton.bottomAnchor ~= image.bottomAnchor - 20
-        
+        headerView.leftAnchor ~= contentView.leftAnchor
+        headerView.rightAnchor ~= contentView.rightAnchor
+        headerView.topAnchor ~= contentView.topAnchor
+        headerView.heightAnchor ~= 200
+
+        headerImage.pinToSuperview()
+
+        backButton.topAnchor ~= safeAreaLayoutGuide.topAnchor + 6
+        backButton.leftAnchor ~= headerView.leftAnchor + 23
+        backButton.widthAnchor ~= 24
+        backButton.heightAnchor ~= 24
+
+        helpButton.centerYAnchor ~= backButton.centerYAnchor
+        helpButton.rightAnchor ~= headerView.rightAnchor - 23
+        helpButton.widthAnchor ~= 24
+        helpButton.heightAnchor ~= 24
+
+        headerTitle.centerXAnchor ~= headerView.centerXAnchor
+        headerTitle.centerYAnchor ~= backButton.centerYAnchor
+
+        upgradeView.leftAnchor ~= contentView.leftAnchor + 26
+        upgradeView.rightAnchor ~= contentView.rightAnchor - 26
+        upgradeView.topAnchor ~= headerView.bottomAnchor - 40
+
         stack.leftAnchor ~= contentView.leftAnchor + 26
         stack.rightAnchor ~= contentView.rightAnchor - 26
-        stack.topAnchor ~= image.bottomAnchor + 30
+        stack.topAnchor ~= upgradeView.bottomAnchor + 20
         stack.bottomAnchor ~= contentView.bottomAnchor - 30
     }
 }
@@ -338,7 +372,13 @@ private final class SettingsCell: View {
     }()
     
     override func setupContent() {
-        backgroundColor = .white
+        let col1 = UIColor(hex: "#E7F4DF")
+        let col2 = UIColor(hex: "#C9E6B7")
+        if let col1, let col2 {
+            backgroundGradient = .init(colors: [col1, col2])
+        } else {
+            backgroundColor = .white
+        }
         layer.cornerRadius = 26
         addSubview(image)
         addSubview(title)
@@ -360,6 +400,84 @@ private final class SettingsCell: View {
         button.centerYAnchor ~= centerYAnchor
         button.trailingAnchor ~= trailingAnchor - 16
         
+        action.pinToSuperview()
+    }
+}
+
+// -------------------------------------
+// MARK: - UpgradeView
+// -------------------------------------
+
+private final class UpgradeView: View {
+
+    var actionHandler: () -> Void = {}
+
+    private lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont(name: "Onest-SemiBold", size: 20)
+        view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
+        view.text = "Upgrade PRO"
+        return view
+    }()
+
+    private lazy var subtitleLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont(name: "Onest-Regular", size: 13)
+        view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
+        view.text = "Keep Your Plants Healthy"
+        return view
+    }()
+
+    private lazy var image: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "picture.on.plant")
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+
+    private lazy var action: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.addAction(UIAction(handler: { [weak self] _ in
+            guard let self else { return }
+            self.actionHandler()
+        }), for: .touchUpInside)
+        return view
+    }()
+
+    override func setupContent() {
+        let col1 = UIColor(hex: "#DFF2D8")
+        let col2 = UIColor(hex: "#C5E5B2")
+        if let col1, let col2 {
+            backgroundGradient = .init(colors: [col1, col2])
+        }
+        layer.cornerRadius = 26
+        clipsToBounds = true
+
+        addSubview(titleLabel)
+        addSubview(subtitleLabel)
+        addSubview(image)
+        addSubview(action)
+    }
+
+    override func setupLayout() {
+        titleLabel.topAnchor ~= topAnchor + 20
+        titleLabel.leftAnchor ~= leftAnchor + 20
+
+        subtitleLabel.topAnchor ~= titleLabel.bottomAnchor + 4
+        subtitleLabel.leftAnchor ~= leftAnchor + 20
+        subtitleLabel.bottomAnchor <= bottomAnchor - 20
+
+        image.centerYAnchor ~= centerYAnchor
+        image.rightAnchor ~= rightAnchor - 12
+        image.widthAnchor ~= 96
+        image.heightAnchor ~= 96
+        image.bottomAnchor ~= bottomAnchor - 8
+
         action.pinToSuperview()
     }
 }
