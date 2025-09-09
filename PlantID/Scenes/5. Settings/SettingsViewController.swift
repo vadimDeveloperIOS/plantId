@@ -31,6 +31,8 @@ class SettingsViewController: UIViewController {
                 self.showTeamOfUse()
             case .rateUs:
                 self.showRateUs()
+            case .back:
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }
