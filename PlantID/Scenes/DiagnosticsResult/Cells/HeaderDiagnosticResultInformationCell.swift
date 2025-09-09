@@ -28,22 +28,24 @@ final class HeaderDiagnosticResultInformationCell: UICollectionViewCell {
 // MARK: - CONTENT VIEW
 
 final class HeaderDiagnosticResultInformationContentView: View {
-    
+
     struct Model: Hashable {
+        var namePlant: String?
         var currentDiagnoses: String?
         var plantType: String?
         var currentCondition: String?
     }
-    
+
     var viewModel: Model? {
         didSet {
             guard let viewModel else { return }
+            plantNameLbl.text = "Plant Name: \(viewModel.namePlant ?? "")"
             currentDiagnosesValue.text = viewModel.currentDiagnoses
-//            plantTypeCell.haracteristicValue = viewModel.plantType
-//            currentConditionCell.haracteristicValue = viewModel.currentCondition
+            plantTypeCell.haracteristicValue = viewModel.plantType
+            currentConditionCell.haracteristicValue = viewModel.currentCondition
         }
     }
-    
+
     private lazy var title: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -53,76 +55,72 @@ final class HeaderDiagnosticResultInformationContentView: View {
         view.contentMode = .center
         return view
     }()
-    
-    private lazy var currentImage: UIImageView = {
-        let view = UIImageView()
+
+    private lazy var plantNameLbl: UILabel = {
+        let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "current.diagnoses")
-        view.contentMode = .scaleAspectFit
-        view.widthAnchor ~= 128
-        view.heightAnchor ~= 20
+        view.font = UIFont(name: "Onest-Medium", size: 16)
+        view.textColor = UIColor(red: 0.194, green: 0.274, blue: 0.211, alpha: 1)
+        view.numberOfLines = 0
         return view
     }()
-    
+
+    private lazy var currentDiagnosesView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor(hex: "#E2F6E9")
+        v.layer.cornerRadius = 18
+        return v
+    }()
+
     private lazy var currentDiagnosesValue: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.font = UIFont(name: "Onest-Medium", size: 16)
         view.textColor = UIColor(red: 0.067, green: 0.486, blue: 0.008, alpha: 1)
-        view.contentMode = .center
         view.numberOfLines = 0
         return view
     }()
 
-//    private lazy var plantTypeCell: HarItem = {
-//        let view = HarItem()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.heightAnchor ~= 52
-//        view.widthAnchor ~= 166
-//        view.icon = "har5"
-//        view.haracteristicName = "plant_type".localized
-//        return view
-//    }()
-//    
-//    private lazy var currentConditionCell: HarItem = {
-//        let view = HarItem()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.heightAnchor ~= 52
-//        view.widthAnchor ~= 166
-//        view.icon = "har6"
-//        view.haracteristicName = "current_condition".localized
-//        return view
-//    }()
-    
-//    private lazy var stackH: UIStackView = {
-//        let view = UIStackView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.axis = .horizontal
-//        view.spacing = 10
-//        view.alignment = .center
-//        view.distribution = .fill
-//        return view
-//    }()
-    
-    private lazy var stackV: UIStackView = {
+    private lazy var plantTypeCell: HarItem = {
+        let view = HarItem()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor ~= 52
+        view.widthAnchor ~= 166
+        view.icon = "har5"
+        view.haracteristicName = "plant_type".localized
+        return view
+    }()
+
+    private lazy var currentConditionCell: HarItem = {
+        let view = HarItem()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor ~= 52
+        view.widthAnchor ~= 166
+        view.icon = "har6"
+        view.haracteristicName = "current_condition".localized
+        return view
+    }()
+
+    private lazy var vSeparator1: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(hex: "#8FDB85")
+        view.widthAnchor ~= 1
+        view.heightAnchor ~= 45
+        return view
+    }()
+
+    private lazy var stackH: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
+        view.axis = .horizontal
         view.spacing = 10
         view.alignment = .center
         view.distribution = .fill
         return view
     }()
-    
-//    private lazy var vSeparator1: UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = UIColor(hex: "#8FDB85")
-//        view.widthAnchor ~= 1
-//        view.heightAnchor ~= 45
-//        return view
-//    }()
-//    
+
     private lazy var hSeparator: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -131,30 +129,44 @@ final class HeaderDiagnosticResultInformationContentView: View {
         view.heightAnchor ~= 1
         return view
     }()
-    
+
     override func setupContent() {
         backgroundColor = .clear
-        
+
         addSubview(title)
-        addSubview(stackV)
-        stackV.addArrangedSubview(currentImage)
-        stackV.addArrangedSubview(currentDiagnosesValue)
-        stackV.addArrangedSubview(hSeparator)
-//        stackV.addArrangedSubview(stackH)
-//        stackH.addArrangedSubview(plantTypeCell)
-//        stackH.addArrangedSubview(vSeparator1)
-//        stackH.addArrangedSubview(currentConditionCell)
+        addSubview(plantNameLbl)
+        addSubview(currentDiagnosesView)
+        currentDiagnosesView.addSubview(currentDiagnosesValue)
+        addSubview(stackH)
+        stackH.addArrangedSubview(plantTypeCell)
+        stackH.addArrangedSubview(vSeparator1)
+        stackH.addArrangedSubview(currentConditionCell)
+        addSubview(hSeparator)
     }
-    
+
     override func setupLayout() {
-        
         title.topAnchor ~= topAnchor
         title.centerXAnchor ~= centerXAnchor
-        
-        stackV.topAnchor ~= title.bottomAnchor + 20
-        stackV.leftAnchor ~= leftAnchor
-        stackV.rightAnchor ~= rightAnchor
-        stackV.bottomAnchor ~= bottomAnchor
+
+        plantNameLbl.topAnchor ~= title.bottomAnchor + 15
+        plantNameLbl.leftAnchor ~= leftAnchor
+        plantNameLbl.rightAnchor ~= rightAnchor
+
+        currentDiagnosesView.topAnchor ~= plantNameLbl.bottomAnchor + 10
+        currentDiagnosesView.leftAnchor ~= leftAnchor
+
+        currentDiagnosesValue.topAnchor ~= currentDiagnosesView.topAnchor + 8
+        currentDiagnosesValue.bottomAnchor ~= currentDiagnosesView.bottomAnchor - 8
+        currentDiagnosesValue.leftAnchor ~= currentDiagnosesView.leftAnchor + 16
+        currentDiagnosesValue.rightAnchor ~= currentDiagnosesView.rightAnchor - 16
+
+        stackH.topAnchor ~= currentDiagnosesView.bottomAnchor + 25
+        stackH.leftAnchor ~= leftAnchor
+        stackH.rightAnchor ~= rightAnchor
+
+        hSeparator.topAnchor ~= stackH.bottomAnchor + 25
+        hSeparator.centerXAnchor ~= centerXAnchor
+        hSeparator.bottomAnchor ~= bottomAnchor
     }
 }
 
