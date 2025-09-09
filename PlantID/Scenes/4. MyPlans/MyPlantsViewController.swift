@@ -34,18 +34,16 @@ class MyPlantsViewController: UIViewController {
         view = rootView
         rootView.actionHandler = { [weak self] action in
             guard let self else { return }
-            switch action {
-            case .back:
-                print("CLICK BACK")
-            case .help:
-                print("CLICK help")
-            case .changeSection:
-                print("CLICK changeSection")
-            case .viewMore(let index):
-                self.showCarePlan(index: index)
-            case .addToMyPlants(let index):
-                self.addNewPlansAndShowCarePlan(index: index)
-            }
+//            switch action {
+//            case .back:
+//                print("CLICK BACK")
+//            case .changeSection:
+//                print("CLICK changeSection")
+//            case .viewMore(let index):
+//                self.showCarePlan(index: index)
+//            case .addToMyPlants(let index):
+//                self.addNewPlansAndShowCarePlan(index: index)
+//            }
         }
         
         emptyRootView.actionHandler = { [weak self] action in

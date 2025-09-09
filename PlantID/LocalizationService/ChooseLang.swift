@@ -29,3 +29,8 @@ enum TextForMyplantsScene {
     static let yourPlants = "your_plants".localized
     static let simplyActivateYourCamera = "simply_activate_your_camera".localized
 }
+
+enum TextForSettings {
+    static let upgradePRO = "upgrade_PRO".localized
+    static let keepYourPlants = "keep_your_plants_healthy".localized
+}

@@ -18,22 +18,22 @@ class SettingsViewController: UIViewController {
         
         rootView.actionHandler = { [weak self] action in
             guard let self else { return }
-            switch action {
-            case .showPaywall:
-                self.showPaywall()
-            case .notification:
-                self.goToAppSettingsForChangeStatusNotif()
-            case .support:
-                self.showSupport()
-            case .privacyPolicy:
-                self.showPrivacyPolicy()
-            case .termOfUse:
-                self.showTeamOfUse()
-            case .rateUs:
-                self.showRateUs()
-            case .back:
-                self.navigationController?.popViewController(animated: true)
-            }
+//            switch action {
+//            case .showPaywall:
+//                self.showPaywall()
+//            case .notification:
+//                self.goToAppSettingsForChangeStatusNotif()
+//            case .support:
+//                self.showSupport()
+//            case .privacyPolicy:
+//                self.showPrivacyPolicy()
+//            case .termOfUse:
+//                self.showTeamOfUse()
+//            case .rateUs:
+//                self.showRateUs()
+//            case .back:
+//                self.navigationController?.popViewController(animated: true)
+//            }
         }
     }
     
@@ -67,7 +67,7 @@ class SettingsViewController: UIViewController {
 
             }
         }
-        rootView.needToHidePremium = ProFeatureService.shared.hasSubscription
+//        rootView.needToHidePremium = ProFeatureService.shared.hasSubscription
     }
     
     private func goToAppSettingsForChangeStatusNotif() {

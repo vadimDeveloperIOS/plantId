@@ -16,14 +16,14 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
         }
     }
     
-    enum Action {
+    enum ActionChild {
         case back
         case help
         case changeSection
         case viewMore(index: Int)
         case addToMyPlants(index: Int)
     }
-    var actionHandler: (Action) -> Void = { _ in }
+    var actionHandlerChild: (Action) -> Void = { _ in }
     
     // MARK: Section & Item
 
@@ -69,7 +69,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
             items: ["my_plants_little".localized, "history_ little".localized]
         )
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 0.9085146785, green: 0.9584658742, blue: 0.897141993, alpha: 1)
         view.layer.cornerRadius = 24
         view.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
         view.layer.shadowOpacity = 1
@@ -101,8 +101,8 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
             cell.actionHandler = { [weak self] action in
                 guard let self else { return }
                 switch action {
-                case .viewMore:
-                    self.actionHandler(.viewMore(index: indexPath.row))
+                case .viewMore: break
+//                    self.actionHandlerChild(.viewMore(index: indexPath.row))
                 }
             }
         }
@@ -111,7 +111,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
             cell.viewModel = model
             cell.actionHandler = { [weak self] action in
                 guard let self else { return }
-                self.actionHandler(.addToMyPlants(index: indexPath.row))
+//                self.actionHandler(.addToMyPlants(index: indexPath.row))
             }
         }
         let ds = DataSource(collectionView: collectionView) { cv, ip, item in
@@ -129,16 +129,15 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
 
     override func setupContent() {
         super.setupContent()
-        setMainBgGradient()
         backBtn.setImage(UIImage(named: "back.button"), for: .normal)
         settingsBtn.setImage(UIImage(named: "help.button"), for: .normal)
         super.actionHandler = { [weak self] action in
             guard let self else { return }
             switch action {
-            case .back:
-                self.actionHandler(.back)
-            case .setting:
-                self.actionHandler(.help)
+            case .back: break
+//                self.actionHandler(.back)
+            case .setting: break
+//                self.actionHandler(.help)
             }
         }
         addSubview(headerTitle)
@@ -152,7 +151,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
         super.setupLayout()
 
         headerTitle.centerXAnchor ~= centerXAnchor
-        headerTitle.topAnchor ~= greenNabBg.bottomAnchor + 16
+        headerTitle.topAnchor ~= greenNabBg.bottomAnchor + 26
 
         segmented.leftAnchor ~= leftAnchor + 16
         segmented.rightAnchor ~= rightAnchor - 16
@@ -282,11 +281,11 @@ final class SimpleSegmentedControl: View {
         for (i, btn) in buttons.enumerated() {
             if i == selectedIndex {
                 // закрашены
-                btn.backgroundColor = UIColor(hex: "#8FDB85")
+                btn.backgroundColor = #colorLiteral(red: 0.3224762678, green: 0.6427933574, blue: 0.07563794404, alpha: 1)
                 btn.setTitleColor(.white, for: .normal)
             } else {
                 // не закрашены
-                btn.backgroundColor = .white
+                btn.backgroundColor = .clear
                 btn.setTitleColor(UIColor(hex: "#117C02"), for: .normal)
             }
         }

@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class SettingsView: View {
+final class SettingsView: BaseViewWithNavigationBarGreen {
     
-    enum Action {
+    enum ActionChild {
         case showPaywall
         case notification
         case support
@@ -19,7 +19,7 @@ final class SettingsView: View {
         case back
     }
 
-    var actionHandler: (Action) -> Void = { _ in }
+    var actionHandlerChild: (ActionChild) -> Void = { _ in }
     
     var needToGetNotifications: Bool = false {
         didSet {
@@ -27,11 +27,11 @@ final class SettingsView: View {
         }
     }
     
-    var needToHidePremium: Bool = false {
-        didSet {
-            upgradeView.isHidden = needToHidePremium
-        }
-    }
+//    var needToHidePremium: Bool = false {
+//        didSet {
+//            upgradeView.isHidden = needToHidePremium
+//        }
+//    }
     
     private let scrollView: UIScrollView = {
         let sv = UIScrollView()
@@ -44,23 +44,6 @@ final class SettingsView: View {
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
-    
-    private lazy var headerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private lazy var headerImage: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "settings.image")
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 32
-        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        return view
-    }()
 
     private lazy var headerTitle: UILabel = {
         let view = UILabel()
@@ -71,24 +54,39 @@ final class SettingsView: View {
         view.textAlignment = .center
         return view
     }()
-
-    private lazy var backButton: UIButton = {
+    
+    private lazy var publishButon: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "back.button")
-        view.setBackgroundImage(image, for: .normal)
-        view.addAction(UIAction(handler: { [weak self] _ in
-            guard let self else { return }
-            self.actionHandler(.back)
-        }), for: .touchUpInside)
-        return view
-    }()
-
-    private lazy var helpButton: UIButton = {
-        let view = UIButton()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "help.button")
-        view.setBackgroundImage(image, for: .normal)
+        view.setBackgroundImage(
+            UIImage(named: "new_setting_not_publish"),
+            for: .normal
+        )
+        view.contentMode = .scaleAspectFit
+        
+        let fTitle = UILabel()
+        fTitle.translatesAutoresizingMaskIntoConstraints = false
+        fTitle.text = TextForSettings.upgradePRO
+        fTitle.font = UIFont(name: "Poppins-SemiBold", size: 24)
+        fTitle.textColor = .black
+        view.addSubview(fTitle)
+        
+        fTitle.widthAnchor ~= 181
+        fTitle.leftAnchor ~= view.leftAnchor + 26
+        fTitle.topAnchor ~= view.topAnchor + 10
+        
+        let sTitle = UILabel()
+        sTitle.translatesAutoresizingMaskIntoConstraints = false
+        sTitle.text = TextForSettings.keepYourPlants
+        sTitle.font = UIFont(name: "Poppins-SemiBold", size: 20)
+        sTitle.textColor = .white
+        sTitle.numberOfLines = 0
+        view.addSubview(sTitle)
+        
+        sTitle.widthAnchor ~= 181
+        sTitle.leftAnchor ~= fTitle.leftAnchor
+        sTitle.topAnchor ~= fTitle.bottomAnchor + 10
+        
         return view
     }()
     
@@ -96,13 +94,13 @@ final class SettingsView: View {
         let view = SettingsCell()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor ~= 69
-        view.iconNane = "not_icons"
+        view.iconNane = "new_setting_not"
         view.titleCell = "notifications".localized
         view.actionHandler = { [weak self] action in
             guard let self else { return }
             switch action {
             case .notification:
-                self.actionHandler(.notification)
+                self.actionHandlerChild(.notification)
             case .go:
                 break
             }
@@ -115,7 +113,7 @@ final class SettingsView: View {
         let view = SettingsCell()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor ~= 69
-        view.iconNane = "sup_icons"
+        view.iconNane = "new_setting_support"
         view.titleCell = "support".localized
         view.actionHandler = { [weak self] action in
             guard let self else { return }
@@ -123,7 +121,7 @@ final class SettingsView: View {
             case .notification:
                 break
             case .go:
-                self.actionHandler(.support)
+                self.actionHandlerChild(.support)
             }
         }
         return view
@@ -133,7 +131,7 @@ final class SettingsView: View {
         let view = SettingsCell()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor ~= 69
-        view.iconNane = "pr_icons"
+        view.iconNane = "new_setting_privacy"
         view.titleCell = "privacy_policy".localized
         view.actionHandler = { [weak self] action in
             guard let self else { return }
@@ -141,7 +139,7 @@ final class SettingsView: View {
             case .notification:
                 break
             case .go:
-                self.actionHandler(.privacyPolicy)
+                self.actionHandlerChild(.privacyPolicy)
             }
         }
         return view
@@ -151,7 +149,7 @@ final class SettingsView: View {
         let view = SettingsCell()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor ~= 69
-        view.iconNane = "tern_icons"
+        view.iconNane = "new_setting_tern"
         view.titleCell = "terms_of_use".localized
         view.actionHandler = { [weak self] action in
             guard let self else { return }
@@ -159,7 +157,7 @@ final class SettingsView: View {
             case .notification:
                 break
             case .go:
-                self.actionHandler(.termOfUse)
+                self.actionHandlerChild(.termOfUse)
             }
         }
         return view
@@ -169,7 +167,7 @@ final class SettingsView: View {
         let view = SettingsCell()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor ~= 69
-        view.iconNane = "rate_icons"
+        view.iconNane = "new_setting_rate"
         view.titleCell = "rate_us".localized
         view.actionHandler = { [weak self] action in
             guard let self else { return }
@@ -177,18 +175,8 @@ final class SettingsView: View {
             case .notification:
                 break
             case .go:
-                self.actionHandler(.rateUs)
+                self.actionHandlerChild(.rateUs)
             }
-        }
-        return view
-    }()
-    
-    private lazy var upgradeView: UpgradeView = {
-        let view = UpgradeView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.actionHandler = { [weak self] in
-            guard let self else { return }
-            self.actionHandler(.showPaywall)
         }
         return view
     }()
@@ -205,19 +193,16 @@ final class SettingsView: View {
     }()
     
     override func setupContent() {
-        setMainBgGradient()
+        super.setupContent()
         
         addSubview(scrollView)
+
         scrollView.addSubview(contentView)
-
-        contentView.addSubview(headerView)
-        headerView.addSubview(headerImage)
-        headerView.addSubview(headerTitle)
-        headerView.addSubview(backButton)
-        headerView.addSubview(helpButton)
-
-        contentView.addSubview(upgradeView)
+        
+        contentView.addSubview(headerTitle)
+        contentView.addSubview(publishButon)
         contentView.addSubview(stack)
+        
         stack.addArrangedSubview(notificationsCell)
         stack.addArrangedSubview(supportCell)
         stack.addArrangedSubview(privacyCell)
@@ -226,7 +211,12 @@ final class SettingsView: View {
     }
     
     override func setupLayout() {
-        scrollView.pinToSuperview()
+        super.setupLayout()
+        
+        scrollView.topAnchor ~= greenNabBg.bottomAnchor
+        scrollView.leftAnchor ~= leftAnchor
+        scrollView.rightAnchor ~= rightAnchor
+        scrollView.bottomAnchor ~= bottomAnchor
         
         contentView.leftAnchor ~= scrollView.leftAnchor
         contentView.rightAnchor ~= scrollView.rightAnchor
@@ -234,33 +224,17 @@ final class SettingsView: View {
         contentView.bottomAnchor ~= scrollView.bottomAnchor
         contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
         
-        headerView.leftAnchor ~= contentView.leftAnchor
-        headerView.rightAnchor ~= contentView.rightAnchor
-        headerView.topAnchor ~= contentView.topAnchor
-        headerView.heightAnchor ~= 200
+        headerTitle.centerXAnchor ~= centerXAnchor
+        headerTitle.topAnchor ~= contentView.topAnchor + 30
 
-        headerImage.pinToSuperview()
-
-        backButton.topAnchor ~= safeAreaLayoutGuide.topAnchor + 6
-        backButton.leftAnchor ~= headerView.leftAnchor + 23
-        backButton.widthAnchor ~= 24
-        backButton.heightAnchor ~= 24
-
-        helpButton.centerYAnchor ~= backButton.centerYAnchor
-        helpButton.rightAnchor ~= headerView.rightAnchor - 23
-        helpButton.widthAnchor ~= 24
-        helpButton.heightAnchor ~= 24
-
-        headerTitle.centerXAnchor ~= headerView.centerXAnchor
-        headerTitle.centerYAnchor ~= backButton.centerYAnchor
-
-        upgradeView.leftAnchor ~= contentView.leftAnchor + 26
-        upgradeView.rightAnchor ~= contentView.rightAnchor - 26
-        upgradeView.topAnchor ~= headerView.bottomAnchor - 40
+        publishButon.leftAnchor ~= contentView.leftAnchor + 26
+        publishButon.rightAnchor ~= contentView.rightAnchor - 26
+        publishButon.topAnchor ~= headerTitle.bottomAnchor + 30
+        publishButon.heightAnchor ~= 130
 
         stack.leftAnchor ~= contentView.leftAnchor + 26
         stack.rightAnchor ~= contentView.rightAnchor - 26
-        stack.topAnchor ~= upgradeView.bottomAnchor + 20
+        stack.topAnchor ~= publishButon.bottomAnchor + 20
         stack.bottomAnchor ~= contentView.bottomAnchor - 30
     }
 }
@@ -345,13 +319,15 @@ private final class SettingsCell: View {
         return view
     }()
     
-    private lazy var button: UIButton = {
-        let view = UIButton()
+    private lazy var button: UIImageView = {
+        let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor ~= 24
-        view.heightAnchor ~= 24
-        let image = UIImage(named: "icons_24")
-        view.setBackgroundImage(image, for: .normal)
+        view.image = UIImage(named: "new_setting_str2")
+        view.contentMode = .scaleAspectFill
+        view.widthAnchor ~= 30
+        view.heightAnchor ~= 30
+        view.backgroundColor = #colorLiteral(red: 0.926081419, green: 0.9659956098, blue: 0.8961455226, alpha: 1)
+        view.layer.cornerRadius = 15
         return view
     }()
     
@@ -372,13 +348,7 @@ private final class SettingsCell: View {
     }()
     
     override func setupContent() {
-        let col1 = UIColor(hex: "#E7F4DF")
-        let col2 = UIColor(hex: "#C9E6B7")
-        if let col1, let col2 {
-            backgroundGradient = .init(colors: [col1, col2])
-        } else {
-            backgroundColor = .white
-        }
+        backgroundColor = #colorLiteral(red: 0.8781852722, green: 0.9432410598, blue: 0.8338077068, alpha: 1)
         layer.cornerRadius = 26
         addSubview(image)
         addSubview(title)
@@ -395,10 +365,10 @@ private final class SettingsCell: View {
         title.leadingAnchor ~= image.trailingAnchor + 8
         
         switchView.centerYAnchor ~= centerYAnchor
-        switchView.trailingAnchor ~= trailingAnchor - 16
+        switchView.rightAnchor ~= rightAnchor - 26
         
         button.centerYAnchor ~= centerYAnchor
-        button.trailingAnchor ~= trailingAnchor - 16
+        button.rightAnchor ~= rightAnchor - 26
         
         action.pinToSuperview()
     }
