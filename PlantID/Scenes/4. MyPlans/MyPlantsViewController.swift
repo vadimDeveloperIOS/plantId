@@ -112,7 +112,7 @@ class MyPlantsViewController: UIViewController {
                     history: array
                 )
             if myArray == [] && array == [] {
-                emptyRoot = true
+                emptyRoot = false
             } else {
                 emptyRoot = false
             }

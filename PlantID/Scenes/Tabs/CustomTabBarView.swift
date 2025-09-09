@@ -34,7 +34,7 @@ class CustomTabBarView: View {
 
     var centerImage: UIImage? {
         didSet {
-            centerButton.setImage(centerImage, for: .normal)
+            centerButton.setBackgroundImage(centerImage, for: .normal)
         }
     }
     var centerSelectedImage: UIImage? {
@@ -46,7 +46,7 @@ class CustomTabBarView: View {
     var selectedIndex: Int = -1 {
         didSet {
             itemViews.enumerated().forEach { index, view in
-                view.isSelected = selectedIndex == index
+//                view.isSelected = selectedIndex == index
             }
             centerButton.isSelected = selectedIndex == -1
         }
@@ -66,12 +66,12 @@ class CustomTabBarView: View {
 
     private let centerButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = UIColor.systemGreen
+//        button.backgroundColor = UIColor.systemGreen
         button.layer.cornerRadius = 32
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.15
-        button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        button.layer.shadowRadius = 6
+//        button.layer.shadowColor = UIColor.black.cgColor
+//        button.layer.shadowOpacity = 0.15
+//        button.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        button.layer.shadowRadius = 6
         return button
     }()
 
@@ -90,8 +90,8 @@ class CustomTabBarView: View {
         stackView.pinToSuperview()
         centerButton.centerXAnchor ~= centerXAnchor
         centerButton.centerYAnchor ~= topAnchor - 20
-        centerButton.widthAnchor ~= 64
-        centerButton.heightAnchor ~= 64
+        centerButton.widthAnchor ~= 70
+        centerButton.heightAnchor ~= 70
     }
 
     @objc private func centerTapped() {
@@ -118,7 +118,7 @@ private class CustomTabbarItemView: View {
 
     var action: (() -> Void)?
 
-    override var isSelected: Bool {
+    var isSelected: Bool {
         get {
             !noSelectedimageView.isHidden
         }
@@ -186,17 +186,5 @@ extension TabBarItem {
         view.selectedImage = selectedImage
         view.action = action
         return view
-    }
-}
-
-@objc private extension UIView {
-    var isSelected: Bool {
-        get { false }
-        set {}
-    }
-
-    var hasUpdates: Bool {
-        get { false }
-        set {}
     }
 }

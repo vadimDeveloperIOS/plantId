@@ -74,7 +74,7 @@ final class TabsView: View {
                 selectedImage: UIImage(named: "tabbar_settings_selected") // TODO: selected settings icon
             )
         ]
-        view.centerImage = UIImage(named: "newtab_center") // TODO: center scan icon name
+        view.centerImage = UIImage(named: "newtab_center2") // TODO: center scan icon name
         view.centerSelectedImage = UIImage(named: "tabbar_scan_selected") // TODO: selected center icon
         return view
     }()
