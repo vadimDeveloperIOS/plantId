@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MyPlantsWhenHavePlants: View {
+final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
     
     var segmetedNumber: Int? {
         didSet {
@@ -71,6 +71,10 @@ final class MyPlantsWhenHavePlants: View {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.layer.cornerRadius = 24
+        view.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 8
         return view
     }()
 
@@ -124,22 +128,36 @@ final class MyPlantsWhenHavePlants: View {
     // MARK: Setup
 
     override func setupContent() {
+        super.setupContent()
         setMainBgGradient()
+        backBtn.setImage(UIImage(named: "back.button"), for: .normal)
+        settingsBtn.setImage(UIImage(named: "help.button"), for: .normal)
+        super.actionHandler = { [weak self] action in
+            guard let self else { return }
+            switch action {
+            case .back:
+                self.actionHandler(.back)
+            case .setting:
+                self.actionHandler(.help)
+            }
+        }
         addSubview(headerTitle)
         addSubview(segmented)
         addSubview(collectionView)
-        
+
         clipsToBounds = true
     }
 
     override func setupLayout() {
+        super.setupLayout()
+
         headerTitle.centerXAnchor ~= centerXAnchor
-        headerTitle.topAnchor ~= topAnchor + 80
-        
+        headerTitle.topAnchor ~= greenNabBg.bottomAnchor + 16
+
         segmented.leftAnchor ~= leftAnchor + 16
         segmented.rightAnchor ~= rightAnchor - 16
-        segmented.topAnchor ~= topAnchor + 150
-        
+        segmented.topAnchor ~= headerTitle.bottomAnchor + 16
+
         collectionView.topAnchor ~= segmented.bottomAnchor + 10
         collectionView.leftAnchor ~= leftAnchor
         collectionView.rightAnchor ~= rightAnchor
