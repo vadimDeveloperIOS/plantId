@@ -32,7 +32,6 @@ final class ScannerView: BaseViewWithNavigationBar {
     }
 
     enum ActionChild {
-        case back
         case gallery
         case createPhoto
         case add
@@ -79,7 +78,6 @@ final class ScannerView: BaseViewWithNavigationBar {
         view.addAction(
             UIAction(
                 handler: { [weak self] _ in
-//                    self?.preview.capturePhoto()
                     self?.animateScanThenCapture()
                 }
             ),
@@ -98,7 +96,7 @@ final class ScannerView: BaseViewWithNavigationBar {
         view.addAction(
             UIAction(
                 handler: { [weak self] _ in
-                    self?.actionHandlerChild(.back)
+                    self?.actionHandlerChild(.add)
                 }
             ),
             for: .touchUpInside

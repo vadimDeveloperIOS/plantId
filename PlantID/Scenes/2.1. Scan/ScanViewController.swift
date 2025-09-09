@@ -23,12 +23,23 @@ class ScanViewController: UIViewController {
 //        rootView.enableScanning = true
 
         view = rootView
+        
+        // parent
+        rootView.actionHandler = { [weak self] action in
+            guard let self else { return }
+            switch action {
+            case .back:
+                self.close()
+            case .setting:
+                break
+            }
+        }
+        
+        // child
         rootView.actionHandlerChild = { [weak self] action in
             guard let self else { return }
             
             switch action {
-            case .back:
-                self.close()
             case .gallery:
                 self.openMultiPicker()
             case .createPhoto:
@@ -56,7 +67,8 @@ class ScanViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
         tabBarController?.hideTabBar(false)
     }
-        
+    
+    /*
     private func goToAboutPlant() {
         let arrayPhotos = rootView.thumbnails
         PlantIDClient.shared.identifyPlant(
@@ -99,7 +111,34 @@ class ScanViewController: UIViewController {
                 }
             }
     }
-    
+     */
+    // MARK: ДЛЯ ТЕСТОВ (потом удалить)
+    private func goToAboutPlant() {
+        let arrayPhotos = [UIImage(named: "fake123")!, UIImage(named: "not.plant.2")!]
+        
+        let vc = AboutPlantsViewController()
+        vc.viewModel = .init(
+            name: "some Text1",
+            description: "some Text2",
+            photos: arrayPhotos,
+            size: "medium".localized,
+            humidity: wateringFrequency (minLevel: 1, maxLevel: 2),
+            spraying: "in_4_days".localized,
+            fertilize: "in_30_days".localized
+        )
+        vc.plantType = "indoor".localized
+        vc.currentCondition = "needs_care".localized
+        vc.conditionValue = 7
+        vc.isHealthy = true
+        vc.frequencyVal = wateringFrequency(minLevel: 1, maxLevel: 2)
+        
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    /*
+     
+     
     private func goToDiagnosticResult() {
         let arrayPhotos = rootView.thumbnails
         PlantIDClient.shared.identifyPlantWithHealth(images: arrayPhotos) { [weak self] response in
@@ -144,7 +183,41 @@ class ScanViewController: UIViewController {
             }
         }
     }
+     */
     
+    // MARK: ДЛЯ ТЕСТОВ (потом удалить)
+    private func goToDiagnosticResult() {
+        
+        let arrayPhotos = [UIImage(named: "fake123")!, UIImage(named: "not.plant.2")!]
+
+        let vc = DiagnosticResultViewController()
+        
+        vc.viewModel =
+            .init(
+                namePlant: "fake123",
+                diseaseDescr: "Some text Some text Some text Some text Some text Some text Some text Some text Some text ",
+                currentDiagnoses: "Some text212",
+                plantType: "Some text2323",
+                currentCondition: "Some text233223",
+                photos: arrayPhotos,
+                conditionValue: 7,
+                isHealthy: false,
+                disease: .init(diagnoses: [
+                    .init(
+                        name: "Some text23",
+                        probability: 4
+                    ),
+                    .init(
+                        name: "Some text90",
+                        probability: 6
+                    )
+                ])
+            )
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
     private func wateringFrequency(minLevel: Int, maxLevel: Int) -> String {
         // Шкала: 1 = dry, 2 = medium, 3 = wet
         switch (minLevel, maxLevel) {
