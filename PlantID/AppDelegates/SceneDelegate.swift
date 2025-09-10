@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let nav = UINavigationController(rootViewController: pageVC)
         let tabsViewController = TabsViewController()
 
-        window.rootViewController = tabsViewController
+        window.rootViewController = nav
 //        if UserDefaultsService.shared.hasSeenOnboarding == false {
 //            nav.navigationBar.isHidden = true
 //            window.rootViewController = nav

@@ -56,3 +56,45 @@ enum TextForStartDiagnostic {
     static let changeTheAngle = "change_the_angle_to".localized
     static let cont = "continue".localized
 }
+
+enum TextForFirstOnb {
+    static let instantlyScan = "instantly_scan".localized
+    static let anyPlant = "any_plant".localized
+    static let accessSpeciesNamesAnd = "access_species_names_and".localized
+}
+
+enum TextForSecondOnb {
+    static let checkYour = "check_your".localized
+    static let scanHistory = "scan_history".localized
+    static let quicklyViewPreviousScansAnd = "quickly_view_previous_scans_and".localized
+}
+
+enum TextForThirdOnb {
+    static let shareYourThoughts = "share_your_thoughts".localized
+    static let withUs = "with_us".localized
+    static let contributeToOurGrowthBy = "contribute_to_our_growth_by".localized
+}
+
+enum TextForPaywall {
+    static let enjoyUnrestricted = "enjoy_unrestricted".localized
+    static let accessToAllFeatures = "access_to_all_features".localized
+    static let enjoyDaysFreeThenJust = "enjoy_days_free_then_just".localized
+
+    static let enableA3DaysFreeTrial = "enable_a_3_days_free_trial".localized
+
+    static let whatDoesYourPlanInclude = "what_does_your_plan_include_".localized
+    static let discoverProfessionalAdvice1 = "discover_professional_advice_1".localized
+    static let instantlyRecognizeAnyPlant11 = "instantly_recognize_any_plant_1_1".localized
+
+    static let monitorTheGrowth2 = "monitor_the_growth_2".localized
+    static let recordMilestones21 = "record_milestones_2_1".localized
+
+    static let experienceWithoutAds3 = "experience_without_ads_3".localized
+    static let experienceATidy31 = "experience_a_tidy_3_1".localized
+
+    static let theBiggestPlant4 = "the_biggest_plant_4".localized
+    static let exploreInDepthInformation41 = "explore_in_depth_information_4_1".localized
+}
+
+
+// first paywall

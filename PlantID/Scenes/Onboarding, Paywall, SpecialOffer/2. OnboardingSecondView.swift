@@ -1,5 +1,5 @@
 //
-//  OnboardingThirdView.swift
+//  OnboardingSecondView.swift
 //  PlantID
 //
 //  Created by Вадим Игнатенко on 7.07.25.
@@ -7,13 +7,33 @@
 
 import UIKit
 
-final class OnboardingThirdView: View {
+
+final class OnboardingSecondView: BaseOnboardingView {
+    
+    override func setupContent() {
+        super.setupContent()
+        currentPage = 1
+        textFor1Lbl = TextForSecondOnb.checkYour
+        textFor1GrennLbl = TextForSecondOnb.scanHistory
+        textForSecondTitle = TextForSecondOnb.quicklyViewPreviousScansAnd
+        onb = .second
+        nameImgForBg = "new_onb_22"
+    }
+    
+    override func setupLayout() {
+        super.setupLayout()
+    }
+}
+
+/*
+final class OnboardingSecondView: View {
     
     var currentPage = 0 {
         didSet {
             pageControl.currentPage = currentPage
         }
     }
+    
     enum Action {
         case cont
         
@@ -26,23 +46,74 @@ final class OnboardingThirdView: View {
     private lazy var bgImage1: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "onb.bg.666")
+        view.image = UIImage(named: "onb.bg.1")
         view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 580
-        view.heightAnchor ~= 459
+        view.widthAnchor ~= 227
+        view.heightAnchor ~= 289
         return view
     }()
     
-    private lazy var simpleView: UIView = {
-        let view = UIView()
+    private lazy var bgImage2: UIImageView = {
+        let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor ~= 450
+        view.image = UIImage(named: "onb.bg.55")
+        view.contentMode = .scaleAspectFill
+        view.widthAnchor ~= 194
+        view.heightAnchor ~= 212
+        return view
+    }()
+    
+    private lazy var bgImage3: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "onb.bg.3")
+        view.contentMode = .scaleAspectFill
+        view.widthAnchor ~= 121
+        view.heightAnchor ~= 254
+        return view
+    }()
+    
+    private lazy var bgImage4: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "onb.bg.4")
+        view.contentMode = .scaleAspectFill
+        view.widthAnchor ~= 142
+        view.heightAnchor ~= 298
+        return view
+    }()
+    
+    private lazy var joinImg: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "join16")
+        view.contentMode = .scaleAspectFill
+        view.widthAnchor ~= 219
+        view.heightAnchor ~= 82
+        return view
+    }()
+    
+    private lazy var bgImagePhone: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "onb.bg.phone2")
+        view.contentMode = .scaleAspectFit
+        view.heightAnchor ~= 415
+        return view
+    }()
+    
+    private lazy var davidImg: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "david")
+        view.contentMode = .scaleAspectFill
+        view.heightAnchor ~= 314
         return view
     }()
     
     private lazy var firsTitle: UILabel = {
         let view = UILabel()
-        view.text = "view_your".localized
+        view.text = "tell_us_what".localized
         view.translatesAutoresizingMaskIntoConstraints = false
         view.font = UIFont(name: "Onest-SemiBold", size: 28)
         view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
@@ -52,7 +123,7 @@ final class OnboardingThirdView: View {
     
     private lazy var firsTitleGreen: UILabel = {
         let view = UILabel()
-        view.text = "scan_history".localized
+        view.text = "you_think".localized
         view.translatesAutoresizingMaskIntoConstraints = false
         view.font = UIFont(name: "Onest-SemiBold", size: 28)
         view.textColor = #colorLiteral(red: 0.07304378599, green: 0.4857453108, blue: 0.007760594599, alpha: 1)
@@ -63,12 +134,11 @@ final class OnboardingThirdView: View {
     private lazy var secondTitle: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = "easily_access_past".localized
+        view.text = "help_us_grow_by_sharing_your_experience.".localized
         view.font = UIFont(name: "Onest-Regular", size: 16)
         view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 1)
         view.numberOfLines = 0
         view.textAlignment = .center
-        view.widthAnchor ~= 280
         return view
     }()
     
@@ -161,87 +231,118 @@ final class OnboardingThirdView: View {
         )
         return view
     }()
+    
+    private lazy var simpleView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor ~= 450
+        return view
+    }()
    
     override func setupContent() {
         let color1 = #colorLiteral(red: 0.7454621792, green: 0.9026893377, blue: 0.7833328843, alpha: 1)
-        let color2 = #colorLiteral(red: 0.9366899133, green: 0.9615978599, blue: 0.9482398629, alpha: 1)
+        let color2 = #colorLiteral(red: 0.9518203139, green: 0.9968904853, blue: 0.9464489818, alpha: 1)
         backgroundGradient = .init(
             colors: [color1, color2, color2]
         )
         addSubview(bgImage1)
+        addSubview(bgImage2)
+        addSubview(bgImage3)
+        addSubview(bgImage4)
+        addSubview(joinImg)
+        addSubview(bgImagePhone)
         addSubview(simpleView)
         simpleView.backgroundColor = #colorLiteral(red: 0.9526042342, green: 0.9975269437, blue: 0.9449539781, alpha: 1)
-        simpleView.addSubview(firsTitle)
-        simpleView.addSubview(firsTitleGreen)
-        simpleView.addSubview(secondTitle)
-        simpleView.addSubview(pageControl)
-        simpleView.addSubview(button)
-        simpleView.addSubview(downBut1)
-        simpleView.addSubview(downBut2)
-        simpleView.addSubview(downBut3)
+        addSubview(davidImg)
+        
+        addSubview(firsTitle)
+        addSubview(firsTitleGreen)
+        addSubview(secondTitle)
+        addSubview(pageControl)
+        addSubview(button)
+        addSubview(downBut1)
+        addSubview(downBut2)
+        addSubview(downBut3)
     }
     
     override func setupLayout() {
-        
-        bgImage1.topAnchor ~= topAnchor + 50
         bgImage1.leftAnchor ~= leftAnchor
-        bgImage1.rightAnchor ~= rightAnchor
+        bgImage1.topAnchor ~= topAnchor + 15
+        
+        bgImage2.rightAnchor ~= rightAnchor
+        bgImage2.topAnchor ~= topAnchor + 70
+        
+        bgImage3.leftAnchor ~= leftAnchor
+        bgImage3.topAnchor ~= bgImage1.topAnchor + 180
+        
+        bgImage4.rightAnchor ~= rightAnchor
+        bgImage4.topAnchor ~= bgImage2.topAnchor + 290
         
         simpleView.leftAnchor ~= leftAnchor
         simpleView.rightAnchor ~= rightAnchor
         simpleView.bottomAnchor ~= bottomAnchor
         
-//        firsTitle.topAnchor ~= simpleView.topAnchor + 120
-//        firsTitle.centerXAnchor ~= simpleView.centerXAnchor
+        joinImg.centerXAnchor ~= centerXAnchor
+        joinImg.topAnchor ~= topAnchor + 50
+        
+        bgImagePhone.topAnchor ~= joinImg.bottomAnchor - 20
+        bgImagePhone.leftAnchor ~= leftAnchor + 10
+        bgImagePhone.rightAnchor ~= rightAnchor - 55
+        
+        davidImg.bottomAnchor ~= firsTitle.bottomAnchor + 30
+        davidImg.leftAnchor ~= leftAnchor - 10
+        davidImg.rightAnchor ~= rightAnchor
+
+//        firsTitle.topAnchor ~= davidImg.bottomAnchor - 70
+//        firsTitle.centerXAnchor ~= centerXAnchor
 //        
 //        firsTitleGreen.topAnchor ~= firsTitle.bottomAnchor + 7
-//        firsTitleGreen.centerXAnchor ~= simpleView.centerXAnchor
+//        firsTitleGreen.centerXAnchor ~= centerXAnchor
 //        
 //        secondTitle.topAnchor ~= firsTitleGreen.bottomAnchor + 10
-//        secondTitle.centerXAnchor ~= simpleView.centerXAnchor
+//        secondTitle.centerXAnchor ~= centerXAnchor
 //        
 //        pageControl.topAnchor ~= secondTitle.bottomAnchor + 5
-//        pageControl.centerXAnchor ~= simpleView.centerXAnchor
+//        pageControl.centerXAnchor ~= centerXAnchor
 //        
 //        button.topAnchor ~= pageControl.bottomAnchor + 25
-//        button.centerXAnchor ~= simpleView.centerXAnchor
+//        button.centerXAnchor ~= centerXAnchor
 //        
-//        downBut1.leftAnchor ~= simpleView.leftAnchor + 30
-//        downBut1.bottomAnchor ~= simpleView.bottomAnchor - 50
+//        downBut1.leftAnchor ~= leftAnchor + 30
+//        downBut1.bottomAnchor ~= bottomAnchor - 50
 //
-//        downBut2.centerXAnchor ~= simpleView.centerXAnchor
+//        downBut2.centerXAnchor ~= centerXAnchor
 //        downBut2.centerYAnchor ~= downBut1.centerYAnchor
 //        
-//        downBut3.rightAnchor ~= simpleView.rightAnchor - 30
+//        downBut3.rightAnchor ~= rightAnchor - 30
 //        downBut3.centerYAnchor ~= downBut1.centerYAnchor
-        
         //        firsTitle.topAnchor ~= simpleView.topAnchor + 120
         firsTitle.bottomAnchor ~= firsTitleGreen.topAnchor - 1
-        firsTitle.centerXAnchor ~= simpleView.centerXAnchor
+        firsTitle.centerXAnchor ~= centerXAnchor
         
         //        firsTitleGreen.topAnchor ~= firsTitle.bottomAnchor + 7
         firsTitleGreen.bottomAnchor ~= secondTitle.topAnchor - 10
-        firsTitleGreen.centerXAnchor ~= simpleView.centerXAnchor
+        firsTitleGreen.centerXAnchor ~= centerXAnchor
         
         //        secondTitle.topAnchor ~= firsTitleGreen.bottomAnchor + 10
         secondTitle.bottomAnchor ~= pageControl.topAnchor - 10
-        secondTitle.centerXAnchor ~= simpleView.centerXAnchor
+        secondTitle.centerXAnchor ~= centerXAnchor
         
         //        pageControl.topAnchor ~= secondTitle.bottomAnchor + 5
         pageControl.bottomAnchor ~= button.topAnchor - 45
-        pageControl.centerXAnchor ~= simpleView.centerXAnchor
+        pageControl.centerXAnchor ~= centerXAnchor
         
         //        button.topAnchor ~= pageControl.bottomAnchor + 25
         button.bottomAnchor ~= downBut1.topAnchor - 15
-        button.centerXAnchor ~= simpleView.centerXAnchor
+        button.centerXAnchor ~= centerXAnchor
         
-        downBut1.leftAnchor ~= simpleView.leftAnchor + 30
-        downBut1.bottomAnchor ~= simpleView.bottomAnchor - 35
+        downBut1.leftAnchor ~= leftAnchor + 30
+        downBut1.bottomAnchor ~= bottomAnchor - 35
         
-        downBut2.centerXAnchor ~= simpleView.centerXAnchor
+        downBut2.centerXAnchor ~= centerXAnchor
         downBut2.centerYAnchor ~= downBut1.centerYAnchor
         
-        downBut3.rightAnchor ~= simpleView.rightAnchor - 30
+        downBut3.rightAnchor ~= rightAnchor - 30
         downBut3.centerYAnchor ~= downBut1.centerYAnchor
     }
     
@@ -273,3 +374,4 @@ final class OnboardingThirdView: View {
         simpleView.layer.mask = gradient
     }
 }
+ */

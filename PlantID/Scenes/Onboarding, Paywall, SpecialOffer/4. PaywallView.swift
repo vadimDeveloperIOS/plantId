@@ -36,10 +36,10 @@ final class OnboardingFourthView: View {
                         }
                     }
                 }
-                button.widthAnchor ~= 343
-                button.heightAnchor ~= 52
+                button.widthAnchor ~= 244
+                button.heightAnchor ~= 70
                 button.bottomAnchor ~= noPaymentButton.topAnchor - 10
-                button.centerXAnchor ~= simpleView.centerXAnchor
+                button.centerXAnchor ~= centerXAnchor
             }
         }
     }
@@ -108,22 +108,32 @@ final class OnboardingFourthView: View {
     private lazy var simpleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor ~= 160
+        view.heightAnchor ~= 200
         return view
     }()
     
     private lazy var button: UIButton = {
-        let view = UIButton.greenButtonContinue
+        let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.setBackgroundImage(
+            UIImage(named: "my_plants_btnn"),
+            for: .normal
+        )
+        view.setTitle(
+            "continue".localized,
+            for: .normal
+        )
+        view.setTitleColor(.white, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 14)
         view.addAction(
-            UIAction(
-                handler: { [weak self] _ in
-                    guard let self else { return }
-                    self.actionHandler(.continueAndMakePay)
-                }
-            ),
+            UIAction(handler: { [weak self] _ in
+                guard let self else { return }
+                self.actionHandler(.continueAndMakePay)
+            }),
             for: .touchUpInside
         )
+        view.widthAnchor ~= 244
+        view.heightAnchor ~= 70
         return view
     }()
     
@@ -222,9 +232,10 @@ final class OnboardingFourthView: View {
     }()
     
     override func setupContent() {
+        backgroundColor = #colorLiteral(red: 0.7931804061, green: 0.9296002388, blue: 0.7710202336, alpha: 1)
         addSubview(content)
         addSubview(simpleView)
-        simpleView.backgroundColor = .white
+        simpleView.backgroundColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
         addSubview(button)
         addSubview(downBut1)
         addSubview(downBut2)
@@ -235,7 +246,7 @@ final class OnboardingFourthView: View {
     
     override func setupLayout() {
          
-        content.topAnchor ~= topAnchor - 70
+        content.topAnchor ~= topAnchor
         content.leftAnchor ~= leftAnchor
         content.rightAnchor ~= rightAnchor
         content.bottomAnchor ~= bottomAnchor
@@ -285,6 +296,10 @@ final class OnboardingFourthView: View {
         simpleView.layer.mask = gradient
     }
 }
+
+// --------------------------------------------------------
+// MARK: - PaywallView
+// --------------------------------------------------------
 
 final class PaywallView: View {
 
@@ -355,6 +370,10 @@ final class PaywallView: View {
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.backgroundColor = .clear
         cv.showsVerticalScrollIndicator = false
+        cv.showsHorizontalScrollIndicator = false
+        cv.contentInset = .init(top: 0, left: 0, bottom: 150, right: 0)
+        cv.contentInsetAdjustmentBehavior = .never
+        cv.bounces = false
         cv.delegate = self
         return cv
     }()
@@ -388,7 +407,7 @@ final class PaywallView: View {
     // MARK: - Setup
 
     override func setupContent() {
-        backgroundColor = #colorLiteral(red: 0.9725490212, green: 0.9725490212, blue: 0.9725490212, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0.9903811812, green: 1, blue: 0.9829115272, alpha: 1)
         addSubview(collectionView)
     }
 
@@ -404,11 +423,11 @@ final class PaywallView: View {
 
             switch section {
             case .header:
-                return singleItemSection(estimatedHeight: 550, inset: 0, top: 0, bottom: 0)
+                return singleItemSection(estimatedHeight: 700, inset: 0, top: 0, bottom: 0)
             case .price:
-                return singleItemSection(estimatedHeight: 67, inset: 16)
+                return singleItemSection(estimatedHeight: 67, inset: 16, top: 25, bottom: 25)
             case .comments:
-                return singleItemSection(estimatedHeight: 885, inset: 0, top: 5, bottom: 10)
+                return singleItemSection(estimatedHeight: 800, inset: 16, top: 5, bottom: 10)
             }
         }
     }
@@ -436,7 +455,12 @@ final class PaywallView: View {
     }
 }
 
+// -------------------------------------------------
+// MARK: -  PaywallView extension
+// -------------------------------------------------
+
 extension PaywallView: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let section = Section.allCases[indexPath.section]
         guard section == .price else { return }
@@ -510,6 +534,8 @@ final class HeaderPayWallCell: UICollectionViewCell {
     }()
 }
 
+// MARK: ConnectionView
+
 final class ConnectionView: View {
     var viewModel: HeaderModelPayWall? {
         didSet {
@@ -530,20 +556,10 @@ final class ConnectionView: View {
     private lazy var bgImage1: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "payment.bg.1")
+        view.image = UIImage(named: "new_pw_1_1")
         view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 419
-        view.heightAnchor ~= 527
-        return view
-    }()
-    
-    private lazy var bgImage2: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "payment.bg.2")
-        view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 390
-        view.heightAnchor ~= 340
+        view.widthAnchor ~= 420
+        view.heightAnchor ~= 800
         return view
     }()
     
@@ -551,12 +567,17 @@ final class ConnectionView: View {
         let animation = LottieAnimation.named("arrows.down.gold2")
         let view = LottieAnimationView(animation: animation)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.tintColor = .red
         view.contentMode = .scaleAspectFit
         view.loopMode = .loop
         view.backgroundBehavior = .pauseAndRestore
         view.widthAnchor ~= 70
         view.heightAnchor ~= 70
+        
+        let keypath = AnimationKeypath(keypath: "**.Fill 1.Color")
+        let darkGreen = UIColor(red: 0.0, green: 0.3, blue: 0.0, alpha: 1.0)
+        let provider = ColorValueProvider(darkGreen.lottieColorValue)
+        view.setValueProvider(provider, keypath: keypath)
+        
         return view
     }()
     
@@ -564,26 +585,22 @@ final class ConnectionView: View {
         let v = HeaderPayWallContent()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.clipsToBounds = true
+        v.heightAnchor ~= 140
         return v
     }()
     
     override func setupContent() {
-        backgroundColor = #colorLiteral(red: 0.7544613481, green: 0.9064767957, blue: 0.7871820331, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0.7752580643, green: 0.9220318198, blue: 0.7545121312, alpha: 1)
         addSubview(bgImage1)
-        addSubview(bgImage2)
         addSubview(headerView)
         addSubview(animview)
         animview.play()
     }
     
     override func setupLayout() {
-        bgImage1.topAnchor ~= topAnchor + 20
-        bgImage1.centerXAnchor ~= centerXAnchor
-        
-        bgImage2.topAnchor ~= topAnchor + 70
-        bgImage2.centerXAnchor ~= centerXAnchor
-        
-        headerView.topAnchor ~= bgImage2.bottomAnchor - 50
+        bgImage1.centerYAnchor ~= centerYAnchor + 120
+
+        headerView.topAnchor ~= centerYAnchor + 200
         headerView.leftAnchor ~= leftAnchor
         headerView.rightAnchor ~= rightAnchor
         headerView.bottomAnchor ~= bottomAnchor
@@ -593,6 +610,7 @@ final class ConnectionView: View {
     }
 }
 
+// MARK: HeaderPayWallContent
 final class HeaderPayWallContent: View {
     
     var currentPage: Int = 0 {
@@ -602,20 +620,20 @@ final class HeaderPayWallContent: View {
     }
     private lazy var firsTitle: UILabel = {
         let view = UILabel()
-        view.text = "get_unlimited_access".localized
+        view.text = TextForPaywall.enjoyUnrestricted
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 28)
-        view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 24)
+        view.textColor = UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 1)
         view.textAlignment = .center
         return view
     }()
     
     private lazy var firsTitleGreen: UILabel = {
         let view = UILabel()
-        view.text = "to_all_features".localized
+        view.text = TextForPaywall.accessToAllFeatures
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 28)
-        view.textColor = #colorLiteral(red: 0.07304378599, green: 0.4857453108, blue: 0.007760594599, alpha: 1)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 24)
+        view.textColor = #colorLiteral(red: 0.5592492223, green: 0.7865967155, blue: 0.3077450097, alpha: 1)
         view.textAlignment = .center
         return view
     }()
@@ -623,9 +641,9 @@ final class HeaderPayWallContent: View {
     private lazy var secondTitle: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = "enjoy_3_days_free_then_just".localized
-        view.font = UIFont(name: "Onest-Regular", size: 16)
-        view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 1)
+        view.text = TextForPaywall.enjoyDaysFreeThenJust
+        view.font = UIFont(name: "Poppins-Regular", size: 16)
+        view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.8)
         view.numberOfLines = 0
         view.textAlignment = .center
         return view
@@ -641,8 +659,8 @@ final class HeaderPayWallContent: View {
     }()
     
     override func setupContent() {
-        let col1 = #colorLiteral(red: 0.9728776813, green: 0.972877562, blue: 0.9728776813, alpha: 0.8019453642)
-        let col2 = #colorLiteral(red: 0.9728776813, green: 0.972877562, blue: 0.9728776813, alpha: 1)
+        let col1 = #colorLiteral(red: 0.9903811812, green: 1, blue: 0.9829115272, alpha: 0.6030629139)
+        let col2 = #colorLiteral(red: 0.9903811812, green: 1, blue: 0.9829115272, alpha: 1)
         backgroundGradient = .init(colors: [col1, col2, col2, col2])
         addSubview(firsTitle)
         addSubview(firsTitleGreen)
@@ -731,7 +749,7 @@ final class PricePayWallContentView: View {
     private lazy var greenViewWithLabel: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = #colorLiteral(red: 0.08188111335, green: 0.4976429939, blue: 0.03094960749, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.3624423146, green: 0.6741614342, blue: 0.07987251133, alpha: 1)
         view.layer.cornerRadius = 8
         view.widthAnchor ~= 129
         view.heightAnchor ~= 28
@@ -739,7 +757,7 @@ final class PricePayWallContentView: View {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "Best Choice"
         lbl.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-        lbl.font = UIFont(name: "Onest-Medium", size: 17)
+        lbl.font = UIFont(name: "Poppins-SemiBold", size: 17)
         lbl.textAlignment = .center
         view.addSubview(lbl)
         lbl.centerXAnchor ~= view.centerXAnchor
@@ -771,6 +789,7 @@ final class PricePayWallContent: View {
     var isSelected = false {
         didSet {
             if isSelected == true {
+                /*
                 layer.borderWidth = 1
                 layer.borderColor = #colorLiteral(red: 0.05764976889, green: 0.4858098626, blue: 0.008107689209, alpha: 1)
                 let color1 = #colorLiteral(red: 0.9951933026, green: 1, blue: 0.9957693219, alpha: 1)
@@ -778,17 +797,22 @@ final class PricePayWallContent: View {
                 backgroundGradient = .init(
                     colors: [color1, color2, color2, color2, color2]
                 )
+                 */
+                backgroundColor = #colorLiteral(red: 0.8830724359, green: 0.9430875778, blue: 0.8293510079, alpha: 1)
                 img.isHidden = false
                 emptyCircle.isHidden = true
             }
             else {
                 layer.borderWidth = 0.5
                 layer.borderColor = #colorLiteral(red: 0.9058822393, green: 0.9058824182, blue: 0.9101879001, alpha: 1)
+                /*
                 let color1 = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
                 let color2 = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
                 backgroundGradient = .init(
                     colors: [color1, color2, color2, color2, color2]
                 )
+                 */
+                backgroundColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
                 img.isHidden = true
                 emptyCircle.isHidden = false
             }
@@ -807,8 +831,8 @@ final class PricePayWallContent: View {
         let view = UILabel()
         view.text = "3 days free"
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 16)
-        view.textColor = UIColor(red: 0.067, green: 0.488, blue: 0.009, alpha: 1)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 16)
+        view.textColor = #colorLiteral(red: 0.294590503, green: 0.6112327576, blue: 0.1245271638, alpha: 1)
         view.textAlignment = .center
         return view
     }()
@@ -816,26 +840,26 @@ final class PricePayWallContent: View {
     private lazy var price: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-Medium", size: 14)
-        view.textColor = UIColor(red: 0.173, green: 0.173, blue: 0.173, alpha: 0.8)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 14)
+        view.textColor = .black
         view.textAlignment = .center
         return view
     }()
     
-    private lazy var vSeparator: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = #colorLiteral(red: 0.6919196248, green: 0.8597958684, blue: 0.6742337346, alpha: 1)
-        view.widthAnchor ~= 1
-        view.heightAnchor ~= 43
-        return view
-    }()
+//    private lazy var vSeparator: UIView = {
+//        let view = UIView()
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.backgroundColor = #colorLiteral(red: 0.6919196248, green: 0.8597958684, blue: 0.6742337346, alpha: 1)
+//        view.widthAnchor ~= 1
+//        view.heightAnchor ~= 43
+//        return view
+//    }()
     
     private lazy var weekPrice1: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 16)
-        view.textColor = UIColor(red: 0.067, green: 0.488, blue: 0.009, alpha: 1)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 16)
+        view.textColor = #colorLiteral(red: 0.294590503, green: 0.6112327576, blue: 0.1245271638, alpha: 1)
         view.textAlignment = .center
         return view
     }()
@@ -843,7 +867,7 @@ final class PricePayWallContent: View {
     private lazy var weekPrice2: UILabel = {
         let view = UILabel()
         view.text = "/week".localized
-        view.font = UIFont(name: "Onest-Medium", size: 13)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 13)
         view.textColor = UIColor(red: 0.067, green: 0.488, blue: 0.009, alpha: 1)
         view.textAlignment = .center
         return view
@@ -867,23 +891,19 @@ final class PricePayWallContent: View {
         view.heightAnchor ~= 24
         view.layer.cornerRadius = 12
         view.layer.borderWidth = 1
-        view.layer.borderColor = #colorLiteral(red: 0.05764976889, green: 0.4858098626, blue: 0.008107689209, alpha: 1)
+        view.layer.borderColor = #colorLiteral(red: 0.2966009974, green: 0.5952258706, blue: 0.2292993367, alpha: 1)
         view.clipsToBounds = true
         view.isHidden = true
         return view
     }()
     
     override func setupContent() {
-        let color1 = #colorLiteral(red: 0.9951933026, green: 1, blue: 0.9957693219, alpha: 1)
-        let color2 = #colorLiteral(red: 0.8909534216, green: 0.9711504579, blue: 0.9007031322, alpha: 1)
-        backgroundGradient = .init(
-            colors: [color1, color2, color2, color2, color2]
-        )
+        backgroundColor = #colorLiteral(red: 0.9999999404, green: 1, blue: 1, alpha: 1)
         layer.cornerRadius = 16
         widthAnchor ~= 67
         addSubview(daysTitle)
         addSubview(price)
-        addSubview(vSeparator)
+//        addSubview(vSeparator)
         addSubview(weekPrice1)
         addSubview(weekPrice2)
         addSubview(img)
@@ -897,10 +917,10 @@ final class PricePayWallContent: View {
         price.leftAnchor ~= leftAnchor + 12
         price.bottomAnchor ~= bottomAnchor - 10
         
-        vSeparator.centerXAnchor ~= centerXAnchor
-        vSeparator.centerYAnchor ~= centerYAnchor
+//        vSeparator.centerXAnchor ~= centerXAnchor
+//        vSeparator.centerYAnchor ~= centerYAnchor
         
-        weekPrice1.leftAnchor ~= vSeparator.rightAnchor + 12
+        weekPrice1.leftAnchor ~= centerXAnchor + 12
         weekPrice1.centerYAnchor ~= centerYAnchor
         
         weekPrice2.leftAnchor ~= weekPrice1.rightAnchor + 2
@@ -954,17 +974,18 @@ final class CommentsPayWallContent: View {
     private lazy var davidImg: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "david")
-        view.contentMode = .scaleAspectFill
-        view.heightAnchor ~= 314
+        view.image = UIImage(named: "pw_new_michael")
+        view.contentMode = .scaleAspectFit
+        view.widthAnchor ~= 639
+        view.heightAnchor ~= 300
         return view
     }()
     
     private lazy var title: UILabel = {
         let view = UILabel()
-        view.text = "what’s_covered_in_your_plan".localized
+        view.text = TextForPaywall.whatDoesYourPlanInclude
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 16)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 16)
         view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
         view.textAlignment = .center
         return view
@@ -974,18 +995,18 @@ final class CommentsPayWallContent: View {
     private lazy var img1: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "on.img1")
+        view.image = UIImage(named: "new_pw_icon_1")
         view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 50
-        view.heightAnchor ~= 50
+        view.widthAnchor ~= 30
+        view.heightAnchor ~= 30
         return view
     }()
     
     private lazy var title1: UILabel = {
         let view = UILabel()
-        view.text = "unlock_expert_tips".localized
+        view.text = TextForPaywall.discoverProfessionalAdvice1
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 14)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 14)
         view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
         view.textAlignment = .center
         return view
@@ -993,9 +1014,9 @@ final class CommentsPayWallContent: View {
     
     private lazy var text1: UILabel = {
         let view = UILabel()
-        view.text = "identify_any_plant".localized
+        view.text = TextForPaywall.instantlyRecognizeAnyPlant11
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-Regular", size: 14)
+        view.font = UIFont(name: "Poppins-Regular", size: 14)
         view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
         view.textAlignment = .justified
         view.numberOfLines = 0
@@ -1007,18 +1028,18 @@ final class CommentsPayWallContent: View {
     private lazy var img2: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "on.img2")
+        view.image = UIImage(named: "new_pw_icon_2")
         view.contentMode = .scaleAspectFit
-        view.widthAnchor ~= 50
-        view.heightAnchor ~= 50
+        view.widthAnchor ~= 30
+        view.heightAnchor ~= 30
         return view
     }()
     
     private lazy var title2: UILabel = {
         let view = UILabel()
-        view.text = "track_growth".localized
+        view.text = TextForPaywall.monitorTheGrowth2
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 14)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 14)
         view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
         view.textAlignment = .center
         return view
@@ -1026,9 +1047,9 @@ final class CommentsPayWallContent: View {
     
     private lazy var text2: UILabel = {
         let view = UILabel()
-        view.text = "log_milestones".localized
+        view.text = TextForPaywall.recordMilestones21
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-Regular", size: 14)
+        view.font = UIFont(name: "Poppins-Regular", size: 14)
         view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
         view.textAlignment = .justified
         view.numberOfLines = 0
@@ -1040,18 +1061,18 @@ final class CommentsPayWallContent: View {
     private lazy var img3: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "on.img3")
+        view.image = UIImage(named: "new_pw_icon_3")
         view.contentMode = .scaleAspectFit
-        view.widthAnchor ~= 50
-        view.heightAnchor ~= 50
+        view.widthAnchor ~= 30
+        view.heightAnchor ~= 30
         return view
     }()
     
     private lazy var title3: UILabel = {
         let view = UILabel()
-        view.text = "ad_free_experience".localized
+        view.text = TextForPaywall.experienceWithoutAds3
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 14)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 14)
         view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
         view.textAlignment = .center
         return view
@@ -1059,9 +1080,9 @@ final class CommentsPayWallContent: View {
     
     private lazy var text3: UILabel = {
         let view = UILabel()
-        view.text = "enjoy_clean_interface".localized
+        view.text = TextForPaywall.experienceATidy31
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-Regular", size: 14)
+        view.font = UIFont(name: "Poppins-Regular", size: 14)
         view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
         view.textAlignment = .justified
         view.numberOfLines = 0
@@ -1073,18 +1094,18 @@ final class CommentsPayWallContent: View {
     private lazy var img4: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "on.img4")
+        view.image = UIImage(named: "new_pw_icon_4")
         view.contentMode = .scaleAspectFit
-        view.widthAnchor ~= 50
-        view.heightAnchor ~= 50
+        view.widthAnchor ~= 30
+        view.heightAnchor ~= 30
         return view
     }()
     
     private lazy var title4: UILabel = {
         let view = UILabel()
-        view.text = "largest_database".localized
+        view.text = TextForPaywall.theBiggestPlant4
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 14)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 14)
         view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
         view.textAlignment = .center
         return view
@@ -1092,9 +1113,9 @@ final class CommentsPayWallContent: View {
     
     private lazy var text4: UILabel = {
         let view = UILabel()
-        view.text = "access_detailed_info".localized
+        view.text = TextForPaywall.exploreInDepthInformation41
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-Regular", size: 14)
+        view.font = UIFont(name: "Poppins-Regular", size: 14)
         view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
         view.textAlignment = .justified
         view.numberOfLines = 0
@@ -1125,11 +1146,10 @@ final class CommentsPayWallContent: View {
         joinImg.centerXAnchor ~= centerXAnchor
         joinImg.topAnchor ~= topAnchor + 5
         
-        davidImg.topAnchor ~= joinImg.bottomAnchor + 50
-        davidImg.leftAnchor ~= leftAnchor - 30
-        davidImg.rightAnchor ~= rightAnchor
+        davidImg.topAnchor ~= joinImg.bottomAnchor + 5
+        davidImg.centerXAnchor ~= joinImg.centerXAnchor
         
-        title.topAnchor ~= davidImg.bottomAnchor - 60
+        title.topAnchor ~= davidImg.bottomAnchor + 30
         title.leftAnchor ~= leftAnchor + 8
         
         img1.topAnchor ~= title.bottomAnchor + 10
@@ -1137,6 +1157,7 @@ final class CommentsPayWallContent: View {
         
         title1.centerYAnchor ~= img1.centerYAnchor
         title1.leftAnchor ~= img1.rightAnchor
+        title1.rightAnchor ~= rightAnchor - 8
         
         text1.topAnchor ~= title1.bottomAnchor + 2
         text1.leftAnchor ~= title1.leftAnchor

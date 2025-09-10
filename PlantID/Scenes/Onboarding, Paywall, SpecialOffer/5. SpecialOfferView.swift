@@ -44,66 +44,36 @@ final class SpecialOfferView: View {
     private lazy var bgImage1: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "Group_23")
+        view.image = UIImage(named: "sale_new")
         view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 598
-        view.heightAnchor ~= 654
-        return view
-    }()
-    
-    private lazy var phone1: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "phone_21")
-        view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 270
-        view.heightAnchor ~= 450
-        return view
-    }()
-    
-    private lazy var phone2: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "phone_22")
-        view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 270
-        view.heightAnchor ~= 450
-        return view
-    }()
-    
-    private lazy var off60: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "60.off")
-        view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 305
-        view.heightAnchor ~= 254
+        view.widthAnchor ~= 450
+        view.heightAnchor ~= 900
         return view
     }()
     
     private lazy var simpleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor ~= 450
+        view.heightAnchor ~= 400
         return view
     }()
     
     private lazy var firsTitle: UILabel = {
         let view = UILabel()
-        view.text = "special_offer".localized
+        view.text = "exclusive_deal".localized
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 28)
-        view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 24)
+        view.textColor = UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 1)
         view.textAlignment = .center
         return view
     }()
     
     private lazy var firsTitleGreen: UILabel = {
         let view = UILabel()
-        view.text = "don't_miss_out".localized
+        view.text = "seize_the_opportunity".localized
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 28)
-        view.textColor = #colorLiteral(red: 0.07304378599, green: 0.4857453108, blue: 0.007760594599, alpha: 1)
+        view.font = UIFont(name: "Poppins-SemiBold", size: 24)
+        view.textColor = #colorLiteral(red: 0.5592492223, green: 0.7865967155, blue: 0.3077450097, alpha: 1)
         view.textAlignment = .center
         return view
     }()
@@ -158,9 +128,9 @@ final class SpecialOfferView: View {
     private lazy var secondTitle: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = "Start now at $15.99 (was $39.99 ) \nSave Over 60%!"
-        view.font = UIFont(name: "Onest-Regular", size: 16)
-        view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 1)
+        view.text = "start_now_at".localized
+        view.font = UIFont(name: "Poppins-Regular", size: 16)
+        view.textColor = .black
         view.numberOfLines = 0
         view.textAlignment = .center
         return view
@@ -176,17 +146,27 @@ final class SpecialOfferView: View {
     }()
     
     private lazy var button: UIButton = {
-        let view = UIButton.greenButtonGrabItNow
+        let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.setBackgroundImage(
+            UIImage(named: "my_plants_btnn"),
+            for: .normal
+        )
+        view.setTitle(
+            "grab_it_now".localized,
+            for: .normal
+        )
+        view.setTitleColor(.white, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 14)
         view.addAction(
-            UIAction(
-                handler: { [weak self] _ in
-                    guard let self else { return }
-                       self.actionHandler(.cont)
-                }
-            ),
+            UIAction(handler: { [weak self] _ in
+                guard let self else { return }
+                self.actionHandler(.cont)
+            }),
             for: .touchUpInside
         )
+        view.widthAnchor ~= 244
+        view.heightAnchor ~= 70
         return view
     }()
     
@@ -213,17 +193,10 @@ final class SpecialOfferView: View {
     }()
    
     override func setupContent() {
-        let color1 = #colorLiteral(red: 0.7454621792, green: 0.9026893377, blue: 0.7833328843, alpha: 1)
-        let color2 = #colorLiteral(red: 0.9366899133, green: 0.9615978599, blue: 0.9482398629, alpha: 1)
-        backgroundGradient = .init(
-            colors: [color1, color2, color2]
-        )
+        backgroundColor = #colorLiteral(red: 0.7791945934, green: 0.9259548783, blue: 0.7584420443, alpha: 1)
         addSubview(bgImage1)
-        addSubview(phone1)
-        addSubview(phone2)
-        addSubview(off60)
         addSubview(simpleView)
-        simpleView.backgroundColor = #colorLiteral(red: 0.9686273932, green: 0.9686273932, blue: 0.9686273932, alpha: 1)
+        simpleView.backgroundColor = #colorLiteral(red: 0.9613817334, green: 1, blue: 0.953127563, alpha: 1)
         simpleView.addSubview(firsTitle)
         simpleView.addSubview(firsTitleGreen)
         simpleView.addSubview(ramka2)
@@ -238,16 +211,8 @@ final class SpecialOfferView: View {
     }
     
     override func setupLayout() {
-        bgImage1.topAnchor ~= topAnchor + 5
-        
-        phone1.topAnchor ~= topAnchor + 60
-        phone1.centerXAnchor ~= centerXAnchor - 70
-        
-        phone2.topAnchor ~= topAnchor + 75
-        phone2.centerXAnchor ~= centerXAnchor + 50
-        
-        off60.centerXAnchor ~= centerXAnchor
-        off60.topAnchor ~= phone2.topAnchor + 170
+        bgImage1.centerYAnchor ~= centerYAnchor + 5
+        bgImage1.centerXAnchor ~= centerXAnchor
         
         simpleView.leftAnchor ~= leftAnchor
         simpleView.rightAnchor ~= rightAnchor
@@ -280,10 +245,10 @@ final class SpecialOfferView: View {
         pageControl.topAnchor ~= secondTitle.bottomAnchor + 8
         pageControl.centerXAnchor ~= simpleView.centerXAnchor
         
-        button.topAnchor ~= pageControl.bottomAnchor + 25
+        button.topAnchor ~= pageControl.bottomAnchor + 12
         button.centerXAnchor ~= simpleView.centerXAnchor
         
-        button2.topAnchor ~= button.bottomAnchor + 10
+        button2.topAnchor ~= button.bottomAnchor + 3
         button2.centerXAnchor ~= simpleView.centerXAnchor
     }
     
@@ -343,16 +308,16 @@ final class TimeCell: View {
     private lazy var timeLbl: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.textColor = UIColor(red: 0.067, green: 0.486, blue: 0.008, alpha: 1)
-        view.font = UIFont(name: "SFProText-Bold", size: 28)
+        view.textColor = #colorLiteral(red: 0.2794816494, green: 0.5914724469, blue: 0.1613161862, alpha: 1)
+        view.font = UIFont(name: "Poppins-Bold", size: 28)
         return view
     }()
     
     private lazy var harLbl: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
-        view.font = UIFont(name: "SFProText-Regular", size: 8)
+        view.textColor = .black
+        view.font = UIFont(name: "Poppins-Regular", size: 8)
         return view
     }()
     
