@@ -124,7 +124,7 @@ private class CustomTabbarItemView: View {
         }
         set {
             noSelectedimageView.tintColor = newValue ?
-            #colorLiteral(red: 0.2902783453, green: 0.6072986722, blue: 0.1340575516, alpha: 1)
+            #colorLiteral(red: 0.292422086, green: 0.6032748222, blue: 0.1428535283, alpha: 1)
             : .black
         }
     }

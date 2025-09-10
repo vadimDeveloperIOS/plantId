@@ -60,18 +60,19 @@ extension DropdownMenuView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = options[indexPath.row].rawValue.localized
-        cell.textLabel?.font = UIFont(name: "Onest-Regular", size: 14)
+        cell.textLabel?.font = UIFont(name: "Poppins-Regular", size: 14)
         cell.textLabel?.textColor = .gray
         cell.selectionStyle = .none
         cell.backgroundColor = .white
 
         // Выделение первой ячейки (для примера)
-        if indexPath.row == 0 {
-            cell.contentView.backgroundColor = UIColor(red: 0.9, green: 1.0, blue: 0.9, alpha: 1)
-            cell.contentView.layer.cornerRadius = 10
-        } else {
-            cell.contentView.backgroundColor = .white
-        }
+        cell.contentView.backgroundColor = .white
+//        if indexPath.row == 0 {
+//            cell.contentView.backgroundColor = UIColor(red: 0.9, green: 1.0, blue: 0.9, alpha: 1)
+//            cell.contentView.layer.cornerRadius = 10
+//        } else {
+//            cell.contentView.backgroundColor = .white
+//        }
         return cell
     }
     

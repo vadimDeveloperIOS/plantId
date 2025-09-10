@@ -54,7 +54,7 @@ final class HeaderView: View {
     override func setupContent() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
-        titleLabel.font = UIFont(name: "Onest-SemiBold", size: 20)
+        titleLabel.font = UIFont(name: "Poppins-Medium", size: 24)
         titleLabel.textAlignment = .center
         addSubview(titleLabel)
     }
@@ -66,7 +66,10 @@ final class HeaderView: View {
     }
 }
 
+// ------------------------------------------------
 // MARK: - Health Note Cell
+// ------------------------------------------------
+
 final class HealthNoteCell: UICollectionViewCell {
     var viewModel: HealthNoteModel? {
         didSet {
@@ -93,10 +96,10 @@ final class HealthNoteView: View {
     override func setupContent() {
         titleLbl.translatesAutoresizingMaskIntoConstraints = false; textLbl.translatesAutoresizingMaskIntoConstraints = false
         titleLbl.text = "health_note".localized
-        titleLbl.textColor = UIColor(red: 0.194, green: 0.274, blue: 0.211, alpha: 1)
-        titleLbl.font = UIFont(name: "Onest-SemiBold", size: 20)
-        textLbl.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
-        textLbl.font = UIFont(name: "Onest-Regular", size: 14)
+        titleLbl.textColor = #colorLiteral(red: 0.5592492223, green: 0.7865967155, blue: 0.3077450097, alpha: 1)
+        titleLbl.font = UIFont(name: "Poppins-Medium", size: 22)
+        textLbl.textColor = #colorLiteral(red: 0.5592492223, green: 0.7865967155, blue: 0.3077450097, alpha: 1)
+        textLbl.font = UIFont(name: "Poppins-Regular", size: 18)
         textLbl.numberOfLines = 0
         addSubview(titleLbl); addSubview(textLbl)
     }
@@ -111,7 +114,10 @@ final class HealthNoteView: View {
     }
 }
 
+// ------------------------------------------------
 // MARK: - Watering Cell
+// ------------------------------------------------
+
 final class WateringCell: UICollectionViewCell {
     var viewModel: WateringModel? {
         didSet {
@@ -139,6 +145,8 @@ final class WateringCell: UICollectionViewCell {
         return v
     }()
 }
+
+// MARK: Watering View
 
 final class WateringView: View {
     
@@ -191,16 +199,18 @@ final class WateringView: View {
     
     private lazy var freqValue: UILabel = {
         let view = UILabel()
-        view.font = UIFont(name: "Onest-Regular", size: 14)
+        view.font = UIFont(name: "Poppins-Regular", size: 14)
         view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
 //        view.text = "Every 3 days"
         return view
     }()
     
     // Images
-
-    let notEmptyImg = UIImage(named: "icons_24-2")
+    let notEmptyImg = UIImage(named: "currentConditionIconName_new")!.withRenderingMode(.alwaysTemplate)
     let emptyImg = UIImage(named: "icons_24-3")
+    
+    let selColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+    let emptyColor = #colorLiteral(red: 0.5196653008, green: 0.6105861664, blue: 0.4960632324, alpha: 0.67)
 
     // Buttons
     private lazy var but0 = UIButton()
@@ -254,9 +264,9 @@ final class WateringView: View {
         setupButtons()
         return view
     }()
-
+    
     override func setupContent() {
-        setBgGradientAndBorderForCell()
+        backgroundColor = #colorLiteral(red: 0.8830724359, green: 0.9430875778, blue: 0.8293510079, alpha: 1)
         layer.cornerRadius = 16
 //        clipsToBounds = true
         [ whiteMenu, icon, titleLbl, freqLbl, reminderLbl, reminderSwitch, amountLbl, freqValue, stack].forEach { v in
@@ -267,12 +277,13 @@ final class WateringView: View {
         freqLbl.text = "frequency".localized
         reminderLbl.text = "reminder".localized
         amountLbl.text = "amount".localized
-        titleLbl.textColor = UIColor(red: 0.075, green: 0.067, blue: 0.078, alpha: 1)
-        titleLbl.font = UIFont(name: "Onest-SemiBold", size: 16)
+        titleLbl.textColor = UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 1)
+        titleLbl.font = UIFont(name: "Poppins-Medium", size: 16)
         [freqLbl, reminderLbl, amountLbl].forEach { v in
-            v.font = UIFont(name: "Onest-Medium", size: 14)
-            v.textColor = UIColor(red: 0.067, green: 0.488, blue: 0.009, alpha: 1)
+            v.font = UIFont(name: "Poppins-Medium", size: 14)
+            v.textColor = UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 1)
         }
+        reminderSwitch.onTintColor = #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1)
         reminderSwitch.addAction(
             UIAction(handler: { [weak self] _ in
                 self?.isOn.toggle()
@@ -315,12 +326,20 @@ final class WateringView: View {
     }
     
     private func setupButtons(_ index: Int = 0) {
-        but0.setImage(index >= 0 ? notEmptyImg : emptyImg, for: .normal)
-        but1.setImage(index >= 1 ? notEmptyImg : emptyImg, for: .normal)
-        but2.setImage(index >= 2 ? notEmptyImg : emptyImg, for: .normal)
-        but3.setImage(index >= 3 ? notEmptyImg : emptyImg, for: .normal)
+        [but0, but1, but2, but3].forEach { $0.setImage(notEmptyImg, for: .normal) }
+        
+        but0.imageView?.tintColor = index >= 0 ? selColor : emptyColor
+        but1.imageView?.tintColor = index >= 1 ? selColor : emptyColor
+        but2.imageView?.tintColor = index >= 2 ? selColor : emptyColor
+        but3.imageView?.tintColor = index >= 3 ? selColor : emptyColor
+
+//        but0.setImage(index >= 0 ? notEmptyImg : emptyImg, for: .normal)
+//        but1.setImage(index >= 1 ? notEmptyImg : emptyImg, for: .normal)
+//        but2.setImage(index >= 2 ? notEmptyImg : emptyImg, for: .normal)
+//        but3.setImage(index >= 3 ? notEmptyImg : emptyImg, for: .normal)
     }
 }
+
 
 
 

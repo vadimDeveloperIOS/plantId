@@ -28,8 +28,6 @@ class CarePlanViewController: UIViewController {
             switch action {
             case .back:
                 self.back()
-            case .help:
-                print("HELP BUTTON")
             case .save:
                 self.saveToMyPlants()
             case .waternigVal(let val):
@@ -38,6 +36,8 @@ class CarePlanViewController: UIViewController {
                 self.isOnSwitch = val
             case .onShowDropdown(let val):
                 self.onShowDropdown = val
+            case .settings:
+                break 
             }
         }
     }

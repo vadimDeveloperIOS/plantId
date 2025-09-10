@@ -49,7 +49,6 @@ final class AboutPlantHeaderCellContent: View {
     enum Action {
         case tapLeft
         case tapRightTop
-        case tapRightBottom
     }
     var actionHandler: (Action) -> Void = { _ in }
 
