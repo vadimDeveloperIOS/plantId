@@ -19,6 +19,7 @@ class BaseBigCell: BaseCell {
         let firstText: String
         let secondText: String
         let cellStyle: CellStyle
+        let carePlan: Int? = nil
     }
     
     var bigCellViewModel: BigCellModel? {
@@ -47,7 +48,8 @@ class BaseBigCell: BaseCell {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFill
-        view.widthAnchor ~= 95
+        view.widthAnchor ~= 80
+        view.heightAnchor ~= 95
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
         return view
@@ -84,8 +86,10 @@ class BaseBigCell: BaseCell {
     override func setupLayout() {
         super.setupLayout()
         photo.leftAnchor ~= leftAnchor + 18
-        photo.topAnchor ~= topAnchor + 10
-        photo.bottomAnchor ~= bottomAnchor - 10
+        photo.centerYAnchor ~= centerYAnchor
+//        photo.topAnchor ~= topAnchor + 10
+//        photo.bottomAnchor ~= bottomAnchor - 10
+        
         
         firstLbl.topAnchor ~= photo.topAnchor
         firstLbl.leftAnchor ~= photo.rightAnchor + 18

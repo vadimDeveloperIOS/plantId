@@ -32,15 +32,15 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
     }
 
     private enum Item: Hashable {
-        case my(MyPlantsWhenHavePlantsContent.Model)
-        case history(HistoryWhenHavePlantsContent.Model)
+        case my(ContentForMyPlants.BigCellModel)
+        case history(HistoryCellContent.BigCellModel)
     }
 
     // MARK: ViewModel
 
     struct Model {
-        let my: [MyPlantsWhenHavePlantsContent.Model]
-        let history: [HistoryWhenHavePlantsContent.Model]
+        let my: [ContentForMyPlants.BigCellModel]
+        let history: [HistoryCellContent.BigCellModel]
     }
 
     var viewModel: Model? {
@@ -96,22 +96,27 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
 
     private lazy var dataSource: DataSource = {
         // Регистрация каждой ячейки
-        let myPlant = UICollectionView.CellRegistration<MyPlantsWhenHavePlantsCell, MyPlantsWhenHavePlantsContent.Model> { cell, indexPath, model in
+        let myPlant = UICollectionView.CellRegistration<CellForMyPlants, ContentForMyPlants.BigCellModel> { cell, indexPath, model in
             cell.viewModel = model
             cell.actionHandler = { [weak self] action in
                 guard let self else { return }
                 switch action {
-                case .viewMore: break
+                case .viewAll:
+                    break
 //                    self.actionHandlerChild(.viewMore(index: indexPath.row))
                 }
             }
         }
         
-        let history = UICollectionView.CellRegistration<HistoryWhenHavePlantsCell, HistoryWhenHavePlantsContent.Model> { cell, indexPath, model in
+        let history = UICollectionView.CellRegistration<HistoryHomeCell, HistoryCellContent.BigCellModel> { cell, indexPath, model in
             cell.viewModel = model
             cell.actionHandler = { [weak self] action in
                 guard let self else { return }
-//                self.actionHandler(.addToMyPlants(index: indexPath.row))
+                switch action {
+                case .add:
+//                    self.actionHandler(.)
+                    break
+                }
             }
         }
         let ds = DataSource(collectionView: collectionView) { cv, ip, item in
@@ -182,7 +187,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
             let section = Section.allCases[sectionIndex]
             switch section {
             case .plants:
-                return singleItemSection(estimatedHeight: 200, inset: 16)
+                return singleItemSection(estimatedHeight: 120, inset: 16)
                 
             }
         }

@@ -79,28 +79,32 @@ class MyPlantsViewController: UIViewController {
             guard let self = self else { return }
             print("🌱 Данные загружены:", self.vm.history.count)
             
-            var myArray: [MyPlantsWhenHavePlantsContent.Model] = []
+            var myArray: [ContentForMyPlants.BigCellModel] = []
             self.vm.myPlants.forEach { my in
                 let photoData = (my.photos as? [Data])?.first
                 let image = photoData.flatMap(UIImage.init(data:))
                 
                 myArray.append(
-                    .init(photo: image,
-                          name: my.plantName,
-                          descr: my.plantDescr,
-                          amountVal: Int(my.amountVal)))
+                    .init(
+                        photo: image ?? UIImage(named: "fake123")!,
+                        firstText: my.plantName ?? "No value",
+                        secondText: my.plantDescr ?? "No value",
+                        cellStyle: .homeHistory
+                    )
+                )
             }
 
-            var array: [HistoryWhenHavePlantsContent.Model] = []
+            var array: [HistoryCellContent.BigCellModel] = []
             self.vm.history.forEach { his in
                 let photoData = (his.photos as? [Data])?.first
                 let image = photoData.flatMap(UIImage.init(data:))
                 
                 array.append(
                     .init(
-                        photo: image,
-                        name: his.plantName,
-                        descr: his.plantDescr
+                        photo: image ?? UIImage(named: "fake123")!,
+                        firstText: his.plantName ?? "No value",
+                        secondText: his.plantDescr ?? "NO value",
+                        cellStyle: .homeHistory
                     )
                 )
             }
