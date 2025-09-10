@@ -15,6 +15,14 @@ class BaseViewWithNavigationBarGreen: BaseView {
     }
     var actionHandler: (Action) -> Void = { _ in }
     
+    var needToHideBack: Bool = false {
+        didSet {
+            if needToHideBack == true {
+                backBtn.isHidden = true
+            }
+        }
+    }
+    
     private(set) lazy var greenNabBg: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false

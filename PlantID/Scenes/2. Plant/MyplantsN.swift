@@ -84,6 +84,7 @@ final class MyplantsN: BaseViewWithNavigationBarGreen {
     
     override func setupContent() {
         super.setupContent()
+        needToHideBack = true
         addSubview(bg)
         addSubview(firstLbl)
         addSubview(secondLbl)

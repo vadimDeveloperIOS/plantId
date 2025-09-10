@@ -134,8 +134,8 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
 
     override func setupContent() {
         super.setupContent()
-        backBtn.setImage(UIImage(named: "back.button"), for: .normal)
-        settingsBtn.setImage(UIImage(named: "help.button"), for: .normal)
+        
+        needToHideBack = true
         super.actionHandler = { [weak self] action in
             guard let self else { return }
             switch action {
@@ -154,6 +154,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
 
     override func setupLayout() {
         super.setupLayout()
+        backgroundColor = #colorLiteral(red: 0.9632286429, green: 0.9931305051, blue: 0.9624263644, alpha: 1)
 
         headerTitle.centerXAnchor ~= centerXAnchor
         headerTitle.topAnchor ~= greenNabBg.bottomAnchor + 26
