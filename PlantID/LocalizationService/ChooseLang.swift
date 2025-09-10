@@ -42,3 +42,17 @@ enum TextForAboutPlant {
     static let fertilize = "fertilize".localized
     static let but = "add_to_my_plants_big".localized
 }
+
+enum TextForStartDiagnostic {
+    static let snapTips = "snap_tips".localized
+    static let tipsForCapturing = "tips_for_capturing".localized
+    
+    static let step1 = "step_1".localized
+    static let step2 = "step_2".localized
+    static let step3 = "step_3".localized
+
+    static let capturePhotoOf = "capture_photo_of_the".localized
+    static let focusCloselyOn = "focus_closely_on_the".localized
+    static let changeTheAngle = "change_the_angle_to".localized
+    static let cont = "continue".localized
+}

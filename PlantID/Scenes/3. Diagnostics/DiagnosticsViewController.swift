@@ -9,12 +9,13 @@ import UIKit
 
 class DiagnosticsViewController: UIViewController {
 
-    private lazy var rootView = DiagnosticsView()
+//    private lazy var rootView = DiagnosticsView()
+    private let rootView = FirstDiagnosticViewNew()
 
     override func loadView() {
         view = rootView
         
-        rootView.actionHandler = { [weak self] action in
+        rootView.actionHandlerChild = { [weak self] action in
             guard let self else { return }
             switch action {
             case .cont:
