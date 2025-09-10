@@ -32,17 +32,29 @@ final class HeaderDiagnosticResultInformationContentView: View {
     struct Model: Hashable {
         var namePlant: String?
         var currentDiagnoses: String?
+        var currentDiagnosesIconName: String? = nil
+        var currentDiagnosesTitle: String? = nil
         var plantType: String?
+        var plantTypeIconName: String? = nil
         var currentCondition: String?
+        var currentConditionIconName: String? = nil
     }
 
     var viewModel: Model? {
         didSet {
             guard let viewModel else { return }
-            plantNameLbl.text = "Plant Name: \(viewModel.namePlant ?? "")"
+            // Title + plant name
+            plantNameLbl.attributedText = attributedPlantName(viewModel.namePlant)
+
+            // Current diagnosis card
             currentDiagnosesValue.text = viewModel.currentDiagnoses
+            if let icon = viewModel.currentDiagnosesIconName { currentDiagnosesIcon.image = UIImage(named: icon) }
+
+            // Chips
             plantTypeCell.haracteristicValue = viewModel.plantType
+            if let icon = viewModel.plantTypeIconName { plantTypeCell.icon = icon }
             currentConditionCell.haracteristicValue = viewModel.currentCondition
+            if let icon = viewModel.currentConditionIconName { currentConditionCell.icon = icon }
         }
     }
 
@@ -51,7 +63,9 @@ final class HeaderDiagnosticResultInformationContentView: View {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.font = UIFont(name: "Onest-SemiBold", size: 20)
         view.textColor = UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
-        view.text = "diagnostics_result".localized.uppercased()
+        // "Diagnostics Result" with green highlight on the second word
+        let base = "diagnostics_result".localized
+        view.attributedText = highlightedResultTitle(base)
         view.contentMode = .center
         return view
     }()
@@ -73,6 +87,24 @@ final class HeaderDiagnosticResultInformationContentView: View {
         return v
     }()
 
+    private lazy var currentDiagnosesIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.contentMode = .scaleAspectFit
+        iv.widthAnchor ~= 18
+        iv.heightAnchor ~= 18
+        return iv
+    }()
+
+    private lazy var currentDiagnosesTitle: UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.font = UIFont(name: "Onest-Regular", size: 12)
+        lbl.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.74)
+        lbl.text = nil
+        return lbl
+    }()
+
     private lazy var currentDiagnosesValue: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +119,6 @@ final class HeaderDiagnosticResultInformationContentView: View {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor ~= 52
         view.widthAnchor ~= 166
-        view.icon = "har5"
         view.haracteristicName = "plant_type".localized
         return view
     }()
@@ -97,7 +128,6 @@ final class HeaderDiagnosticResultInformationContentView: View {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor ~= 52
         view.widthAnchor ~= 166
-        view.icon = "har6"
         view.haracteristicName = "current_condition".localized
         return view
     }()
@@ -136,6 +166,8 @@ final class HeaderDiagnosticResultInformationContentView: View {
         addSubview(title)
         addSubview(plantNameLbl)
         addSubview(currentDiagnosesView)
+        currentDiagnosesView.addSubview(currentDiagnosesIcon)
+        currentDiagnosesView.addSubview(currentDiagnosesTitle)
         currentDiagnosesView.addSubview(currentDiagnosesValue)
         addSubview(stackH)
         stackH.addArrangedSubview(plantTypeCell)
@@ -154,10 +186,17 @@ final class HeaderDiagnosticResultInformationContentView: View {
 
         currentDiagnosesView.topAnchor ~= plantNameLbl.bottomAnchor + 10
         currentDiagnosesView.leftAnchor ~= leftAnchor
+        currentDiagnosesView.rightAnchor ~= rightAnchor
 
-        currentDiagnosesValue.topAnchor ~= currentDiagnosesView.topAnchor + 8
+        currentDiagnosesIcon.leftAnchor ~= currentDiagnosesView.leftAnchor + 16
+        currentDiagnosesIcon.centerYAnchor ~= currentDiagnosesView.centerYAnchor
+
+        currentDiagnosesTitle.topAnchor ~= currentDiagnosesView.topAnchor + 8
+        currentDiagnosesTitle.leftAnchor ~= currentDiagnosesIcon.rightAnchor + 10
+
+        currentDiagnosesValue.topAnchor ~= currentDiagnosesTitle.bottomAnchor + 4
         currentDiagnosesValue.bottomAnchor ~= currentDiagnosesView.bottomAnchor - 8
-        currentDiagnosesValue.leftAnchor ~= currentDiagnosesView.leftAnchor + 16
+        currentDiagnosesValue.leftAnchor ~= currentDiagnosesIcon.rightAnchor + 10
         currentDiagnosesValue.rightAnchor ~= currentDiagnosesView.rightAnchor - 16
 
         stackH.topAnchor ~= currentDiagnosesView.bottomAnchor + 25
@@ -167,6 +206,37 @@ final class HeaderDiagnosticResultInformationContentView: View {
         hSeparator.topAnchor ~= stackH.bottomAnchor + 25
         hSeparator.centerXAnchor ~= centerXAnchor
         hSeparator.bottomAnchor ~= bottomAnchor
+    }
+
+    private func highlightedResultTitle(_ text: String) -> NSAttributedString {
+        // Splits by space and colors the last word
+        let parts = text.split(separator: " ")
+        let attr = NSMutableAttributedString()
+        for (idx, part) in parts.enumerated() {
+            let s = String(part).uppercased()
+            let color: UIColor = (idx == parts.count - 1) ? UIColor(hex: "#117C02") ?? .systemGreen : UIColor(red: 0.068, green: 0.078, blue: 0.067, alpha: 1)
+            let piece = NSAttributedString(string: (idx > 0 ? " " : "") + s, attributes: [
+                .font: UIFont(name: "Onest-SemiBold", size: 20) as Any,
+                .foregroundColor: color
+            ])
+            attr.append(piece)
+        }
+        return attr
+    }
+
+    private func attributedPlantName(_ name: String?) -> NSAttributedString {
+        let base = ("Plant Name: " + (name ?? "")).trimmingCharacters(in: .whitespaces)
+        let attr = NSMutableAttributedString(string: base, attributes: [
+            .font: UIFont(name: "Onest-Medium", size: 16) as Any,
+            .foregroundColor: UIColor(red: 0.194, green: 0.274, blue: 0.211, alpha: 1)
+        ])
+        if let name, let range = base.range(of: name) {
+            let ns = NSRange(range, in: base)
+            attr.addAttributes([
+                .foregroundColor: UIColor(hex: "#117C02") ?? UIColor.systemGreen
+            ], range: ns)
+        }
+        return attr
     }
 }
 
@@ -230,7 +300,8 @@ final class HarItem: View {
     }()
     
     override func setupContent() {
-        backgroundColor = .clear
+        backgroundColor = UIColor(hex: "#E2F6E9")
+        layer.cornerRadius = 18
         addSubview(stackH)
         stackH.addArrangedSubview(image)
         stackH.addArrangedSubview(harTitle)

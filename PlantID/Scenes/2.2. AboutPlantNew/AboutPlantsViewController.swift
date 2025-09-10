@@ -9,12 +9,13 @@ import UIKit
 
 class AboutPlantsViewController: UIViewController {
 
-    private lazy var rootView = AboutPlantsView()
+//    private lazy var rootView = AboutPlantsView()
+    private lazy var testRoot = AboutPlantViewNew()
     
-    var viewModel: AboutPlantsView.Model? {
+    var viewModel: AboutPlantViewNew.Model? {
         didSet {
             guard let viewModel else { return }
-            rootView.viewModel = viewModel
+            testRoot.viewModel = viewModel
             saveToHistory()
         }
     }
@@ -26,26 +27,36 @@ class AboutPlantsViewController: UIViewController {
     var frequencyVal: String?
     
     override func loadView() {
-        view = rootView
-        rootView.actionHandler = { [weak self] action in
+        view = testRoot
+        
+        testRoot.actionHandler = { [weak self] action in
             guard let self else { return }
             switch action {
-            case .back:
-                self.back()
-            case .help:
-                print("Click help")
-            case .add:
+//            case .back:
+//                self.back()
+//            case .help:
+//                print("Click help")
+//            case .add:
+//                self.goToCarePlan()
+            case .header(_):
+                break
+            case .aboutInfo(_):
+                break
+            case .photos(index: let index):
+                break
+            case .addToMyPlants:
                 self.goToCarePlan()
             }
         }
     }
     
+    /*
     private func saveToHistory() {
         guard let viewModel else { return }
         
         let jpegDatas = viewModel.photos
             .compactMap { $0.jpegData(compressionQuality: 0.8) }
-        
+                
         let newValue = CoreDataSevice.shared.createPlantInfo()
         newValue.id = createId
         newValue.didAddToMyPlants = false
@@ -64,6 +75,33 @@ class AboutPlantsViewController: UIViewController {
             return
         }
     }
+     */
+    // Для теста, удалить
+    private func saveToHistory() {
+        guard let viewModel else { return }
+        
+        
+        
+        let jpegDatas = viewModel.photos.photos.compactMap { $0.image?.jpegData(compressionQuality: 0.8) }
+        
+        let newValue = CoreDataSevice.shared.createPlantInfo()
+        newValue.id = createId
+        newValue.didAddToMyPlants = false
+        newValue.plantName = viewModel.aboutInfo.titleAccent
+        newValue.plantDescr = viewModel.plantInfo.paragraphs.first
+        newValue.photos = jpegDatas as NSArray
+        newValue.plantSize = "plantSize"
+        newValue.plantHumidity = "plantHumidity"
+        newValue.plantSpraying = "plantSpraying"
+        newValue.plantFertilize = "plantFertilize"
+        do {
+            try CoreDataSevice.shared.saveData()
+            print("✅ Растение успешно сохранено в историю")
+        } catch {
+            print("🛑 Ошибка сохранения в историю: \(error)")
+            return
+        }
+    }
     
     private func goToCarePlan() {
         let vc = CarePlanViewController()
@@ -72,10 +110,10 @@ class AboutPlantsViewController: UIViewController {
                 .init(
                     id: createId,
                     didAddToMyPlans: false,
-                    name: viewModel.name,
-                    healthNote: viewModel.description ?? "The plant is healthy",
-                    image: viewModel.photos[0],
-                    photos: viewModel.photos,
+                    name: "NAME",
+                    healthNote: "The plant is healthy",
+                    image: viewModel.photos.photos.first?.image ?? UIImage(named: "fake123")!,
+                    photos: viewModel.photos.photos.compactMap { $0.image } ,
                     frequencyVal: nil,
                     reminderVal: nil,
                     amountVal: nil

@@ -169,7 +169,6 @@ final class AboutPlantInfoContent: View {
         addSubview(gridStack)
 
         for (i, card) in cardViews.enumerated() {
-            card.onTap = { [weak self] in self?.actionHandler(.tapParam(index: i)) }
         }
     }
 
@@ -191,7 +190,17 @@ final class AboutPlantInfoContent: View {
     }
 
     private func applyModel() {
-        guard let vm = viewModel, vm.params.count == 4 else { return }
+        guard let vm = viewModel else {
+            print("[About plant cell] - view model равен nil")
+            return
+        }
+                
+        guard vm.params.count == 4 else {
+            print("[About plant cell] - vm.params.count не равен 4")
+            return
+        }
+        
+        print(vm)
 
         titlePrimaryLabel.text = vm.titlePrimary
         titleAccentLabel.text = vm.titleAccent
@@ -215,10 +224,9 @@ final class AboutPlantInfoContent: View {
 
 private final class ParamCardView: View {
 
-    var onTap: (() -> Void)?
-
     private lazy var container: UIView = {
         let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = AboutPlantInfoContent.Design.cardRadius
         v.backgroundColor = AboutPlantInfoContent.Design.Color.cardBg
         return v
@@ -226,6 +234,7 @@ private final class ParamCardView: View {
 
     private lazy var iconView: UIImageView = {
         let v = UIImageView()
+        v.translatesAutoresizingMaskIntoConstraints = false
         v.contentMode = .scaleAspectFit
         v.widthAnchor ~= 20
         v.heightAnchor ~= 20
@@ -234,13 +243,16 @@ private final class ParamCardView: View {
 
     private lazy var titleLabel: UILabel = {
         let v = UILabel()
+        v.translatesAutoresizingMaskIntoConstraints = false
         v.font = AboutPlantInfoContent.Design.Font.cardTitle
-        v.textColor = AboutPlantInfoContent.Design.Color.primary
+        v.textColor = .black
+        v.textAlignment = .center
         return v
     }()
 
     private lazy var topRow: UIStackView = {
         let v = UIStackView(arrangedSubviews: [iconView, titleLabel])
+        v.translatesAutoresizingMaskIntoConstraints = false
         v.axis = .horizontal
         v.alignment = .center
         v.spacing = AboutPlantInfoContent.Design.small
@@ -249,8 +261,9 @@ private final class ParamCardView: View {
 
     private lazy var valueLabel: UILabel = {
         let v = UILabel()
+        v.translatesAutoresizingMaskIntoConstraints = false
         v.font = AboutPlantInfoContent.Design.Font.cardValue
-        v.textColor = AboutPlantInfoContent.Design.Color.accent
+        v.textColor = .black
         v.textAlignment = .center
         v.numberOfLines = 2
         return v
@@ -258,8 +271,8 @@ private final class ParamCardView: View {
 
     private lazy var hitButton: UIButton = {
         let b = UIButton(type: .system)
+        b.translatesAutoresizingMaskIntoConstraints = false
         b.backgroundColor = .clear
-        b.addAction(UIAction { [weak self] _ in self?.onTap?() }, for: .touchUpInside)
         return b
     }()
 
@@ -267,28 +280,21 @@ private final class ParamCardView: View {
         addSubview(container)
         container.addSubview(topRow)
         container.addSubview(valueLabel)
-        container.addSubview(hitButton)
     }
 
     override func setupLayout() {
         container.pinToSuperview()
 
-        topRow.topAnchor ~= container.topAnchor + AboutPlantInfoContent.Design.inset
-        topRow.leftAnchor ~= container.leftAnchor + AboutPlantInfoContent.Design.inset
-        topRow.rightAnchor <= container.rightAnchor - AboutPlantInfoContent.Design.inset
+        topRow.centerXAnchor ~= container.centerXAnchor
+        topRow.centerYAnchor ~= container.centerYAnchor - 10
 
-        valueLabel.topAnchor ~= topRow.bottomAnchor + AboutPlantInfoContent.Design.small
-        valueLabel.leftAnchor ~= container.leftAnchor + AboutPlantInfoContent.Design.inset
-        valueLabel.rightAnchor ~= container.rightAnchor - AboutPlantInfoContent.Design.inset
-        valueLabel.bottomAnchor ~= container.bottomAnchor - AboutPlantInfoContent.Design.inset
-
-        hitButton.pinToSuperview()
+        valueLabel.topAnchor ~= topRow.bottomAnchor + 5
+        valueLabel.centerXAnchor ~= container.centerXAnchor
     }
 
     func configure(icon: UIImage?, title: String, value: String, tint: UIColor, bg: UIColor) {
         container.backgroundColor = bg
-        iconView.image = icon?.withRenderingMode(.alwaysTemplate)
-        iconView.tintColor = tint
+        iconView.image = icon
         titleLabel.text = title
         valueLabel.text = value
     }

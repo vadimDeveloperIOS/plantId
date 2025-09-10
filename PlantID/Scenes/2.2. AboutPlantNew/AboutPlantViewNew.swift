@@ -59,6 +59,7 @@ final class AboutPlantViewNew: View {
         v.showsVerticalScrollIndicator = false
         v.contentInsetAdjustmentBehavior = .never
         v.bounces = false
+        v.contentInset = .init(top: 0, left: 0, bottom: 40, right: 0)
         return v
     }()
 

@@ -62,11 +62,10 @@ final class PrimaryCTAButtonContent: View {
     }
 
     override func setupLayout() {
-        button.leftAnchor ~= leftAnchor + 16
-        button.rightAnchor ~= rightAnchor - 16
-        button.topAnchor ~= topAnchor
-        button.bottomAnchor ~= bottomAnchor
-        button.heightAnchor ~= 60
+        button.widthAnchor ~= 285
+        button.heightAnchor ~= 70
+        button.centerXAnchor ~= centerXAnchor
+        button.centerYAnchor ~= centerYAnchor
     }
 
     private func applyModel() {

@@ -66,7 +66,7 @@ final class PreliminaryDiagnosesContentView: View {
         let s = UIStackView()
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .vertical
-        s.spacing = 30
+        s.spacing = 14
         s.alignment = .fill
         s.distribution = .equalSpacing
         return s
@@ -98,8 +98,10 @@ final class PreliminaryDiagnosesContentView: View {
 final class DiagnosesCell: View {
     
     struct Model: Hashable {
-      let name: String
-      let probability: Float
+        let name: String
+        let probability: Float
+        // Optional image name for info button/icon; user will supply asset
+        var infoIconName: String? = nil
     }
     
     var viewModel: Model? {
@@ -137,50 +139,65 @@ final class DiagnosesCell: View {
         return lbl
     }()
     
-    /// Белый фон под процент
-    private lazy var whiteView: UIView = {
-        let v = UIView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = .white
-        v.layer.cornerRadius = 13
-        v.widthAnchor  ~= 61
-        v.heightAnchor ~= 26
-        return v
-    }()
-    
     private lazy var valueLbl: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont(name: "Onest-Regular", size: 14)
+        lbl.textAlignment = .right
         return lbl
+    }()
+
+    private lazy var infoIcon: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.contentMode = .scaleAspectFit
+        iv.widthAnchor ~= 16
+        iv.heightAnchor ~= 16
+        return iv
+    }()
+
+    private lazy var progress: SegmentedProgressBar = {
+        let v = SegmentedProgressBar()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.segments = 20
+        v.heightAnchor ~= 12
+        return v
     }()
     
     // MARK: Init
     
     override func setupContent() {
-        backgroundColor = .clear
+        backgroundColor = UIColor(hex: "#F0F6F2")
+        layer.cornerRadius = 16
         addSubview(image)
         addSubview(diagnoseLbl)
-        addSubview(whiteView)
+        addSubview(infoIcon)
         addSubview(valueLbl)
+        addSubview(progress)
     }
     
     override func setupLayout() {
-        // Иконка
-        image.centerYAnchor   ~= centerYAnchor
-        image.leftAnchor   ~= leftAnchor
-        
-        // Текст диагноза
-        diagnoseLbl.centerYAnchor   ~= centerYAnchor
-        diagnoseLbl.leftAnchor   ~= image.rightAnchor + 10
-        
-        // Белый бейдж справа
-        whiteView.centerYAnchor     ~= centerYAnchor
-        whiteView.rightAnchor    ~= rightAnchor
-        
-        // Процент по центру бейджа
-        valueLbl.centerXAnchor      ~= whiteView.centerXAnchor
-        valueLbl.centerYAnchor      ~= whiteView.centerYAnchor
+        // Top row: icon, title, info icon
+        image.topAnchor ~= topAnchor + 14
+        image.leftAnchor ~= leftAnchor + 14
+
+        diagnoseLbl.centerYAnchor ~= image.centerYAnchor
+        diagnoseLbl.leftAnchor ~= image.rightAnchor + 10
+        diagnoseLbl.rightAnchor <= infoIcon.leftAnchor - 8
+
+        infoIcon.centerYAnchor ~= image.centerYAnchor
+        infoIcon.rightAnchor ~= rightAnchor - 12
+
+        // Percentage label
+        valueLbl.topAnchor ~= diagnoseLbl.bottomAnchor + 8
+        valueLbl.leftAnchor ~= leftAnchor + 14
+        valueLbl.rightAnchor ~= rightAnchor - 14
+
+        // Segmented progress
+        progress.topAnchor ~= valueLbl.bottomAnchor + 6
+        progress.leftAnchor ~= leftAnchor + 14
+        progress.rightAnchor ~= rightAnchor - 14
+        progress.bottomAnchor ~= bottomAnchor - 12
     }
     
     private func updateValueLabel() {
@@ -192,17 +209,53 @@ final class DiagnosesCell: View {
         // переведём в проценты
         let percent = Int(v * 100)
         valueLbl.text = "\(percent)%"
+        progress.progress = CGFloat(v)
         
-        // 0…39   → зелёный
-        // 40…79  → жёлтый
-        // 80…100 → красный
+        // 0…39 → green; 40…79 → yellow; 80…100 → red
         switch percent {
         case 0...39:
             valueLbl.textColor = UIColor(hex: "#117C02")
+            progress.filledColor = UIColor(hex: "#117C02") ?? .systemGreen
         case 40...79:
             valueLbl.textColor = UIColor(hex: "#F1C30C")
+            progress.filledColor = UIColor(hex: "#F1C30C") ?? .systemYellow
         default:
             valueLbl.textColor = UIColor(hex: "#EB0800")
+            progress.filledColor = UIColor(hex: "#EB0800") ?? .systemRed
+        }
+
+        if let name = viewModel?.infoIconName {
+            infoIcon.image = UIImage(named: name)
+        }
+    }
+}
+
+// MARK: - SegmentedProgressBar
+/// A discrete segmented bar similar to the screenshot
+final class SegmentedProgressBar: UIView {
+    var segments: Int = 20 { didSet { setNeedsLayout() } }
+    var progress: CGFloat = 0.0 { didSet { setNeedsLayout() } }
+    var filledColor: UIColor = UIColor(hex: "#117C02") ?? .systemGreen { didSet { setNeedsLayout() } }
+    var emptyColor: UIColor = UIColor(white: 1.0, alpha: 1.0) { didSet { setNeedsLayout() } }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        guard segments > 0 else { return }
+
+        let gap: CGFloat = 3
+        let totalGap = gap * CGFloat(segments - 1)
+        let segWidth = max(2, (bounds.width - totalGap) / CGFloat(segments))
+        let segHeight = bounds.height
+        let filledCount = Int(round(progress * CGFloat(segments)))
+
+        for i in 0..<segments {
+            let x = CGFloat(i) * (segWidth + gap)
+            let layerSeg = CALayer()
+            layerSeg.frame = CGRect(x: x, y: 0, width: segWidth, height: segHeight)
+            layerSeg.cornerRadius = segHeight / 4
+            layerSeg.backgroundColor = (i < filledCount ? filledColor : emptyColor).cgColor
+            layer.addSublayer(layerSeg)
         }
     }
 }

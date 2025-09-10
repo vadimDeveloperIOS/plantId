@@ -60,7 +60,6 @@ final class AboutPlantHeaderCellContent: View {
             titleLabel.text = vm.title
             leftButton.setImage(UIImage(named: vm.leftIconName), for: .normal)
             rightTopButton.setImage(UIImage(named: vm.rightTopIconName), for: .normal)
-            rightBottomButton.setImage(UIImage(named: vm.rightBottomIconName), for: .normal)
         }
     }
 
@@ -110,7 +109,7 @@ final class AboutPlantHeaderCellContent: View {
         let b = UIButton(type: .system)
         b.translatesAutoresizingMaskIntoConstraints = false
         b.tintColor = .white
-        b.backgroundColor = UIColor.white.withAlphaComponent(0.18)
+        b.backgroundColor = .clear.withAlphaComponent(0.5)
         b.layer.cornerRadius = 20
         b.widthAnchor ~= 40
         b.heightAnchor ~= 40
@@ -131,12 +130,6 @@ final class AboutPlantHeaderCellContent: View {
         return b
     }()
 
-    private lazy var rightBottomButton: UIButton = {
-        let b = circleButton()
-        b.addAction(UIAction { [weak self] _ in self?.actionHandler(.tapRightBottom) }, for: .touchUpInside)
-        return b
-    }()
-
     // MARK: Lifecycle
 
     override func setupContent() {
@@ -146,7 +139,6 @@ final class AboutPlantHeaderCellContent: View {
         container.addSubview(titleLabel)
         container.addSubview(leftButton)
         container.addSubview(rightTopButton)
-        container.addSubview(rightBottomButton)
     }
 
     override func setupLayout() {
@@ -155,21 +147,18 @@ final class AboutPlantHeaderCellContent: View {
         imageView.pinToSuperview()
 
         // высота «шапки» — как на макете (можно поменять при интеграции в layout)
-        container.heightAnchor >= 360
+        container.heightAnchor ~= 360
 
         // заголовок по центру сверху
-        titleLabel.topAnchor ~= container.topAnchor + 60
+        titleLabel.topAnchor ~= container.topAnchor + 80
         titleLabel.centerXAnchor ~= container.centerXAnchor
 
         // кнопки
-        leftButton.topAnchor ~= container.topAnchor + 12
+        leftButton.centerYAnchor ~= titleLabel.centerYAnchor
         leftButton.leftAnchor ~= container.leftAnchor + 12
 
-        rightTopButton.topAnchor ~= container.topAnchor + 12
+        rightTopButton.centerYAnchor ~= titleLabel.centerYAnchor
         rightTopButton.rightAnchor ~= container.rightAnchor - 12
-
-        rightBottomButton.topAnchor ~= rightTopButton.bottomAnchor + 12
-        rightBottomButton.rightAnchor ~= container.rightAnchor - 12
     }
 
     // чтобы градиент тянулся за фреймом (см. базовый View) :contentReference[oaicite:1]{index=1}

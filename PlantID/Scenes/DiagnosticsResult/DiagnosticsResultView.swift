@@ -17,11 +17,18 @@ final class DiagnosticsResultView: View {
     var actionHandler: (Actions) -> Void = { _ in }
     
     struct Model {
+        // Header
         let namePlant: String?
         let diseaseDescr: String?
         let currentDiagnoses: String?
         let plantType: String?
         let currentCondition: String?
+        // Images (provide names via ViewModel so user can add assets)
+        let currentDiagnosesIconName: String? = nil
+        let currentDiagnosesTitle: String? = nil
+        let plantTypeIconName: String? = nil
+        let currentConditionIconName: String? = nil
+        // Content
         let photos: [UIImage]
         let conditionValue: Float?
         let isHealthy: Bool?
@@ -42,8 +49,12 @@ final class DiagnosticsResultView: View {
                         .init(
                             namePlant: viewModel.namePlant,
                             currentDiagnoses: viewModel.currentDiagnoses,
+                            currentDiagnosesIconName: viewModel.currentDiagnosesIconName,
+                            currentDiagnosesTitle: viewModel.currentDiagnosesTitle,
                             plantType: viewModel.plantType,
-                            currentCondition: viewModel.currentCondition
+                            plantTypeIconName: viewModel.plantTypeIconName,
+                            currentCondition: viewModel.currentCondition,
+                            currentConditionIconName: viewModel.currentConditionIconName
                         ),
                 photos: phts,
                 condition:
@@ -390,4 +401,3 @@ extension DiagnosticInfornationView: UICollectionViewDelegate, UICollectionViewD
         
     }
 }
-

@@ -34,3 +34,11 @@ enum TextForSettings {
     static let upgradePRO = "upgrade_PRO".localized
     static let keepYourPlants = "keep_your_plants_healthy".localized
 }
+
+enum TextForAboutPlant {
+    static let size = "size".localized
+    static let humidity = "humidity".localized
+    static let spraying = "spraying".localized
+    static let fertilize = "fertilize".localized
+    static let but = "add_to_my_plants_big".localized
+}

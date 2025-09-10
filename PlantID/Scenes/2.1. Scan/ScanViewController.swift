@@ -114,31 +114,76 @@ class ScanViewController: UIViewController {
      */
     // MARK: ДЛЯ ТЕСТОВ (потом удалить)
     private func goToAboutPlant() {
-        let arrayPhotos = [UIImage(named: "fake123")!, UIImage(named: "not.plant.2")!]
         
+        let arrayPhotos = [UIImage(named: "fake123")!, UIImage(named: "not.plant.2")!]
         let vc = AboutPlantsViewController()
-        vc.viewModel = .init(
-            name: "some Text1",
-            description: "some Text2",
-            photos: arrayPhotos,
-            size: "medium".localized,
-            humidity: wateringFrequency (minLevel: 1, maxLevel: 2),
-            spraying: "in_4_days".localized,
-            fertilize: "in_30_days".localized
-        )
-        vc.plantType = "indoor".localized
-        vc.currentCondition = "needs_care".localized
-        vc.conditionValue = 7
-        vc.isHealthy = true
-        vc.frequencyVal = wateringFrequency(minLevel: 1, maxLevel: 2)
+        
+        vc.viewModel =
+            .init(
+                header:
+                        .init(
+                            photo: UIImage(named: "fake123")!,
+                            title: "header - title",
+                            leftIconName: "navbar_str",
+                            rightTopIconName: "navbar_set",
+                            rightBottomIconName: "navbar_q"
+                        ),
+                aboutInfo:
+                        .init(
+                            titlePrimary: "aboutInfo - titlePrimary",
+                            titleAccent: "aboutInfo - titleAccent",
+                            plantNamePrefix: "aboutInfo - plantNamePrefix",
+                            plantNameValue: "aboutInfo - plantNameValue",
+                            params: [
+                                .init(
+                                    iconAsset: "new_size",
+                                    title: TextForAboutPlant.size,
+                                    value: "value"
+                                ),
+                                .init(
+                                    iconAsset: "new_humidity",
+                                    title: TextForAboutPlant.humidity,
+                                    value: "valuevalue"
+                                ),
+                                .init(
+                                    iconAsset: "new_spraying",
+                                    title: TextForAboutPlant.spraying,
+                                    value: "valu"
+                                ),
+                                .init(
+                                    iconAsset: "new_fertilze",
+                                    title: TextForAboutPlant.fertilize,
+                                    value: "va"
+                                )
+                            ]
+                        ),
+                plantInfo:
+                        .init(
+                            title: "title",
+                            paragraphs: [
+                                "paragraphs paragraphs paragraphs paragraphs paragraphs",
+                                "paragraphsparagraphs"
+                            ]),
+                photos:
+                        .init(
+                            title: "Photos",
+                            photos: [.init(image: UIImage(named: "fake123"))],
+                            selectedIndex: 0
+                        ),
+                primaryCTA:
+                        .init(
+                            title: TextForAboutPlant.but,
+                            backgroundImageName: "my_plants_btnn"
+                            
+                        )
+            )
         
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
     /*
-     
-     
     private func goToDiagnosticResult() {
         let arrayPhotos = rootView.thumbnails
         PlantIDClient.shared.identifyPlantWithHealth(images: arrayPhotos) { [weak self] response in
