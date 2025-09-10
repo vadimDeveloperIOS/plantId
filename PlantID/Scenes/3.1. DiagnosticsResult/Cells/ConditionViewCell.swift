@@ -47,7 +47,7 @@ final class ConditionContentView: View {
     private lazy var title: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-SemiBold", size: 20)
+        view.font = UIFont(name: "Poppins-Medium", size: 18)
         view.textColor = UIColor(red: 0.194, green: 0.274, blue: 0.211, alpha: 1)
         view.text = "condition".localized
         view.contentMode = .left

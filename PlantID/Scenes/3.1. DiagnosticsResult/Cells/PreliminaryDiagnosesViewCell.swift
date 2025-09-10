@@ -7,6 +7,11 @@
 
 import UIKit
 
+// --------------------------------------------
+// MARK: - Cell
+// --------------------------------------------
+
+
 final class PreliminaryDiagnosesViewCell: UICollectionViewCell {
     var viewModel: PreliminaryDiagnosesContentView.Model {
         get {
@@ -25,8 +30,9 @@ final class PreliminaryDiagnosesViewCell: UICollectionViewCell {
     }()
 }
 
-
+// --------------------------------------------
 // MARK: - CONTENT VIEW
+// --------------------------------------------
 
 /// Контент-вью для секции «Preliminary diagnoses:»
 final class PreliminaryDiagnosesContentView: View {
@@ -56,7 +62,7 @@ final class PreliminaryDiagnosesContentView: View {
     private lazy var titleLbl: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont(name: "Onest-SemiBold", size: 20)
+        lbl.font = UIFont(name: "Poppins-Medium", size: 18)
         lbl.textColor = UIColor(red: 0.194, green: 0.274, blue: 0.211, alpha: 1)
         lbl.text = "preliminary_diagnoses".localized
         return lbl
@@ -93,6 +99,9 @@ final class PreliminaryDiagnosesContentView: View {
     }
 }
 
+// --------------------------------------------
+// MARK: - DIAGNOZ
+// --------------------------------------------
 
 /// Одна строка диагноза: иконка, название и процент в бейдже
 final class DiagnosesCell: View {
@@ -133,7 +142,7 @@ final class DiagnosesCell: View {
     private lazy var diagnoseLbl: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont(name: "Onest-Regular", size: 14)
+        lbl.font = UIFont(name: "Poppins-Medium", size: 14)
         lbl.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 0.8)
         lbl.numberOfLines = 0
         return lbl
@@ -142,7 +151,7 @@ final class DiagnosesCell: View {
     private lazy var valueLbl: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont(name: "Onest-Regular", size: 14)
+        lbl.font = UIFont(name: "Poppins-SemiBold", size: 16)
         lbl.textAlignment = .right
         return lbl
     }()
@@ -167,7 +176,7 @@ final class DiagnosesCell: View {
     // MARK: Init
     
     override func setupContent() {
-        backgroundColor = UIColor(hex: "#F0F6F2")
+        backgroundColor = #colorLiteral(red: 0.8830724359, green: 0.9430875778, blue: 0.8293510079, alpha: 1)
         layer.cornerRadius = 16
         addSubview(image)
         addSubview(diagnoseLbl)

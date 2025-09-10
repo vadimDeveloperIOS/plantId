@@ -236,27 +236,63 @@ class ScanViewController: UIViewController {
         let arrayPhotos = [UIImage(named: "fake123")!, UIImage(named: "not.plant.2")!]
 
         let vc = DiagnosticResultViewController()
-        
         vc.viewModel =
             .init(
-                namePlant: "fake123",
-                diseaseDescr: "Some text Some text Some text Some text Some text Some text Some text Some text Some text ",
-                currentDiagnoses: "Some text212",
-                plantType: "Some text2323",
-                currentCondition: "Some text233223",
-                photos: arrayPhotos,
-                conditionValue: 7,
-                isHealthy: false,
-                disease: .init(diagnoses: [
-                    .init(
-                        name: "Some text23",
-                        probability: 4
-                    ),
-                    .init(
-                        name: "Some text90",
-                        probability: 6
-                    )
-                ])
+                header:
+                        .init(
+                            photo: UIImage(named: "fake123")!,
+                            title: "title2",
+                            leftIconName: "navbar_str",
+                            rightTopIconName: "navbar_set",
+                            rightBottomIconName: "navbar_q"
+                        ),
+                firstInformation:
+                        .init(
+                            namePlant: "namePlant2",
+                            currentDiagnoses: "currentDiagnoses23323",
+                            currentDiagnosesIconName: "currentDiagnosesIconName_new",
+                            currentDiagnosesTitle: "currentDiagnosesTitle",
+                            plantType: "plantType",
+                            plantTypeIconName: "plantTypeIconName_new",
+                            currentCondition: "currentCondition",
+                            currentConditionIconName: "currentConditionIconName_new"
+                        ),
+                photos:
+                        .init(
+                            title: "",
+                            photos: [
+                                .init(
+                                    image: arrayPhotos.first
+                                ),
+                                .init(
+                                    image: arrayPhotos[1]
+                                )
+                            ],
+                            selectedIndex: nil
+                        ),
+                condition:
+                        .init(
+                            textValue: "textValue",
+                            conditionValue: 2
+                        ),
+                diagnosis:
+                        .init(
+                            diagnoses: [
+                                .init(
+                                    name: "diagnosis",
+                                    probability: 2
+                                ),
+                                .init(
+                                    name: "diagnosis344334",
+                                    probability: 3
+                                )
+                            ]
+                        ),
+                button:
+                        .init(
+                            title: TextForAboutPlant.but,
+                            backgroundImageName: "my_plants_btnn"
+                        )
             )
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: true)

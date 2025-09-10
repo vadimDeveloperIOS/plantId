@@ -27,11 +27,11 @@ class DiagnosticResultViewController: UIViewController {
             guard let self else { return }
             switch action {
             case .add:
-                self.goToCarePlan()
+                break
             case .back:
-                self.back()
-            case .help:
-                print("CLICK HELP")
+                back()
+            case .settigs:
+                break
             }
         }
     }
@@ -46,12 +46,12 @@ class DiagnosticResultViewController: UIViewController {
         if let viewModel {
             vc.viewModel =
                 .init(
-                    id: createId, //поменять на nil
-                    didAddToMyPlans: false, // поменять на nil
-                    name: viewModel.namePlant ?? "Plant care",
-                    healthNote: viewModel.diseaseDescr ?? "The plant is healthy",
-                    image: viewModel.photos[0],
-                    photos: viewModel.photos,
+                    id: createId,
+                    didAddToMyPlans: false,
+                    name: viewModel.firstInformation.namePlant ?? "Name",
+                    healthNote: viewModel.firstInformation.currentDiagnoses ?? "healthNote",
+                    image: viewModel.header.photo,
+                    photos: viewModel.photos.photos.compactMap { $0.image },
                     frequencyVal: nil,
                     reminderVal: nil,
                     amountVal: nil
@@ -69,14 +69,15 @@ class DiagnosticResultViewController: UIViewController {
     private func saveToHistory() {
         guard let viewModel else { return }
         
-        let jpegDatas = viewModel.photos
-            .compactMap { $0.jpegData(compressionQuality: 0.8) }
+        let jpegDatas = viewModel.photos.photos.compactMap {
+            $0.image?.jpegData(compressionQuality: 0.8)
+        }
         
         let newValue = CoreDataSevice.shared.createPlantInfo()
         newValue.id = createId
         newValue.didAddToMyPlants = false
-        newValue.plantName = viewModel.namePlant
-        newValue.plantDescr = viewModel.diseaseDescr ?? "The plant is healthy"
+        newValue.plantName = viewModel.firstInformation.namePlant
+        newValue.plantDescr = "The plant is healthy"
         newValue.photos = jpegDatas as NSArray
     
         do {

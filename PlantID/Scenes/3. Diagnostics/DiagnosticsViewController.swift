@@ -19,7 +19,7 @@ class DiagnosticsViewController: UIViewController {
             guard let self else { return }
             switch action {
             case .cont:
-                self.showCheckYourPlant()
+                self.showScan()
             }
         }
     }
@@ -28,9 +28,18 @@ class DiagnosticsViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.hideTabBar(false)
     }
-
-    func showCheckYourPlant() {
-        let vc = CheckYourPlantViewController()
-        navigationController?.pushViewController(vc, animated: true)
+    
+    func showScan() {
+        // TODO: - потом вернуть
+//        if UserDefaultsService.shared.diagnosticsLimit == 1 && ProFeatureService.shared.getHasActiveSubscription() == false {
+//            let vc = PaywallViewController()
+//            vc.modalPresentationStyle = .overFullScreen
+//            present(vc, animated: true)
+//            return
+//        }
+        
+        let vc = ScanViewController()
+        vc.whichRequest = .diagnostic
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
