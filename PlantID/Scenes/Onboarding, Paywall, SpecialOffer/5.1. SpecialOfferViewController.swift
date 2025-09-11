@@ -32,6 +32,7 @@ final class SpecialOfferViewController: UIViewController {
         // стартуем отсчет 30 минут
         startCountdown(minutes: 30)
         tabBarController?.hideTabBar(true)
+        rootView.currentPage = 5
     }
     
     private func getSpecialOffer() {

@@ -25,7 +25,7 @@ class PageContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
@@ -55,12 +55,12 @@ class PageContainerViewController: UIViewController {
         vc4.nextPageHandler = { [weak self] in
             self?.navigationController?.pushViewController(tab, animated: true)
         }
-        let vc5 = SpecialOfferViewController()
+//        let vc5 = SpecialOfferViewController()
 //        vc5.nextPageHandler = { [weak self] in
 //            self?.navigationController?.pushViewController(tab, animated: true)
 //        }
         
-        let array: [UIViewController] = [ vc1, vc2, vc3, vc4, vc5 ]
+        let array: [UIViewController] = [ vc1, vc2, vc3, vc4 ]
         pages = array
     }
   

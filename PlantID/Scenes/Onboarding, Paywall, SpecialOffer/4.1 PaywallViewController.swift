@@ -31,7 +31,6 @@ final class PaywallViewController: UIViewController {
 
     var nextPageHandler: (() -> Void)?
     
-    
     override func loadView() {
         view = rootView
         rootView.actionHandler = { [weak self] action in

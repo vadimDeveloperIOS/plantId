@@ -84,7 +84,8 @@ final class OnboardingFourthView: View {
     
     private lazy var xButton: UIButton = {
         let view = UIButton()
-        view.setBackgroundImage(
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setImage(
             UIImage(systemName: "xmark")?.withTintColor(
                 #colorLiteral(red: 0.08188111335, green: 0.4976429939, blue: 0.03094960749, alpha: 1) ,
                 renderingMode: .alwaysOriginal),
@@ -95,12 +96,13 @@ final class OnboardingFourthView: View {
                 handler: { [weak self] _ in
                     guard let self else { return }
                     self.actionHandler(.showHomeView)
+                    print("X КНОПКА")
                 }
             ),
             for: .touchUpInside
         )
-        view.widthAnchor ~= 25
-        view.heightAnchor ~= 25
+        view.widthAnchor ~= 50
+        view.heightAnchor ~= 50
         view.isHidden = true
         return view
     }()
@@ -129,6 +131,7 @@ final class OnboardingFourthView: View {
             UIAction(handler: { [weak self] _ in
                 guard let self else { return }
                 self.actionHandler(.continueAndMakePay)
+                print("KNOPKA")
             }),
             for: .touchUpInside
         )
@@ -241,7 +244,7 @@ final class OnboardingFourthView: View {
         addSubview(downBut2)
         addSubview(downBut3)
         addSubview(noPaymentButton)
-        addSubview(xButton)
+        content.addSubview(xButton)
     }
     
     override func setupLayout() {
@@ -270,7 +273,7 @@ final class OnboardingFourthView: View {
         noPaymentButton.bottomAnchor ~= downBut1.topAnchor - 15
         noPaymentButton.centerXAnchor ~= simpleView.centerXAnchor
         
-        xButton.topAnchor ~= topAnchor + 60
+        xButton.topAnchor ~= topAnchor + 80
         xButton.rightAnchor ~= rightAnchor - 30
     }
     

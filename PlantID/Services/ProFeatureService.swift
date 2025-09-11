@@ -58,22 +58,45 @@ final class ProFeatureService {
     // MARK: - Interface
     
     @MainActor func initiate() {
-        Apphud.start(apiKey: Constants.appHudAPIKey, observerMode: true)
+        Apphud.start(apiKey: Constants.appHudAPIKey, observerMode: false)
         fetchPlacements { _ in }
     }
     
     // Получение всех продуктов
+//    func fetchPlacements(completion: @escaping Closure<[SKProduct]>) {
+//        guard let products = Apphud.products else {
+//            print("⛔️ ⛔️ ⛔️ Apphud.products равен nil")
+//            return
+//        }
+//        var result = [SKProduct]()
+//        for product in products {
+//            result.append(product)
+//        }
+//        appProducts = result
+//        completion(result)
+//    }
+    
     func fetchPlacements(completion: @escaping Closure<[SKProduct]>) {
-        guard let products = Apphud.products else {
-            print("⛔️ ⛔️ ⛔️ Apphud.products равен nil")
+        // если уже есть — отдаем сразу
+        if let products = Apphud.products, !products.isEmpty {
+            self.appProducts = products
+            completion(products)
             return
         }
-        var result = [SKProduct]()
-        for product in products {
-            result.append(product)
+        // простой ретрай: до 10 раз с шагом 0.5s
+        var attempts = 0
+        func tryLoad() {
+            attempts += 1
+            if let products = Apphud.products, !products.isEmpty {
+                self.appProducts = products
+                completion(products)
+            } else if attempts < 10 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: tryLoad)
+            } else {
+                completion([]) // не нашли — вернули пусто, UI покажет заглушки
+            }
         }
-        appProducts = result
-        completion(result)
+        tryLoad()
     }
     
     // Покупка подписки с выбранным productID
