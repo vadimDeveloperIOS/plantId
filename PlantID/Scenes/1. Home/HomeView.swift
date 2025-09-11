@@ -99,7 +99,7 @@ final class HomeView: View {
         view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = false
         view.backgroundColor = .clear
-        view.contentInset = .init(top: 0, left: 0, bottom: 90, right: 0)
+        view.contentInset = .init(top: 0, left: 0, bottom: 120, right: 0)
         view.contentInsetAdjustmentBehavior = .never
         view.bounces = false
         return view
@@ -245,7 +245,15 @@ final class HomeView: View {
         guard let vm = viewModel else { return }
 
         var snapshot = Snapshot()
-        snapshot.appendSections([.myPlants, .history])
+        snapshot.appendSections([
+             .search,
+             .learnAboutPlants,
+             .myPlants,
+             .aiAssistant,
+             .history
+         ])
+        
+        snapshot.appendItems([.search(vm.search)], toSection: .search)
         
         var myPlants: [CellItem] = []
         myPlants = vm.myPlants.map { CellItem.myPlants($0) }
@@ -520,7 +528,7 @@ final class SectionHeaderView: UICollectionReusableView {
         let title = TextForHomeScene.viewAll
         let attributes: [NSAttributedString.Key: Any] = [
                 .foregroundColor: UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 0.8),
-                .font: UIFont(name: "Poppins-Medium", size: 12)!,
+                .font: UIFont(name: "Poppins-Medium", size: 14)!,
                 .underlineStyle: NSUnderlineStyle.single.rawValue
             ]
         let attributed = NSAttributedString(string: title, attributes: attributes)
@@ -534,8 +542,8 @@ final class SectionHeaderView: UICollectionReusableView {
             )
             , for: .touchUpInside
         )
-        view.widthAnchor ~= 50
-        view.heightAnchor ~= 20
+        view.widthAnchor ~= 60
+        view.heightAnchor ~= 30
         view.isHidden = true
         return view
     }()

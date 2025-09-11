@@ -209,7 +209,7 @@ final class WateringView: View {
     let notEmptyImg = UIImage(named: "currentConditionIconName_new")!.withRenderingMode(.alwaysTemplate)
     let emptyImg = UIImage(named: "icons_24-3")
     
-    let selColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+    let selColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
     let emptyColor = #colorLiteral(red: 0.5196653008, green: 0.6105861664, blue: 0.4960632324, alpha: 0.67)
 
     // Buttons

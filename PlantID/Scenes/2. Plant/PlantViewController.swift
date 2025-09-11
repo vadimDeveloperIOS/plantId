@@ -16,10 +16,18 @@ class PlantViewController: UIViewController {
         
         root.actionHandlerChild = { [weak self] action in
             guard let self else { return }
-            
             switch action {
             case .enableCamera:
                 self.showScan()
+            }
+        }
+        root.actionHandler = { [weak self] action in
+            guard let self else { return }
+            switch action {
+            case .back:
+                break
+            case .setting:
+                self.tabBarController?.selectedIndex = 4
             }
         }
     }

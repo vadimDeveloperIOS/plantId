@@ -23,6 +23,14 @@ class BaseViewWithNavigationBarGreen: BaseView {
         }
     }
     
+    var needToHideSett: Bool = false {
+        didSet {
+            if needToHideSett == true {
+                settingsBtn.isHidden = true
+            }
+        }
+    }
+    
     private(set) lazy var greenNabBg: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false

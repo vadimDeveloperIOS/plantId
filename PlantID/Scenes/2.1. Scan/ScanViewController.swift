@@ -31,7 +31,7 @@ class ScanViewController: UIViewController {
             case .back:
                 self.close()
             case .setting:
-                break
+                self.tabBarController?.selectedIndex = 4
             }
         }
         

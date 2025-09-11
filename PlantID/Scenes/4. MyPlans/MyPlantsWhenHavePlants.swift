@@ -17,13 +17,10 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
     }
     
     enum ActionChild {
-        case back
-        case help
-        case changeSection
-        case viewMore(index: Int)
-        case addToMyPlants(index: Int)
+        case viewAll(index: Int)
+        case add(index: Int)
     }
-    var actionHandlerChild: (Action) -> Void = { _ in }
+    var actionHandlerChild: (ActionChild) -> Void = { _ in }
     
     // MARK: Section & Item
 
@@ -49,7 +46,8 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
             segmented.onChange = { [weak self] indx in
                 self?.applySnapshot(for: indx, vm: m)
             }
-            applySnapshot(for: 0, vm: m)
+            let startIndex = segmetedNumber ?? 0
+            applySnapshot(for: startIndex, vm: m)   // ← учитываем выбранный сегмент
         }
     }
     
@@ -64,6 +62,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
         view.contentMode = .center
         return view
     }()
+    
     private lazy var segmented: SimpleSegmentedControl = {
         let view = SimpleSegmentedControl(
             items: ["my_plants_little".localized, "history_ little".localized]
@@ -91,6 +90,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
         cv.showsVerticalScrollIndicator = false
         cv.showsHorizontalScrollIndicator = false
         cv.delegate = self
+        cv.contentInset = .init(top: 0, left: 0, bottom: 120, right: 0)
         return cv
     }()
 
@@ -102,8 +102,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
                 guard let self else { return }
                 switch action {
                 case .viewAll:
-                    break
-//                    self.actionHandlerChild(.viewMore(index: indexPath.row))
+                    self.actionHandlerChild(.viewAll(index: indexPath.row))
                 }
             }
         }
@@ -114,8 +113,7 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
                 guard let self else { return }
                 switch action {
                 case .add:
-//                    self.actionHandler(.)
-                    break
+                    self.actionHandlerChild(.add(index: indexPath.row))
                 }
             }
         }
@@ -136,15 +134,6 @@ final class MyPlantsWhenHavePlants: BaseViewWithNavigationBarGreen {
         super.setupContent()
         
         needToHideBack = true
-        super.actionHandler = { [weak self] action in
-            guard let self else { return }
-            switch action {
-            case .back: break
-//                self.actionHandler(.back)
-            case .setting: break
-//                self.actionHandler(.help)
-            }
-        }
         addSubview(headerTitle)
         addSubview(segmented)
         addSubview(collectionView)

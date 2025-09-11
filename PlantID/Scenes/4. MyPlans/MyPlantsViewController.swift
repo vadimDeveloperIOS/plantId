@@ -9,8 +9,8 @@ import UIKit
 
 class MyPlantsViewController: UIViewController {
 
-    private lazy var rootView = MyPlantsWhenHavePlants()
-    private lazy var emptyRootView = MyPlantsView()
+    let rootView = MyPlantsWhenHavePlants()
+//    private lazy var emptyRootView = MyPlantsView()
     private lazy var vm = MyPlantsViewModel()
     
     var viewModel: MyPlantsWhenHavePlants.Model? {
@@ -22,36 +22,44 @@ class MyPlantsViewController: UIViewController {
     
     var emptyRoot: Bool = false {
         didSet {
-            if emptyRoot == true {
-                view = emptyRootView
-            } else {
-                view = rootView
-            }
+//            if emptyRoot == true {
+//                view = emptyRootView
+//            } else {
+//                view = rootView
+//            }
         }
     }
+    
+    var numberSegmented: Int = 0
 
     override func loadView() {
         view = rootView
         rootView.actionHandler = { [weak self] action in
             guard let self else { return }
-//            switch action {
-//            case .back:
-//                print("CLICK BACK")
-//            case .changeSection:
-//                print("CLICK changeSection")
-//            case .viewMore(let index):
-//                self.showCarePlan(index: index)
-//            case .addToMyPlants(let index):
-//                self.addNewPlansAndShowCarePlan(index: index)
-//            }
-        }
-        
-        emptyRootView.actionHandler = { [weak self] action in
-            guard let self else { return }
-            if action == .createPlan {
-                self.goToSecondController()
+            switch action {
+            case .back:
+                break
+            case .setting:
+                self.tabBarController?.selectedIndex = 4
             }
         }
+        rootView.actionHandlerChild = { [weak self] action in
+            guard let self else { return }
+            
+            switch action {
+            case .viewAll(index: let index):
+                self.showCarePlan(index: index)
+            case .add(index: let index):
+                self.addNewPlansAndShowCarePlan(index: index)
+            }
+        }
+        
+//        emptyRootView.actionHandler = { [weak self] action in
+//            guard let self else { return }
+//            if action == .createPlan {
+////                self.goToSecondController()
+//            }
+//        }
     }
     
     override func viewDidLoad() {
@@ -66,8 +74,13 @@ class MyPlantsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        rootView.segmetedNumber = 0
+        rootView.segmetedNumber = numberSegmented
         getInf()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        numberSegmented = 0
     }
     
     @objc private func getNotifiction() {
@@ -77,50 +90,41 @@ class MyPlantsViewController: UIViewController {
     private func getInf() {
         vm.getArrayOfPlants { [weak self] in
             guard let self = self else { return }
-            print("🌱 Данные загружены:", self.vm.history.count)
             
-            var myArray: [ContentForMyPlants.BigCellModel] = []
-            self.vm.myPlants.forEach { my in
-                let photoData = (my.photos as? [Data])?.first
-                let image = photoData.flatMap(UIImage.init(data:))
+            let myPlantsData: [ContentForMyPlants.BigCellModel] = self.vm.myPlants.compactMap {
                 
-                myArray.append(
-                    .init(
-                        photo: image ?? UIImage(named: "fake123")!,
-                        firstText: my.plantName ?? "No value",
-                        secondText: my.plantDescr ?? "No value",
-                        cellStyle: .homeHistory
-                    )
+                let photoData = ($0.photos as? [Data])?.first
+                let image = photoData.flatMap(UIImage.init(data:))
+    
+                return .init(
+                    photo: image ?? UIImage(named: "not.plant.1")!,
+                    firstText: $0.plantName ?? "No value",
+                    secondText: $0.plantDescr ?? "No value",
+                    cellStyle: .homeHistory,
+                    carePlan: Int($0.amountVal)
                 )
             }
-
-            var array: [HistoryCellContent.BigCellModel] = []
-            self.vm.history.forEach { his in
-                let photoData = (his.photos as? [Data])?.first
+            
+            let historyData: [HistoryCellContent.BigCellModel] = self.vm.history.compactMap {
+                
+                let photoData = ($0.photos as? [Data])?.first
                 let image = photoData.flatMap(UIImage.init(data:))
                 
-                array.append(
-                    .init(
-                        photo: image ?? UIImage(named: "fake123")!,
-                        firstText: his.plantName ?? "No value",
-                        secondText: his.plantDescr ?? "NO value",
-                        cellStyle: .homeHistory
-                    )
+                return .init(
+                    photo: image ?? UIImage(named: "not.plant.1")!,
+                    firstText: $0.plantName ?? "No value",
+                    secondText: $0.plantDescr ?? "No value",
+                    cellStyle: .homeHistory
                 )
             }
+            
             self.viewModel =
                 .init(
-                    my: myArray,
-                    history: array
+                    my: myPlantsData,
+                    history: historyData
                 )
-            if myArray == [] && array == [] {
-                emptyRoot = false
-            } else {
-                emptyRoot = false
-            }
         }
     }
-
     
     private func addNewPlansAndShowCarePlan(index: Int) {
         guard index >= 0, index < vm.history.count else { return }
@@ -142,7 +146,7 @@ class MyPlantsViewController: UIViewController {
                 reminderVal: nil,
                 amountVal: nil
             )
-//        vc.modalPresentationStyle = .overFullScreen
+        vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true)
     }
     
@@ -166,14 +170,8 @@ class MyPlantsViewController: UIViewController {
                 reminderVal: plant.reminderVal,
                 amountVal: Int(plant.amountVal)
             )
-//        vc.modalPresentationStyle = .overFullScreen
+        vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true)
-    }
-    
-    private func goToSecondController() {
-        if let tbc = self.tabBarController {
-            tbc.selectedIndex = 1
-        }
     }
     
     

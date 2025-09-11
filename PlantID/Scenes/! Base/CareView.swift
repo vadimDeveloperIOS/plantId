@@ -58,9 +58,7 @@ final class CareView: View {
 //            layer.cornerRadius = 6
 //        }
 //        else if bigView == false {
-//            widthAnchor ~= 83
-//            heightAnchor ~= 24
-//            layer.cornerRadius = 12
+//
 //        }
         
         addSubview(hStack)

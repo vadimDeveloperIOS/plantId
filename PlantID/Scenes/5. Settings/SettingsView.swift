@@ -16,7 +16,6 @@ final class SettingsView: BaseViewWithNavigationBarGreen {
         case privacyPolicy
         case termOfUse
         case rateUs
-        case back
     }
 
     var actionHandlerChild: (ActionChild) -> Void = { _ in }
@@ -87,6 +86,14 @@ final class SettingsView: BaseViewWithNavigationBarGreen {
         sTitle.leftAnchor ~= fTitle.leftAnchor
         sTitle.topAnchor ~= fTitle.bottomAnchor + 10
         
+        view.addAction(
+            UIAction(
+                handler: { [weak self] _ in
+                    guard let self else { return }
+                    self.actionHandlerChild(.showPaywall)
+            })
+            , for: .touchUpInside
+        )
         return view
     }()
     

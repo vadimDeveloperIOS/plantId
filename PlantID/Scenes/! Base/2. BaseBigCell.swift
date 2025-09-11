@@ -19,7 +19,7 @@ class BaseBigCell: BaseCell {
         let firstText: String
         let secondText: String
         let cellStyle: CellStyle
-        let carePlan: Int? = nil
+        var carePlan: Int? = nil
     }
     
     var bigCellViewModel: BigCellModel? {

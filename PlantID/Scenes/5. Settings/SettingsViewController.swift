@@ -16,25 +16,36 @@ class SettingsViewController: UIViewController {
     override func loadView() {
         view = rootView
         
-        rootView.actionHandler = { [weak self] action in
+        rootView.actionHandlerChild = { [weak self] action in
             guard let self else { return }
-//            switch action {
-//            case .showPaywall:
-//                self.showPaywall()
-//            case .notification:
-//                self.goToAppSettingsForChangeStatusNotif()
-//            case .support:
-//                self.showSupport()
-//            case .privacyPolicy:
-//                self.showPrivacyPolicy()
-//            case .termOfUse:
-//                self.showTeamOfUse()
-//            case .rateUs:
-//                self.showRateUs()
-//            case .back:
-//                self.navigationController?.popViewController(animated: true)
-//            }
+            
+            switch action {
+            case .showPaywall:
+                self.showPaywall()
+                
+            case .notification:
+                self.goToAppSettingsForChangeStatusNotif()
+                
+            case .support:
+                self.showSupport()
+                
+            case .privacyPolicy:
+                self.showPrivacyPolicy()
+                
+            case .termOfUse:
+                self.showTeamOfUse()
+                
+            case .rateUs:
+                self.showRateUs()
+
+            }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        rootView.needToHideBack = true
+        rootView.needToHideSett = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

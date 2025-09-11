@@ -57,11 +57,13 @@ final class ContentForMyPlants: BaseBigCell {
         }
     }
 
-        
     private lazy var careView: CareView = {
         let view = CareView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.bigView = true
+        view.widthAnchor ~= 83
+        view.heightAnchor ~= 24
+        view.layer.cornerRadius = 12
         return view
     }()
         
@@ -71,10 +73,10 @@ final class ContentForMyPlants: BaseBigCell {
         
         let title = TextForHomeScene.viewAll
         let attributes: [NSAttributedString.Key: Any] = [
-                .foregroundColor: UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 0.8),
-                .font: UIFont(name: "Poppins-Medium", size: 12)!,
-                .underlineStyle: NSUnderlineStyle.single.rawValue
-            ]
+            .foregroundColor: UIColor.black,
+            .font: UIFont(name: "Poppins-Medium", size: 14)!,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
         let attributed = NSAttributedString(string: title, attributes: attributes)
         view.setAttributedTitle(attributed, for: .normal)
         view.addAction(
@@ -87,8 +89,7 @@ final class ContentForMyPlants: BaseBigCell {
             , for: .touchUpInside
         )
         view.widthAnchor ~= 83
-        view.heightAnchor ~= 24
-        view.isHidden = true
+        view.heightAnchor ~= 30
         return view
     }()
     
@@ -103,7 +104,7 @@ final class ContentForMyPlants: BaseBigCell {
     override func setupLayout() {
         super.setupLayout()
         
-        careView.topAnchor ~= secondLbl.bottomAnchor + 6
+        careView.topAnchor ~= secondLbl.bottomAnchor + 15
         careView.leftAnchor ~= secondLbl.leftAnchor
     
         viewAllBtn.centerYAnchor ~= careView.centerYAnchor
