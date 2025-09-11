@@ -122,3 +122,67 @@
 "try_again" = "再試行";
 
 "plant_api_lang" = "en";
+
+"read_more" = "もっと読む";
+"care_plan" = "ケアプラン";
+
+"ask_your_plant_ai_assistant" = "植物AIアシスタントに聞いてみよう！";
+
+"ai_assistant_is_ready_to_help" = "AIアシスタントが健康チェック、リマインダー、パーソナライズされたアドバイスでサポートします。";
+"add" = "追加";
+"learn_about_plants" = "植物について学ぶ";
+"view_all" = "すべて表示";
+
+"hello" = "こんにちは！ 認識を始めましょう";
+"your_plants" = "あなたの植物";
+"simply_activate_your_camera" = "カメラを起動するだけで開始できます。";
+
+"upgrade_PRO" = "PROにアップグレード";
+"keep_your_plants_healthy" = "植物を健康に保つ";
+
+"snap_tips" = "撮影のコツ";
+"tips_for_capturing" = "素敵な写真を撮るためのコツ";
+
+"capture_photo_of_the" = "植物全体の写真を撮りましょう。";
+"focus_closely_on_the" = "問題部分を拡大して撮影しましょう。";
+"change_the_angle_to" = "角度を変えて新しい視点を得ましょう。";
+
+"instantly_scan" = "即スキャン";
+"any_plant" = "どんな植物でも";
+"access_species_names_and" = "種名やケア方法にワンタップでアクセス。";
+
+"check_your" = "確認する ";
+"scan_history" = "スキャン履歴";
+"quickly_view_previous_scans_and" = "過去のスキャンを素早く確認し、植物の健康状態を追跡できます。";
+
+"share_your_thoughts" = "ご意見を共有";
+"with_us" = "私たちと";
+"contribute_to_our_growth_by" = "ご意見を共有して私たちの成長にご協力ください。";
+
+"enjoy_unrestricted" = "無制限に楽しむ";
+"access_to_all_features" = "すべての機能にアクセス";
+"enjoy_days_free_then_just" = "3日間無料、その後は週4.99ドル。 または制限付きバージョンを継続。";
+
+"enable_a_3_days_free_trial" = "3日間の無料トライアルを有効化";
+
+"what_does_your_plan_include_" = "プランには何が含まれますか？";
+"discover_professional_advice_1" = "植物のお世話に関する専門的なアドバイスを発見。";
+"instantly_recognize_any_plant_1_1" = "好きなだけ植物を瞬時に認識。 専門家やAIからのアドバイスを受け取りましょう。";
+
+"monitor_the_growth_2" = "植物の成長をモニタリング。";
+"record_milestones_2_1" = "成長の節目を記録し、写真を撮って進捗を追跡。";
+
+"experience_without_ads_3" = "広告なし体験";
+"experience_a_tidy_3_1" = "広告のない快適で中断のないインターフェースを体験。";
+
+"the_biggest_plant_4" = "世界最大の植物データベース";
+"explore_in_depth_information_4_1" = "世界中のさまざまな植物に関する詳細情報を探る。";
+
+"exclusive_deal" = "限定オファー";
+"seize_the_opportunity" = "チャンスをつかもう！";
+"start_now_at" = "今すぐ15.99ドル（通常39.99ドル）で開始して60%以上節約！";
+
+"current_diagnoses" = "現在の診断";
+
+"you_do_not_have_any_verified_plants" = "確認済みの植物がありません。";
+"identify_232323" = "植物を識別するか、今すぐ状態をチェック！";

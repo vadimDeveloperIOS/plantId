@@ -18,6 +18,8 @@ class HomeViewController: UIViewController {
             rootView.viewModel = viewModel
         }
     }
+    
+    var dontHavePlant: Bool = false
 
     override func loadView() {
         view = rootView
@@ -28,7 +30,11 @@ class HomeViewController: UIViewController {
             case .readMore:
                 print("")
             case .add(indexPath: let indexPath):
-                self.showCarePlan(index: indexPath)
+                if dontHavePlant == false {
+                    self.showCarePlan(index: indexPath)
+                } else {
+                    self.tabBarController?.selectedIndex = 2
+                }
             case .viewAllMyPlants:
                 self.showMyPlantsCont(0)
             case .viewAllHistory:
@@ -103,17 +109,19 @@ class HomeViewController: UIViewController {
             }
             let plugHistory = [ HistoryCellContent.BigCellModel(
                 photo: UIImage(named: "not.plant.2")!,
-                firstText: "Begin",
-                secondText: "",
+                firstText: "you_do_not_have_any_verified_plants".localized,
+                secondText: "identify_232323".localized,
                 cellStyle: .homeHistory
                 )
             ]
+            
+            dontHavePlant = historyData == [] && myPlantsData == []
             
             self.viewModel =
                 .init(
                     search:
                             .init(
-                                textForWeather: "Hello"
+                                textForWeather: " "
                             ),
                     learnAboutPlants: [
                         .init(
@@ -129,8 +137,8 @@ class HomeViewController: UIViewController {
                             cellStyle: .homeLearnAboutPlants
                         )
                     ],
-                    myPlants: myPlantsData == [] ? plugMyPlants : myPlantsData,
-                    history: historyData == [] ? plugHistory : historyData
+                    myPlants: myPlantsData,
+                    history: historyData == [] && myPlantsData == [] ? plugHistory : historyData
                 )
         }
     }

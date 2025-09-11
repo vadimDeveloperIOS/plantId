@@ -99,7 +99,7 @@ final class HealthNoteView: View {
         titleLbl.textColor = #colorLiteral(red: 0.5592492223, green: 0.7865967155, blue: 0.3077450097, alpha: 1)
         titleLbl.font = UIFont(name: "Poppins-Medium", size: 22)
         textLbl.textColor = .black
-        textLbl.font = UIFont(name: "Poppins-Regular", size: 18)
+        textLbl.font = UIFont(name: "Poppins-Regular", size: 16)
         textLbl.numberOfLines = 0
         addSubview(titleLbl); addSubview(textLbl)
     }

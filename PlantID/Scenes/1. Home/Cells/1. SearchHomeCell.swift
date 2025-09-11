@@ -74,7 +74,7 @@ final class SearchHomeCellContent: View {
         
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(named: "r_home_cloud")
+        image.image = UIImage(named: " ")
         view.addSubview(image)
         image.widthAnchor ~= 20
         image.heightAnchor ~= 20

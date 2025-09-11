@@ -77,6 +77,10 @@ class ScanViewController: UIViewController {
             return
         }
         
+        // indicator
+        rootView.indicator.isHidden = false
+        rootView.indicator.startAnimating()
+        
         PlantIDClient.shared.identifyPlant( images: rootView.thumbnails) { [weak self] result in
             guard let self else { return }
             switch result {
@@ -84,7 +88,11 @@ class ScanViewController: UIViewController {
             case .success(let result):
                 let vc = AboutPlantsViewController()
                 
-                guard let firstSuggestion = result.result.classification?.suggestions?.first else { return
+                guard let firstSuggestion = result.result.classification?.suggestions?.first else {
+                    // indicator
+                    rootView.indicator.isHidden = true
+                    rootView.indicator.stopAnimating()
+                    return
                 }
                 
                 let size = self.detectSize(
@@ -180,6 +188,9 @@ class ScanViewController: UIViewController {
                     maxLevel: firstSuggestion.details?.watering?.max ?? 2
                 )
                 DispatchQueue.main.async {
+                    // indicator
+                    self.rootView.indicator.isHidden = true
+                    self.rootView.indicator.stopAnimating()
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
                 
@@ -187,6 +198,10 @@ class ScanViewController: UIViewController {
                 print("🟥 🟥 🟥 [ScanViewController] - \(#function) В РЕСПОНСЕ ERROR - - - \(error) \n")
                 
                 DispatchQueue.main.async {
+                    // indicator
+                    self.rootView.indicator.isHidden = true
+                    self.rootView.indicator.stopAnimating()
+                    
                     UINotificationFeedbackGenerator().notificationOccurred(.error)
                     self.navigationController?.popToRootViewController(animated: true)
                 }
@@ -277,6 +292,10 @@ class ScanViewController: UIViewController {
             return
         }
         
+        // indicator
+        rootView.indicator.isHidden = false
+        rootView.indicator.startAnimating()
+        
         PlantIDClient.shared.identifyPlantWithHealth(images: rootView.thumbnails) { [weak self] response in
             guard let self else { return }
             switch response {
@@ -341,7 +360,6 @@ class ScanViewController: UIViewController {
                                     
                                 )
                     )
-                
                  
                 /*
                  
@@ -370,12 +388,20 @@ class ScanViewController: UIViewController {
                     )
                  */
                 DispatchQueue.main.async {
+                    // indicator
+                    self.rootView.indicator.isHidden = true
+                    self.rootView.indicator.stopAnimating()
+                    
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):
                 print("🟥 🟥 🟥 [ScanViewController] - - - \(#function) В РЕСПОНСЕ ERROR - - -\(error) \n")
                 
                 DispatchQueue.main.async {
+                    // indicator
+                    self.rootView.indicator.isHidden = true
+                    self.rootView.indicator.stopAnimating()
+                    
                     UINotificationFeedbackGenerator().notificationOccurred(.error)
                     self.navigationController?.popToRootViewController(animated: true)
                 }

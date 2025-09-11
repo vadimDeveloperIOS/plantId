@@ -121,3 +121,68 @@
 "try_again" = "NOCHMAL VERSUCHEN";
 
 "plant_api_lang" = "de";
+
+
+"read_more" = "Mehr lesen";
+"care_plan" = "Pflegeplan";
+
+"ask_your_plant_ai_assistant" = "Frag deinen Pflanzen-KI-Assistenten!";
+
+"ai_assistant_is_ready_to_help" = "Der KI-Assistent ist bereit, bei Gesundheitschecks, Erinnerungen und personalisierten Tipps zu helfen.";
+"add" = "Hinzufügen";
+"learn_about_plants" = "Über Pflanzen lernen";
+"view_all" = "Alle anzeigen";
+
+"hello" = "Hallo! Lass uns erkennen";
+"your_plants" = "Deine Pflanzen";
+"simply_activate_your_camera" = "Aktiviere einfach deine Kamera, um zu beginnen.";
+
+"upgrade_PRO" = "Upgrade auf PRO";
+"keep_your_plants_healthy" = "Halte deine Pflanzen gesund";
+
+"snap_tips" = "Fototipps";
+"tips_for_capturing" = "Tipps für beeindruckende Fotos";
+
+"capture_photo_of_the" = "Mache ein Foto der ganzen Pflanze.";
+"focus_closely_on_the" = "Fokussiere dich genau auf das Problem.";
+"change_the_angle_to" = "Ändere den Winkel für eine neue Perspektive.";
+
+"instantly_scan" = "Sofort scannen";
+"any_plant" = "Beliebige Pflanze";
+"access_species_names_and" = "Greife mit einem Klick auf Artnamen und Pflegetipps zu.";
+
+"check_your" = "Prüfe dein ";
+"scan_history" = "Scanverlauf";
+"quickly_view_previous_scans_and" = "Sieh dir frühere Scans an und verfolge die Gesundheit deiner Pflanze.";
+
+"share_your_thoughts" = "Teile deine Gedanken";
+"with_us" = "mit uns";
+"contribute_to_our_growth_by" = "Hilf uns beim Wachsen, indem du dein Feedback teilst.";
+
+"enjoy_unrestricted" = "Uneingeschränkt genießen";
+"access_to_all_features" = "Zugang zu allen Funktionen";
+"enjoy_days_free_then_just" = "Genieße 3 Tage kostenlos, dann nur 4,99 $/Woche. Oder fahre mit der eingeschränkten Version fort.";
+
+"enable_a_3_days_free_trial" = "Aktiviere die 3-tägige kostenlose Testversion";
+
+"what_does_your_plan_include_" = "Was beinhaltet dein Plan?";
+"discover_professional_advice_1" = "Erhalte professionelle Tipps für die Pflanzenpflege.";
+"instantly_recognize_any_plant_1_1" = "Erkenne sofort jede Pflanze, so oft du möchtest. Erhalte maßgeschneiderte Tipps von echten Experten und intelligenter KI.";
+
+"monitor_the_growth_2" = "Überwache das Wachstum deiner Pflanze.";
+"record_milestones_2_1" = "Halte Fortschritte fest, mache Fotos und verfolge das Wachstum deiner Pflanzen.";
+
+"experience_without_ads_3" = "Werbefreie Erfahrung";
+"experience_a_tidy_3_1" = "Erlebe eine saubere, ungestörte Oberfläche ohne Werbung.";
+
+"the_biggest_plant_4" = "Die größte Pflanzendatenbank der Welt";
+"explore_in_depth_information_4_1" = "Erkunde umfassende Informationen zu einer Vielzahl von Pflanzen aus aller Welt.";
+
+"exclusive_deal" = "Exklusives Angebot";
+"seize_the_opportunity" = "Nutze die Gelegenheit!";
+"start_now_at" = "Starte jetzt für 15,99 $ (statt 39,99 $) Spare über 60%!";
+
+"current_diagnoses" = "Aktuelle Diagnose";
+
+"you_do_not_have_any_verified_plants" = "Du hast keine verifizierten Pflanzen.";
+"identify_232323" = "Identifiziere deine Pflanze oder überprüfe ihren Zustand jetzt!";

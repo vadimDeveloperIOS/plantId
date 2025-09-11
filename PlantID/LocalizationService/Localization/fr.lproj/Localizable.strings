@@ -122,3 +122,67 @@
 "try_again" = "RÉESSAYER";
 
 "plant_api_lang" = "fr";
+
+"read_more" = "Lire plus";
+"care_plan" = "Plan de soin";
+
+"ask_your_plant_ai_assistant" = "Demandez à votre assistant IA de plantes !";
+
+"ai_assistant_is_ready_to_help" = "L'assistant IA est prêt à vous aider avec des bilans de santé, des rappels et des conseils personnalisés.";
+"add" = "Ajouter";
+"learn_about_plants" = "En savoir plus sur les plantes";
+"view_all" = "Voir tout";
+
+"hello" = "Bonjour ! Identifions";
+"your_plants" = "Vos plantes";
+"simply_activate_your_camera" = "Activez simplement votre caméra pour commencer.";
+
+"upgrade_PRO" = "Passer à PRO";
+"keep_your_plants_healthy" = "Gardez vos plantes en bonne santé";
+
+"snap_tips" = "Conseils photo";
+"tips_for_capturing" = "Conseils pour capturer de superbes photos";
+
+"capture_photo_of_the" = "Prenez une photo de la plante entière.";
+"focus_closely_on_the" = "Focalisez-vous de près sur le problème.";
+"change_the_angle_to" = "Changez l’angle pour obtenir une nouvelle perspective.";
+
+"instantly_scan" = "Scanner instantanément";
+"any_plant" = "N’importe quelle plante";
+"access_species_names_and" = "Accédez aux noms d'espèces et aux conseils d’entretien en un seul geste.";
+
+"check_your" = "Consultez votre ";
+"scan_history" = "Historique des scans";
+"quickly_view_previous_scans_and" = "Consultez rapidement vos anciens scans et suivez la santé de vos plantes.";
+
+"share_your_thoughts" = "Partagez vos idées";
+"with_us" = "Avec nous";
+"contribute_to_our_growth_by" = "Contribuez à notre croissance en partageant vos avis.";
+
+"enjoy_unrestricted" = "Profitez sans limite";
+"access_to_all_features" = "Accès à toutes les fonctionnalités";
+"enjoy_days_free_then_just" = "Profitez de 3 jours gratuits, puis seulement 4,99 $/semaine. Ou continuez avec la version limitée.";
+
+"enable_a_3_days_free_trial" = "Activez un essai gratuit de 3 jours";
+
+"what_does_your_plan_include_" = "Que comprend votre offre ?";
+"discover_professional_advice_1" = "Découvrez des conseils professionnels pour prendre soin de vos plantes.";
+"instantly_recognize_any_plant_1_1" = "Identifiez instantanément n’importe quelle plante, aussi souvent que vous le souhaitez. Recevez des conseils personnalisés d’experts et d’une IA intelligente.";
+
+"monitor_the_growth_2" = "Surveillez la croissance de vos plantes.";
+"record_milestones_2_1" = "Enregistrez les étapes, prenez des photos et suivez vos progrès pour aider vos plantes à prospérer.";
+
+"experience_without_ads_3" = "Expérience sans publicités";
+"experience_a_tidy_3_1" = "Profitez d’une interface propre et sans interruptions publicitaires.";
+
+"the_biggest_plant_4" = "La plus grande base de données de plantes au monde";
+"explore_in_depth_information_4_1" = "Explorez des informations détaillées sur une grande variété de plantes du monde entier.";
+
+"exclusive_deal" = "Offre exclusive";
+"seize_the_opportunity" = "Saisissez l’opportunité !";
+"start_now_at" = "Commencez maintenant à 15,99 $ (au lieu de 39,99 $) Économisez plus de 60 % !";
+
+"current_diagnoses" = "Diagnostic actuel";
+
+"you_do_not_have_any_verified_plants" = "Vous n’avez aucune plante vérifiée.";
+"identify_232323" = "Identifiez votre plante ou vérifiez son état dès maintenant !";

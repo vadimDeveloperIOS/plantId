@@ -120,3 +120,67 @@
 "try_again" = "再試一次";
 
 "plant_api_lang" = "zh-hant";
+
+"read_more" = "閱讀更多";
+"care_plan" = "養護計劃";
+
+"ask_your_plant_ai_assistant" = "詢問您的植物AI助手！";
+
+"ai_assistant_is_ready_to_help" = "AI助手已準備好協助健康檢查、提醒和個人化建議。";
+"add" = "新增";
+"learn_about_plants" = "了解植物";
+"view_all" = "查看全部";
+
+"hello" = "你好！讓我們來識別";
+"your_plants" = "您的植物";
+"simply_activate_your_camera" = "只需啟用相機即可開始。";
+
+"upgrade_PRO" = "升級到 PRO";
+"keep_your_plants_healthy" = "保持您的植物健康";
+
+"snap_tips" = "拍照技巧";
+"tips_for_capturing" = "捕捉精美照片的小技巧";
+
+"capture_photo_of_the" = "拍攝整株植物的照片。";
+"focus_closely_on_the" = "仔細聚焦問題部位。";
+"change_the_angle_to" = "改變角度以獲得新的視角。";
+
+"instantly_scan" = "即時掃描";
+"any_plant" = "任何植物";
+"access_species_names_and" = "只需輕點一下即可獲取物種名稱和養護建議。";
+
+"check_your" = "查看您的";
+"scan_history" = "掃描歷史";
+"quickly_view_previous_scans_and" = "快速查看之前的掃描並追蹤植物的健康狀況。";
+
+"share_your_thoughts" = "分享您的想法";
+"with_us" = "與我們";
+"contribute_to_our_growth_by" = "透過分享您的見解來促進我們的成長。";
+
+"enjoy_unrestricted" = "盡情享受無限制";
+"access_to_all_features" = "存取所有功能";
+"enjoy_days_free_then_just" = "免費試用3天，之後每週只需$4.99。或繼續使用受限版本。";
+
+"enable_a_3_days_free_trial" = "啟用3天免費試用";
+
+"what_does_your_plan_include_" = "您的計劃包括什麼？";
+"discover_professional_advice_1" = "獲取專業的植物護理建議。";
+"instantly_recognize_any_plant_1_1" = "即時識別任何植物，無限次數。獲得專家與AI的個性化建議。";
+
+"monitor_the_growth_2" = "監測您的植物生長。";
+"record_milestones_2_1" = "記錄里程碑、拍照並追蹤植物的成長。";
+
+"experience_without_ads_3" = "無廣告體驗";
+"experience_a_tidy_3_1" = "享受乾淨、不中斷的介面體驗。";
+
+"the_biggest_plant_4" = "世界上最大的植物資料庫";
+"explore_in_depth_information_4_1" = "探索來自世界各地各種植物的詳細資訊。";
+
+"exclusive_deal" = "獨家優惠";
+"seize_the_opportunity" = "把握機會！";
+"start_now_at" = "立即開始僅需$15.99（原價$39.99），省下超過60%！";
+
+"current_diagnoses" = "當前診斷";
+
+"you_do_not_have_any_verified_plants" = "您沒有任何已驗證的植物。";
+"identify_232323" = "立即識別您的植物或檢查其狀態！";

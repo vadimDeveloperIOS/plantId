@@ -120,3 +120,68 @@
 "try_again" = "再试一次";
 
 "plant_api_lang" = "zh";
+
+"read_more" = "阅读更多";
+"care_plan" = "养护计划";
+
+"ask_your_plant_ai_assistant" = "询问您的植物AI助手！";
+
+"ai_assistant_is_ready_to_help" = "AI助手已准备好帮助进行健康检查、提醒和个性化建议。";
+"add" = "添加";
+"learn_about_plants" = "了解植物";
+"view_all" = "查看全部";
+
+"hello" = "你好！让我们识别";
+"your_plants" = "您的植物";
+"simply_activate_your_camera" = "只需激活相机即可开始。";
+
+"upgrade_PRO" = "升级到 PRO";
+"keep_your_plants_healthy" = "保持您的植物健康";
+
+"snap_tips" = "拍照技巧";
+"tips_for_capturing" = "拍摄精美照片的技巧";
+
+"capture_photo_of_the" = "拍摄整株植物的照片。";
+"focus_closely_on_the" = "仔细聚焦问题部位。";
+"change_the_angle_to" = "改变角度以获得新的视角。";
+
+"instantly_scan" = "即时扫描";
+"any_plant" = "任何植物";
+"access_species_names_and" = "只需轻点一下即可获取物种名称和养护建议。";
+
+"check_your" = "查看您的";
+"scan_history" = "扫描历史";
+"quickly_view_previous_scans_and" = "快速查看先前扫描并跟踪植物的健康状况。";
+
+"share_your_thoughts" = "分享您的想法";
+"with_us" = "与我们";
+"contribute_to_our_growth_by" = "通过分享您的见解为我们的成长做出贡献。";
+
+"enjoy_unrestricted" = "畅享无限";
+"access_to_all_features" = "访问所有功能";
+"enjoy_days_free_then_just" = "免费试用3天，之后每周仅需$4.99。或继续使用受限版本。";
+
+"enable_a_3_days_free_trial" = "启用3天免费试用";
+
+"what_does_your_plan_include_" = "您的计划包括什么？";
+"discover_professional_advice_1" = "获取专业的植物护理建议。";
+"instantly_recognize_any_plant_1_1" = "即时识别任何植物，次数不限。获得专家和AI的个性化建议。";
+
+"monitor_the_growth_2" = "监控您的植物生长。";
+"record_milestones_2_1" = "记录里程碑，拍照并跟踪植物成长。";
+
+"experience_without_ads_3" = "无广告体验";
+"experience_a_tidy_3_1" = "享受干净无干扰的界面体验。";
+
+"the_biggest_plant_4" = "世界上最大的植物数据库";
+"explore_in_depth_information_4_1" = "探索来自世界各地各种植物的详细信息。";
+
+"exclusive_deal" = "独家优惠";
+"seize_the_opportunity" = "抓住机会！";
+"start_now_at" = "立即开始仅需$15.99（原价$39.99），节省超过60%！";
+
+"current_diagnoses" = "当前诊断";
+
+"you_do_not_have_any_verified_plants" = "您没有任何已验证的植物。";
+"identify_232323" = "立即识别您的植物或检查其状态！";
+

@@ -11,7 +11,6 @@ import UIKit
 // MARK: - Cell
 // --------------------------------------------
 
-
 final class PreliminaryDiagnosesViewCell: UICollectionViewCell {
     var viewModel: PreliminaryDiagnosesContentView.Model {
         get {

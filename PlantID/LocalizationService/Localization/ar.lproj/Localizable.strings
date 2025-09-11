@@ -122,3 +122,67 @@
 "try_again" = "حاول مرة أخرى";
 
 "plant_api_lang" = "ar";
+
+"read_more" = "اقرأ المزيد";
+"care_plan" = "خطة العناية";
+
+"ask_your_plant_ai_assistant" = "اطلب من مساعد الذكاء الاصطناعي الخاص بنباتك!";
+
+"ai_assistant_is_ready_to_help" = "مساعد الذكاء الاصطناعي جاهز للمساعدة في الفحوصات الصحية والتذكيرات والنصائح المخصصة.";
+"add" = "إضافة";
+"learn_about_plants" = "تعلم عن النباتات";
+"view_all" = "عرض الكل";
+
+"hello" = "مرحبًا! لنقم بالتعرف";
+"your_plants" = "نباتاتك";
+"simply_activate_your_camera" = "ما عليك سوى تفعيل الكاميرا للبدء.";
+
+"upgrade_PRO" = "ترقية إلى PRO";
+"keep_your_plants_healthy" = "حافظ على صحة نباتاتك";
+
+"snap_tips" = "نصائح التصوير";
+"tips_for_capturing" = "نصائح لالتقاط صور مذهلة";
+
+"capture_photo_of_the" = "التقط صورة للنبات بالكامل.";
+"focus_closely_on_the" = "ركز عن قرب على المشكلة.";
+"change_the_angle_to" = "غيّر الزاوية للحصول على منظور جديد.";
+
+"instantly_scan" = "افحص فورًا";
+"any_plant" = "أي نبات";
+"access_species_names_and" = "احصل على أسماء الأنواع ونصائح العناية بلمسة واحدة.";
+
+"check_your" = "تحقق من ";
+"scan_history" = "سجل الفحص";
+"quickly_view_previous_scans_and" = "اعرض بسرعة الفحوصات السابقة وتتبع صحة نباتك.";
+
+"share_your_thoughts" = "شارك أفكارك";
+"with_us" = "معنا";
+"contribute_to_our_growth_by" = "ساهم في نموّنا بمشاركة آرائك.";
+
+"enjoy_unrestricted" = "استمتع بلا قيود";
+"access_to_all_features" = "الوصول إلى جميع المميزات";
+"enjoy_days_free_then_just" = "استمتع بـ 3 أيام مجانًا، ثم 4.99$ في الأسبوع. أو تابع بالإصدار المحدود.";
+
+"enable_a_3_days_free_trial" = "فعّل نسخة تجريبية مجانية لمدة 3 أيام";
+
+"what_does_your_plan_include_" = "ماذا يتضمن اشتراكك؟";
+"discover_professional_advice_1" = "اكتشف نصائح احترافية للعناية بنباتاتك.";
+"instantly_recognize_any_plant_1_1" = "تعرّف على أي نبات فورًا، بقدر ما تشاء. احصل على نصائح مخصصة من خبراء نباتات حقيقيين وذكاء اصطناعي ذكي.";
+
+"monitor_the_growth_2" = "راقب نمو نباتك.";
+"record_milestones_2_1" = "سجّل الإنجازات، التقط الصور، وتتبع التقدم لمساعدة نباتاتك على الازدهار.";
+
+"experience_without_ads_3" = "تجربة بدون إعلانات";
+"experience_a_tidy_3_1" = "استمتع بواجهة نظيفة وخالية من الإعلانات.";
+
+"the_biggest_plant_4" = "أكبر قاعدة بيانات للنباتات في العالم";
+"explore_in_depth_information_4_1" = "استكشف معلومات شاملة عن مجموعة واسعة من النباتات من جميع أنحاء العالم.";
+
+"exclusive_deal" = "صفقة حصرية";
+"seize_the_opportunity" = "اغتنم الفرصة!";
+"start_now_at" = "ابدأ الآن بسعر 15.99$ (بدلاً من 39.99$) ووفّر أكثر من 60%!";
+
+"current_diagnoses" = "التشخيص الحالي";
+
+"you_do_not_have_any_verified_plants" = "ليس لديك أي نباتات تم التحقق منها.";
+"identify_232323" = "تعرف على نباتك أو تحقق من حالته الآن!";

@@ -71,10 +71,10 @@ final class HomeView: View {
             let search = viewModel.search
             snapshot.appendItems( [.search(search)], toSection: .search)
             
-            let learnAboutPlants = viewModel.learnAboutPlants.map {
-                CellItem.learnAboutPlants($0)
-            }
-            snapshot.appendItems( learnAboutPlants, toSection: .learnAboutPlants)
+//            let learnAboutPlants = viewModel.learnAboutPlants.map {
+//                CellItem.learnAboutPlants($0)
+//            }
+//            snapshot.appendItems( learnAboutPlants, toSection: .learnAboutPlants)
             
             let myPlants = viewModel.myPlants.map {
                 CellItem.myPlants($0)
@@ -152,9 +152,9 @@ final class HomeView: View {
             
             guard let section = self?.dataSource.sectionIdentifier(for: indexPath.section) else { return }
             
-            if section == .learnAboutPlants {
-                view.textForSection = TextForHomeScene.learnAboutPlants
-            }
+//            if section == .learnAboutPlants {
+//                view.textForSection = TextForHomeScene.learnAboutPlants
+//            }
             if section == .myPlants {
                 view.textForSection = TextForHomeScene.myPlants
                 view.needToShowButton = true
@@ -312,7 +312,7 @@ private extension HomeView {
                 )
             case .learnAboutPlants:
                 return learnAboutPlantsSection(
-                       estimatedHeight: 128
+                       estimatedHeight: 0
                    )
             case .myPlants:
                 return myPlantsSection(
@@ -388,10 +388,10 @@ private extension HomeView {
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.contentInsets =
             .init(
-                top: 10,
-                leading: 16,
-                bottom: 35,
-                trailing: 16
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0
             )
         section.interGroupSpacing = 16
         section.boundarySupplementaryItems = [sectionHeader]

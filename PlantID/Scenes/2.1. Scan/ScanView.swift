@@ -144,10 +144,10 @@ final class ScannerView: BaseViewWithNavigationBar {
         return view
     }()
     
-    private lazy var indicator: UIActivityIndicatorView = {
+    lazy var indicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .medium)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.color = .white
+        view.color = .green
         view.isHidden = true
         return view
     }()
