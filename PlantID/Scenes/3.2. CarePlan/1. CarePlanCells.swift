@@ -98,7 +98,7 @@ final class HealthNoteView: View {
         titleLbl.text = "health_note".localized
         titleLbl.textColor = #colorLiteral(red: 0.5592492223, green: 0.7865967155, blue: 0.3077450097, alpha: 1)
         titleLbl.font = UIFont(name: "Poppins-Medium", size: 22)
-        textLbl.textColor = #colorLiteral(red: 0.5592492223, green: 0.7865967155, blue: 0.3077450097, alpha: 1)
+        textLbl.textColor = .black
         textLbl.font = UIFont(name: "Poppins-Regular", size: 18)
         textLbl.numberOfLines = 0
         addSubview(titleLbl); addSubview(textLbl)
@@ -283,7 +283,7 @@ final class WateringView: View {
             v.font = UIFont(name: "Poppins-Medium", size: 14)
             v.textColor = UIColor(red: 0.008, green: 0.106, blue: 0.004, alpha: 1)
         }
-        reminderSwitch.onTintColor = #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1)
+        reminderSwitch.onTintColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         reminderSwitch.addAction(
             UIAction(handler: { [weak self] _ in
                 self?.isOn.toggle()

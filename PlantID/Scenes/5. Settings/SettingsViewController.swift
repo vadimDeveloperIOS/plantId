@@ -50,6 +50,8 @@ class SettingsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.hideTabBar(false)
+
         NotificationService.shared.checkAuthorizationStatus { [weak self] status in
             guard let self else { return }
             switch status {

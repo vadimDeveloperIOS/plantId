@@ -38,11 +38,16 @@ class AboutPlantsViewController: UIViewController {
 //                print("Click help")
 //            case .add:
 //                self.goToCarePlan()
-            case .header(_):
-                break
+            case .header(let vi):
+                switch vi {
+                case .tapLeft:
+                    back()
+                case .tapRightTop:
+                    self.tabBarController?.selectedIndex = 4
+                }
             case .aboutInfo(_):
                 break
-            case .photos(index: let index):
+            case .photos(_):
                 break
             case .addToMyPlants:
                 self.goToCarePlan()
@@ -80,8 +85,6 @@ class AboutPlantsViewController: UIViewController {
     private func saveToHistory() {
         guard let viewModel else { return }
         
-        
-        
         let jpegDatas = viewModel.photos.photos.compactMap { $0.image?.jpegData(compressionQuality: 0.8) }
         
         let newValue = CoreDataSevice.shared.createPlantInfo()
@@ -90,10 +93,10 @@ class AboutPlantsViewController: UIViewController {
         newValue.plantName = viewModel.aboutInfo.titleAccent
         newValue.plantDescr = viewModel.plantInfo.paragraphs.first
         newValue.photos = jpegDatas as NSArray
-        newValue.plantSize = "plantSize"
-        newValue.plantHumidity = "plantHumidity"
-        newValue.plantSpraying = "plantSpraying"
-        newValue.plantFertilize = "plantFertilize"
+        newValue.plantSize = nil
+        newValue.plantHumidity = nil
+        newValue.plantSpraying = nil
+        newValue.plantFertilize = nil
         do {
             try CoreDataSevice.shared.saveData()
             print("✅ Растение успешно сохранено в историю")
@@ -110,17 +113,16 @@ class AboutPlantsViewController: UIViewController {
                 .init(
                     id: createId,
                     didAddToMyPlans: false,
-                    name: "NAME",
-                    healthNote: "The plant is healthy",
-                    image: viewModel.photos.photos.first?.image ?? UIImage(named: "fake123")!,
+                    name: viewModel.aboutInfo.plantNameValue,
+                    healthNote: (viewModel.plantInfo.paragraphs.last ?? viewModel.plantInfo.paragraphs.first) ?? "The plant is healthy",
+                
+                    image: viewModel.photos.photos.first?.image ?? UIImage(named: "not.plant.1")!,
                     photos: viewModel.photos.photos.compactMap { $0.image } ,
                     frequencyVal: nil,
                     reminderVal: nil,
                     amountVal: nil
                 )
         }
-//        vc.modalPresentationStyle = .overFullScreen
-//        self.present(vc, animated: true)
         navigationController?.pushViewController(vc, animated: true)
     }
     

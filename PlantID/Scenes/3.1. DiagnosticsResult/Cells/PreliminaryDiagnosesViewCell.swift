@@ -256,7 +256,12 @@ final class SegmentedProgressBar: UIView {
         let totalGap = gap * CGFloat(segments - 1)
         let segWidth = max(2, (bounds.width - totalGap) / CGFloat(segments))
         let segHeight = bounds.height
-        let filledCount = Int(round(progress * CGFloat(segments)))
+        
+        var safeProgress = progress
+        if !safeProgress.isFinite { safeProgress = 0 }
+        safeProgress = min(max(safeProgress, 0), 1)
+
+        let filledCount = Int(round(safeProgress * CGFloat(segments)))
 
         for i in 0..<segments {
             let x = CGFloat(i) * (segWidth + gap)

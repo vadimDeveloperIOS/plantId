@@ -166,14 +166,13 @@ class MyPlantsViewController: UIViewController {
                 healthNote: plant.plantDescr ?? "NO VALUE",
                 image: image ?? UIImage(named: "fake123")!,
                 photos: [image ?? UIImage(named: "fake123")!],
-                frequencyVal: plant.frequencyVal,
+                frequencyVal: plant.frequencyVal?.localized,
                 reminderVal: plant.reminderVal,
                 amountVal: Int(plant.amountVal)
             )
         vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true)
     }
-    
     
     /*
      private func showIdent(_ index: Int) {

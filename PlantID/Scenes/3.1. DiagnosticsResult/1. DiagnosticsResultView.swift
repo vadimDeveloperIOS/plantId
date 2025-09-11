@@ -172,6 +172,15 @@ final class DiagnosticsResultView: View {
         
         let headerCell = Header {cell,indexPath,itemIdentifier in 
             cell.viewModel = itemIdentifier
+            cell.actionHandler = { [weak self] action in
+                guard let self else { return }
+                switch action {
+                case .tapLeft:
+                    self.actionHandler(.back)
+                case .tapRightTop:
+                    self.actionHandler(.settigs)
+                }
+            }
         }
         
         let firstInformationCell = FirstInformation { cell, indexPath, item in
@@ -190,8 +199,7 @@ final class DiagnosticsResultView: View {
             cell.viewModel = item
             cell.actionHandler = { [weak self] in
                 guard let self else { return }
-                // TODO: ТУТ ДОДЕЛАТЬ
-//                self.actionHandler()
+                self.actionHandler(.add)
             }
         }
         
@@ -309,14 +317,14 @@ private extension DiagnosticsResultView {
                 return defaultSingleItemSection(
                     estimatedHeight: 100,
                     inset: 16,
-                    top: 0,
+                    top: 16,
                     bot: 0
                 )
             case .diagnosis:
                 return defaultSingleItemSection(
                     estimatedHeight: 200,
                     inset: 16,
-                    top: 0,
+                    top: 20,
                     bot: 0
                 )
             case .button:

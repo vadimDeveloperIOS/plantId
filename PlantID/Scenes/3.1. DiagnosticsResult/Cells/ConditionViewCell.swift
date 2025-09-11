@@ -38,7 +38,7 @@ final class ConditionContentView: View {
     var viewModel: Model? {
         didSet {
             guard let viewModel else { return }
-            textValueLbl.text = viewModel.textValue
+//            textValueLbl.text = viewModel.textValue
             progress.progress = CGFloat(viewModel.conditionValue ?? 0.1)
             updateValueLabel()
         }
@@ -54,16 +54,6 @@ final class ConditionContentView: View {
         return view
     }()
     
-    private lazy var textValueLbl: UILabel = {
-        let view = UILabel()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFont(name: "Onest-Regular", size: 14)
-        view.textColor = UIColor(red: 0.232, green: 0.252, blue: 0.232, alpha: 1)
-        view.contentMode = .left
-        view.numberOfLines = 0
-        return view
-    }()
-    
     private lazy var conditionValueLbl: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -73,15 +63,6 @@ final class ConditionContentView: View {
         view.numberOfLines = 0
         return view
     }()
-
-//    private lazy var scaleImage: UIImageView = {
-//        let view = UIImageView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.image = UIImage(named: "scale")
-//        view.contentMode = .scaleAspectFit
-//        view.heightAnchor ~= 12
-//        return view
-//    }()
     
     private lazy var progress: SegmentedProgressBar = {
         let v = SegmentedProgressBar()
@@ -95,7 +76,7 @@ final class ConditionContentView: View {
         backgroundColor = .clear
         
         addSubview(title)
-        addSubview(textValueLbl)
+//        addSubview(textValueLbl)
         addSubview(conditionValueLbl)
         addSubview(progress)
     }
@@ -105,13 +86,13 @@ final class ConditionContentView: View {
         title.topAnchor ~= topAnchor
         title.leftAnchor ~= leftAnchor
         
-        textValueLbl.topAnchor ~= title.bottomAnchor + 20
-        textValueLbl.leftAnchor ~= leftAnchor
+//        textValueLbl.topAnchor ~= title.bottomAnchor + 20
+//        textValueLbl.leftAnchor ~= leftAnchor
 
-        conditionValueLbl.centerYAnchor ~= textValueLbl.centerYAnchor
+        conditionValueLbl.centerYAnchor ~= title.centerYAnchor
         conditionValueLbl.rightAnchor ~= rightAnchor
 
-        progress.topAnchor ~= textValueLbl.bottomAnchor + 20
+        progress.topAnchor ~= title.bottomAnchor + 20
         progress.leftAnchor ~= leftAnchor
         progress.rightAnchor ~= rightAnchor
     }
@@ -123,7 +104,8 @@ final class ConditionContentView: View {
             return
         }
         // переведём в проценты
-        let percent = Int(v * 100)
+        let raw = v * 100
+        let percent = raw.isFinite ? Int(raw) : 0
         conditionValueLbl.text = "\(percent)%"
 
         // Цвета и сегментированная полоса как в PreliminaryDiagnosesContentView

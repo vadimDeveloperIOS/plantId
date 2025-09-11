@@ -68,51 +68,135 @@ class ScanViewController: UIViewController {
         tabBarController?.hideTabBar(false)
     }
     
-    /*
+    
     private func goToAboutPlant() {
-        let arrayPhotos = rootView.thumbnails
-        PlantIDClient.shared.identifyPlant(
-            images: arrayPhotos) { [weak self] result in
-                guard let self else { return }
-                switch result {
-                case .success(let result):
-                    let vc = AboutPlantsViewController()
-                    vc.viewModel = .init(
-                        name: result.result.classification?.suggestions?[0].name ?? "no_value".localized,
-                        description: result.result.classification?.suggestions?[0].details?.description?.value,
-                        photos: arrayPhotos,
-                        size: "medium".localized,
-                        humidity: wateringFrequency(
-                            minLevel: result.result.classification?.suggestions?[0].details?.watering?.min ?? 2,
-                            maxLevel: result.result.classification?.suggestions?[0].details?.watering?.max ?? 2
-                        ),
-                        spraying: "in_4_days".localized,
-                        fertilize: "in_30_days".localized
+        
+        guard rootView.thumbnails != [] else {
+            print("🟥 [ScanViewController] - \(#function) нет фотографий \n")
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return
+        }
+        
+        PlantIDClient.shared.identifyPlant( images: rootView.thumbnails) { [weak self] result in
+            guard let self else { return }
+            switch result {
+                
+            case .success(let result):
+                let vc = AboutPlantsViewController()
+                
+                guard let firstSuggestion = result.result.classification?.suggestions?.first else { return
+                }
+                
+                let size = self.detectSize(
+                    from: firstSuggestion.details?.description?.value ?? "No value"
+                )
+                
+                let humidity = self.detectHumidity(
+                    from: firstSuggestion.details?.bestLightCondition,
+                    watering: nil
+                )
+                
+                let spraying = self.detectSpraying(
+                    from: firstSuggestion.details?.description?.value ?? "No value"
+                )
+                
+                let fertilize = self.detectFertilize(
+                    from: firstSuggestion.details?.bestSoilType,
+                    description: firstSuggestion.details?.description?.value ?? "No value"
+                )
+                
+                
+                vc.viewModel =
+                    .init(
+                        header:
+                                .init(
+                                    photo: rootView.thumbnails.first!,
+                                    title: "",
+                                    leftIconName: "navbar_str",
+                                    rightTopIconName: "navbar_set",
+                                    rightBottomIconName: ""
+                                ),
+                        aboutInfo:
+                                .init(
+                                    titlePrimary: "About",
+                                    titleAccent: "Plant",
+                                    plantNamePrefix: "Plant Name",
+                                    plantNameValue: firstSuggestion.name ?? "no_value".localized,
+                                    params: [
+                                        .init(
+                                            iconAsset: "new_size",
+                                            title: TextForAboutPlant.size,
+                                            value: size
+                                        ),
+                                        .init(
+                                            iconAsset: "new_humidity",
+                                            title: TextForAboutPlant.humidity,
+                                            value: humidity
+                                        ),
+                                        .init(
+                                            iconAsset: "new_spraying",
+                                            title: TextForAboutPlant.spraying,
+                                            value: spraying
+                                        ),
+                                        .init(
+                                            iconAsset: "new_fertilze",
+                                            title: TextForAboutPlant.fertilize,
+                                            value: fertilize
+                                        )
+                                    ]
+                                ),
+                        plantInfo:
+                                .init(
+                                    title: "Plant info",
+                                    paragraphs: [
+                                        firstSuggestion.details?.description?.value ?? "no_value".localized,
+                                        
+                                        firstSuggestion.details?.bestWatering ?? ""
+                                    ]
+                                ),
+                        photos:
+                                .init(
+                                    title: "Photos",
+                                    photos: rootView.thumbnails.map {
+                                        .init(image: $0)
+                                    },
+                                    selectedIndex: nil
+                                ),
+                        primaryCTA:
+                                .init(
+                                    title: TextForAboutPlant.but,
+                                    backgroundImageName: "my_plants_btnn"
+                                    
+                                )
                     )
-                    vc.plantType = result.result.classification?.suggestions?[0].details?.taxonomy?.phylum ?? "indoor".localized
-                    vc.currentCondition = "needs_care".localized
-                    vc.conditionValue = Float(result.result.isHealthy?.probability ?? 0.0)
-                    vc.isHealthy = result.result.isHealthy?.binary ?? true
-                    vc.frequencyVal = wateringFrequency(
-                        minLevel: result.result.classification?.suggestions?[0].details?.watering?.min ?? 2,
-                        maxLevel: result.result.classification?.suggestions?[0].details?.watering?.max ?? 2
-                    )
-                    DispatchQueue.main.async {
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
-                case .failure(let error):
-                    print("🟥 🟥 🟥 ОШИБКА \(#function) В РЕСПОНСЕ ERROR - - -", error)
-                    let vc = CouldntIdentifyViewController()
-                    vc.tabBarController?.hideTabBar(true)
-                    
-                    DispatchQueue.main.async {
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
+                
+                vc.plantType = firstSuggestion.details?.taxonomy?.phylum ?? "indoor".localized
+                
+                vc.currentCondition = "needs_care".localized
+                vc.conditionValue = Float(result.result.isHealthy?.probability ?? 0.0)
+                vc.isHealthy = result.result.isHealthy?.binary ?? true
+                vc.frequencyVal = wateringFrequency(
+                    minLevel: firstSuggestion.details?.watering?.min ?? 2,
+                    maxLevel: firstSuggestion.details?.watering?.max ?? 2
+                )
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
+            case .failure(let error):
+                print("🟥 🟥 🟥 [ScanViewController] - \(#function) В РЕСПОНСЕ ERROR - - - \(error) \n")
+                
+                DispatchQueue.main.async {
+                    UINotificationFeedbackGenerator().notificationOccurred(.error)
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }
+        }
     }
-     */
+    
     // MARK: ДЛЯ ТЕСТОВ (потом удалить)
+    /*
+
     private func goToAboutPlant() {
         
         let arrayPhotos = [UIImage(named: "fake123")!, UIImage(named: "not.plant.2")!]
@@ -182,16 +266,85 @@ class ScanViewController: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+     */
     
-    /*
+    
     private func goToDiagnosticResult() {
-        let arrayPhotos = rootView.thumbnails
-        PlantIDClient.shared.identifyPlantWithHealth(images: arrayPhotos) { [weak self] response in
+        
+        guard rootView.thumbnails != [] else {
+            print("🟥 [ScanViewController] - \(#function) нет фотографий \n")
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return
+        }
+        
+        PlantIDClient.shared.identifyPlantWithHealth(images: rootView.thumbnails) { [weak self] response in
             guard let self else { return }
             switch response {
             case .success(let result):
+                
                 let vc = DiagnosticResultViewController()
                 
+                var arrayDiagnos: [DiagnosesCell.Model] = []
+                if let disease = result.result.disease?.suggestions {
+                    for d in disease {
+                        arrayDiagnos.append(
+                            .init(
+                                name: d.name,
+                                probability: Float(d.probability))
+                        )
+                    }
+                }
+                let condVal = setupConditionValue(arrayDiagnos)
+                
+                vc.viewModel =
+                    .init(
+                        header:
+                                .init(
+                                    photo: rootView.thumbnails.first!,
+                                    title: "",
+                                    leftIconName: "navbar_str",
+                                    rightTopIconName: "navbar_set",
+                                    rightBottomIconName: ""
+                                ),
+                        firstInformation:
+                                .init(
+                                    namePlant: result.result.classification?.suggestions?.first?.name ?? "no_value".localized,
+                                    currentDiagnoses: result.result.disease?.suggestions?.first?.name ?? "no_value".localized,
+                                    currentDiagnosesIconName: "currentDiagnosesIconName_new",
+                                    currentDiagnosesTitle: "current_diagnoses".localized,
+                                    plantType: result.result.classification?.suggestions?.first?.details?.taxonomy?.phylum ?? "indoor".localized,
+                                    plantTypeIconName: "plantTypeIconName_new",
+                                    currentCondition: "needs_care".localized,
+                                    currentConditionIconName: "currentConditionIconName_new"
+                                ),
+                        photos:
+                                .init(
+                                    title: "Photos",
+                                    photos: rootView.thumbnails.map {
+                                        return .init(image: $0)
+                                    },
+                                    selectedIndex: nil
+                                ),
+                        condition:
+                                .init(
+                                    textValue: "Condition",
+                                    conditionValue: condVal
+                                ),
+                        diagnosis:
+                                .init(
+                                    diagnoses: arrayDiagnos
+                                ),
+                        button:
+                                .init(
+                                    title: TextForAboutPlant.but,
+                                    backgroundImageName: "my_plants_btnn"
+                                    
+                                )
+                    )
+                
+                 
+                /*
+                 
                 var arrayDiagnos: [DiagnosesCell.Model] = []
                 if let disease = result.result.disease?.suggestions {
                     for d in disease {
@@ -215,22 +368,24 @@ class ScanViewController: UIViewController {
                         isHealthy: result.result.isHealthy?.binary ?? true,
                         disease: .init(diagnoses: arrayDiagnos)
                     )
+                 */
                 DispatchQueue.main.async {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):
-                print("🟥 🟥 🟥 ОШИБКА \(#function) В РЕСПОНСЕ ERROR - - -", error)
-                let vc = CouldntIdentifyViewController()
-                vc.tabBarController?.hideTabBar(true)
+                print("🟥 🟥 🟥 [ScanViewController] - - - \(#function) В РЕСПОНСЕ ERROR - - -\(error) \n")
+                
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    UINotificationFeedbackGenerator().notificationOccurred(.error)
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }
     }
-     */
+     
     
     // MARK: ДЛЯ ТЕСТОВ (потом удалить)
+    /*
     private func goToDiagnosticResult() {
         
         let arrayPhotos = [UIImage(named: "fake123")!, UIImage(named: "not.plant.2")!]
@@ -298,6 +453,7 @@ class ScanViewController: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+     */
 
     private func wateringFrequency(minLevel: Int, maxLevel: Int) -> String {
         // Шкала: 1 = dry, 2 = medium, 3 = wet
@@ -341,6 +497,48 @@ class ScanViewController: UIViewController {
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = self
         present(picker, animated: true)
+    }
+    
+    // Определение размера растения
+    func detectSize(from description: String) -> String {
+        if description.lowercased().contains("dwarf") || description.contains("10–15 cm") {
+            return "small"
+        } else if description.lowercased().contains("shrub") || description.contains("60 cm") {
+            return "medium"
+        } else {
+            return "big"
+        }
+    }
+
+    // Определение уровня влажности
+    func detectHumidity(from bestSoil: String?, watering: String?) -> String {
+        if let soil = bestSoil?.lowercased(), soil.contains("sandy") || soil.contains("gravel") {
+            return "low"
+        } else if watering != nil {
+            return "medium"
+        } else {
+            return "high"
+        }
+    }
+
+    // Нужно ли опрыскивать
+    func detectSpraying(from description: String) -> String {
+        if description.lowercased().contains("succulent") || description.lowercased().contains("cactus") {
+            return "no"
+        } else {
+            return "yes"
+        }
+    }
+
+    // Подкормка
+    func detectFertilize(from bestSoil: String?, description: String) -> String {
+        if let soil = bestSoil?.lowercased(), soil.contains("poor") {
+            return "low"
+        } else if description.lowercased().contains("organic matter") {
+            return "medium"
+        } else {
+            return "high"
+        }
     }
 }
 

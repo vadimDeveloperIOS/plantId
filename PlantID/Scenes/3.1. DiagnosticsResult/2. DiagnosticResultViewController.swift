@@ -27,11 +27,11 @@ class DiagnosticResultViewController: UIViewController {
             guard let self else { return }
             switch action {
             case .add:
-                break
+                goToCarePlan()
             case .back:
                 back()
             case .settigs:
-                break
+                self.tabBarController?.selectedIndex = 4
             }
         }
     }
@@ -48,8 +48,8 @@ class DiagnosticResultViewController: UIViewController {
                 .init(
                     id: createId,
                     didAddToMyPlans: false,
-                    name: viewModel.firstInformation.namePlant ?? "Name",
-                    healthNote: viewModel.firstInformation.currentDiagnoses ?? "healthNote",
+                    name: viewModel.firstInformation.namePlant ?? "No valee",
+                    healthNote: viewModel.firstInformation.currentDiagnoses ?? "The plant is healthy",
                     image: viewModel.header.photo,
                     photos: viewModel.photos.photos.compactMap { $0.image },
                     frequencyVal: nil,
@@ -77,7 +77,7 @@ class DiagnosticResultViewController: UIViewController {
         newValue.id = createId
         newValue.didAddToMyPlants = false
         newValue.plantName = viewModel.firstInformation.namePlant
-        newValue.plantDescr = "The plant is healthy"
+        newValue.plantDescr = viewModel.firstInformation.currentDiagnoses ?? "The plant is healthy"
         newValue.photos = jpegDatas as NSArray
     
         do {

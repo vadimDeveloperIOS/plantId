@@ -37,7 +37,11 @@ class CarePlanViewController: UIViewController {
             case .onShowDropdown(let val):
                 self.onShowDropdown = val
             case .settings:
-                self.tabBarController?.selectedIndex = 4
+                if let tab = self.tabBarController {
+                    tab.selectedIndex = 4
+                } else {
+                    self.back()
+                }
             }
         }
     }

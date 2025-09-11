@@ -92,8 +92,10 @@ final class AboutPlantInfoContent: View {
 
     private lazy var titlePrimaryLabel: UILabel = {
         let v = UILabel()
+        v.translatesAutoresizingMaskIntoConstraints = false
         v.font = Design.Font.title
         v.textColor = Design.Color.primary
+        v.textAlignment = .left
         return v
     }()
 
@@ -101,21 +103,26 @@ final class AboutPlantInfoContent: View {
         let v = UILabel()
         v.font = Design.Font.title
         v.textColor = Design.Color.accent
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.textAlignment = .left
         return v
     }()
 
-    private lazy var titleStack: UIStackView = {
-        let v = UIStackView(arrangedSubviews: [titlePrimaryLabel, titleAccentLabel])
-        v.axis = .horizontal
-        v.alignment = .firstBaseline
-        v.spacing = Design.titleSpacing
-        return v
-    }()
+//    private lazy var titleStack: UIStackView = {
+//        let v = UIStackView(arrangedSubviews: [titlePrimaryLabel, titleAccentLabel])
+//        v.axis = .horizontal
+//        v.alignment = .firstBaseline
+//        v.spacing = Design.titleSpacing
+//        v.distribution = .equalSpacing
+//        return v
+//    }()
 
     private lazy var plantNamePrefixLabel: UILabel = {
         let v = UILabel()
         v.font = Design.Font.row
         v.textColor = Design.Color.secondary
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.textAlignment = .left
         return v
     }()
 
@@ -128,13 +135,14 @@ final class AboutPlantInfoContent: View {
         return v
     }()
 
-    private lazy var plantNameRow: UIStackView = {
-        let v = UIStackView(arrangedSubviews: [plantNamePrefixLabel, plantNameButton])
-        v.axis = .horizontal
-        v.alignment = .fill
-        v.spacing = Design.titleSpacing
-        return v
-    }()
+//    private lazy var plantNameRow: UIStackView = {
+//        let v = UIStackView(arrangedSubviews: [plantNamePrefixLabel, plantNameButton])
+//        v.axis = .horizontal
+//        v.alignment = .fill
+//        v.spacing = Design.titleSpacing
+//        v.distribution = .fill
+//        return v
+//    }()
 
     private let cardViews = (0..<4).map { _ in ParamCardView() }
 
@@ -164,8 +172,12 @@ final class AboutPlantInfoContent: View {
     // MARK: Lifecycle
 
     override func setupContent() {
-        addSubview(titleStack)
-        addSubview(plantNameRow)
+        addSubview(titlePrimaryLabel)
+        addSubview(titleAccentLabel)
+        
+        addSubview(plantNamePrefixLabel)
+        addSubview(plantNameButton)
+        
         addSubview(gridStack)
 
         for (i, card) in cardViews.enumerated() {
@@ -173,15 +185,19 @@ final class AboutPlantInfoContent: View {
     }
 
     override func setupLayout() {
-        titleStack.topAnchor ~= topAnchor + Design.inset
-        titleStack.leftAnchor ~= leftAnchor + Design.inset
-        titleStack.rightAnchor ~= rightAnchor - Design.inset
+        titlePrimaryLabel.topAnchor ~= topAnchor + 12
+        titlePrimaryLabel.leftAnchor ~= leftAnchor + 16
+        
+        titleAccentLabel.topAnchor ~= titlePrimaryLabel.topAnchor
+        titleAccentLabel.leftAnchor ~= titlePrimaryLabel.rightAnchor + 5
+        
+        plantNamePrefixLabel.topAnchor ~= titlePrimaryLabel.bottomAnchor + 10
+        plantNamePrefixLabel.leftAnchor ~= titlePrimaryLabel.leftAnchor
+        
+        plantNameButton.centerYAnchor ~= plantNamePrefixLabel.centerYAnchor
+        plantNameButton.leftAnchor ~= plantNamePrefixLabel.rightAnchor + 7
 
-        plantNameRow.topAnchor ~= titleStack.bottomAnchor + Design.small
-        plantNameRow.leftAnchor ~= leftAnchor + Design.inset
-        plantNameRow.rightAnchor ~= rightAnchor - Design.inset
-
-        gridStack.topAnchor ~= plantNameRow.bottomAnchor + Design.inset
+        gridStack.topAnchor ~= plantNamePrefixLabel.bottomAnchor + Design.inset
         gridStack.leftAnchor ~= leftAnchor + Design.inset
         gridStack.rightAnchor ~= rightAnchor - Design.inset
         gridStack.bottomAnchor ~= bottomAnchor - Design.inset
