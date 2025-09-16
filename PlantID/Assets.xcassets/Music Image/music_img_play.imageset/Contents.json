@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "music_img_play.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

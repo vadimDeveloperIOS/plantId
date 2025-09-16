@@ -96,5 +96,26 @@ enum TextForPaywall {
     static let exploreInDepthInformation41 = "explore_in_depth_information_4_1".localized
 }
 
+enum TextForSounds {
+    static let title = "sounds_for_plants_title".localized
+    static let subtitle = "sounds_for_plants_subtitle".localized
+    
+    static let gentleWhiteNoiseTitle = "gentle_white_noise_title".localized
+    static let gentleWhiteNoiseSubtitle = "gentle_white_noise_subtitle".localized
+    
+    static let waterDropsTitle = "water_drops_title".localized
+    static let waterDropsSubtitle = "water_drops_subtitle".localized
+    
+    static let softBreezeTitle = "soft_breeze_title".localized
+    static let softBreezeSubtitle = "soft_breeze_subtitle".localized
+    
+    static let harmonicTonesTitle = "harmonic_tones_title".localized
+    static let harmonicTonesSubtitle = "harmonic_tones_subtitle".localized
+    
+    static let oceanWavesTitle = "ocean_waves_title".localized
+    static let oceanWavesSubtitle = "ocean_waves_subtitle".localized
+    
+    static let morningBirdsTitle = "morning_birds_title".localized
+    static let morningBirdsSubtitle = "morning_birds_subtitle".localized
+}
 
-// first paywall

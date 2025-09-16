@@ -18,6 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let pageVC = PageContainerViewController()
         let nav = UINavigationController(rootViewController: pageVC)
+        
+        // TODO: ВЕРНУТЬ
+        /*
 
         if UserDefaultsService.shared.hasSeenOnboarding == false {
             nav.navigationBar.isHidden = true
@@ -27,6 +30,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let tabsViewController = TabsViewController()
             window.rootViewController = tabsViewController
         }
+         
+         */
+        
+        // TODO: УДАЛИТЬ
+        let vc = SoundsForPlantsViewController()
+        window.rootViewController = vc
+        //____________________________
         
         window.makeKeyAndVisible()
         self.window = window

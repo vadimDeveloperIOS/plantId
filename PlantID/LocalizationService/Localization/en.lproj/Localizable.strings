@@ -196,3 +196,28 @@
 
 "you_do_not_have_any_verified_plants" = "You do not have any verified plants.";
 "identify_232323" = "Identify your plant or check its condition right now!";
+
+
+// SOUNDS SCENE
+
+"sounds_for_plants_title" = "Sounds For Plants";
+"sounds_for_plants_subtitle" = "Play calming audio frequencies that may support healthier growth and create a soothing environment for your plants.";
+
+"gentle_white_noise_title" = "Gentle White Noise";
+"gentle_white_noise_subtitle" = "Soft white noise that creates a calm atmosphere.";
+
+"water_drops_title" = "Water Drops";
+"water_drops_subtitle" = "Rhythmic water drops imitate a natural environment.";
+
+"soft_breeze_title" = "Soft Breeze";
+"soft_breeze_subtitle" = "Gentle rustling wind reminds plants of nature.";
+
+"harmonic_tones_title" = "Harmonic Tones";
+"harmonic_tones_subtitle" = "Pure tones with soft harmonics may stimulate growth.";
+
+"ocean_waves_title" = "Ocean Waves";
+"ocean_waves_subtitle" = "Rhythmic wave sounds create a soothing background.";
+
+"morning_birds_title" = "Morning Birds";
+"morning_birds_subtitle" = "Birdsong recreates the feeling of a natural ecosystem.";
+
