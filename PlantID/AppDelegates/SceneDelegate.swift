@@ -34,7 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
          */
         
         // TODO: УДАЛИТЬ
-        let vc = SoundsForPlantsViewController()
+        let vc = UINavigationController(rootViewController: GrowthDiaryViewController())
         window.rootViewController = vc
         //____________________________
         

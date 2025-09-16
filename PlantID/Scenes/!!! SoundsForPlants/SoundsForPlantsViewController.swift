@@ -9,7 +9,6 @@ import UIKit
 
 final class SoundsForPlantsViewController: UIViewController {
     
-    
     private let root = SoundsForPlantsView()
     
     private var viewModel: SoundsForPlantsView.Model? {

@@ -119,3 +119,23 @@ enum TextForSounds {
     static let morningBirdsSubtitle = "morning_birds_subtitle".localized
 }
 
+enum TextForGrowthDiary {
+    static let planName = "plan_name".localized
+    static let title = "growth_diary_title".localized
+    static let subtitle = "growth_diary_subtitle".localized
+    static let plantStories = "plant_stories_title".localized
+}
+
+enum TextForAddDiary {
+    static let addName = "add_name".localized
+    static let addNote = "add_note".localized
+    
+    static let week = "week".localized
+    static let addWeekNumber = "add_week_number".localized
+    
+    static let save = "save".localized
+    
+    static let title = "growth_diary_title".localized
+        static let subtitle = "growth_diary_subtitle".localized
+        static let addNewPlant = "add_new_plant_title".localized
+}

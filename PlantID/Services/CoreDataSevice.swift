@@ -39,11 +39,10 @@ final class CoreDataSevice {
         }
     }
     
-    
     func createPlantInfo() -> PlantInfo {
-         let plant = PlantInfo(context: context)
-         return plant
-     }
+        let plant = PlantInfo(context: context)
+        return plant
+    }
     
     func fetchPlantInfo(id: UUID) throws -> PlantInfo? {
         let request: NSFetchRequest<PlantInfo> = PlantInfo.fetchRequest()
@@ -59,6 +58,32 @@ final class CoreDataSevice {
             return nil
         }
     }
+    
+    // MARK: Diary
+    
+    func getGrowthDiaries(
+        with request: NSFetchRequest<GrowthDiary> = GrowthDiary.fetchRequest())
+    throws -> [GrowthDiary] {
+        
+        do {
+            let stories = try context.fetch(request)
+            print("✅ [CoreDataSevice] получены данные дневников:\n - количество \(stories.count) \n; *")
+            
+            return stories
+        }
+        catch {
+            print("🛑 [CoreDataSevice] Failed to fetch GrowthDiary:", error)
+            print("***")
+            throw error
+        }
+    }
+    
+    func createGrowthDiary() -> PlantInfo {
+        let plant = PlantInfo(context: context)
+        return plant
+    }
+    
+    // MARK: SAVE
     
     func saveData() throws {
         guard context.hasChanges else {
