@@ -25,19 +25,17 @@ final class SoundsForPlantsViewController: UIViewController {
         root.actionHandler = { [weak self] action in
             guard let self else { return }
             
-            // TODO: заполнить
             switch action {
             case .back:
-                break
+                self.navigationController?.popToRootViewController(animated: true)
             case .setting:
-                break
+                self.tabBarController?.selectedIndex = 4
             }
         }
         
         root.actionHandlerChild = { [weak self] action in
             guard let self else { return }
             
-            // TODO: заполнить
             switch action {
             case .sound(let act, index: let index):
                 switch act {
