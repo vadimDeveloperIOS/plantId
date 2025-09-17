@@ -186,3 +186,60 @@
 
 "you_do_not_have_any_verified_plants" = "Du hast keine verifizierten Pflanzen.";
 "identify_232323" = "Identifiziere deine Pflanze oder überprüfe ihren Zustand jetzt!";
+
+"sounds_for_plants_title" = "Klänge für Pflanzen";
+"sounds_for_plants_subtitle" = "Spielen Sie beruhigende Audiofrequenzen ab, die ein gesünderes Wachstum unterstützen und eine entspannende Umgebung für Ihre Pflanzen schaffen können.";
+
+"gentle_white_noise_title" = "Sanftes weißes Rauschen";
+"gentle_white_noise_subtitle" = "Sanftes Rauschen, das eine ruhige Atmosphäre schafft.";
+
+"water_drops_title" = "Wassertropfen";
+"water_drops_subtitle" = "Rhythmische Wassertropfen imitieren eine natürliche Umgebung.";
+
+"soft_breeze_title" = "Sanfte Brise";
+"soft_breeze_subtitle" = "Ein sanftes Rascheln des Windes erinnert Pflanzen an die Natur.";
+
+"harmonic_tones_title" = "Harmonische Töne";
+"harmonic_tones_subtitle" = "Reine Töne mit weichen Harmonien können das Wachstum stimulieren.";
+
+"ocean_waves_title" = "Meereswellen";
+"ocean_waves_subtitle" = "Rhythmische Wellenklänge schaffen eine beruhigende Hintergrundkulisse.";
+
+"morning_birds_title" = "Morgenvögel";
+"morning_birds_subtitle" = "Vogelgesang vermittelt das Gefühl eines natürlichen Ökosystems.";
+
+// NOTES
+"plan_name" = "Pflanzenname:";
+
+"growth_diary_title" = "Wachstumstagebuch";
+"growth_diary_subtitle" = "Verfolgen Sie das Wachstum Ihrer Pflanze mit wöchentlichen Fotos. Die App erstellt ein Zeitraffer-Video, um Veränderungen zu visualisieren und Probleme frühzeitig zu erkennen.";
+
+"plant_stories_title" = "Pflanzengeschichten";
+
+"add_name" = "Name hinzufügen...";
+"add_note" = "Notiz hinzufügen...";
+
+"week" = "Woche";
+"add_week_number" = "Wochennummer hinzufügen";
+"save" = "SPEICHERN";
+
+"add_new_plant_title" = "Neue Pflanze hinzufügen";
+
+"how_it_works_title" = "So funktioniert es:";
+
+"step1_title" = "Schritt 1";
+"step1_subtitle" = "Machen Sie ein Foto Ihrer Pflanze direkt in der App.";
+
+"step2_title" = "Schritt 2";
+"step2_subtitle" = "Fügen Sie eine Notiz hinzu (Gießen, Umtopfen, Düngen usw.).";
+
+"step3_title" = "Schritt 3";
+"step3_subtitle" = "Nach einigen Wochen erhalten Sie ein animiertes Wachstumstagebuch – die Geschichte Ihrer Pflanze in Bewegung.";
+
+"bottom_text" = "Starten Sie Ihr Wachstumstagebuch noch heute und sehen Sie, wie Ihre Sammlung lebendig wird!";
+
+"add_new_plant_button" = "NEUE PFLANZE HINZUFÜGEN";
+
+"home2222" = "Hier können Sie ein Tagebuch über Ihre Pflanzenbeobachtungen führen.";
+"home3333" = "Um zu beginnen, müssen Sie nur auf „Alle anzeigen“ klicken.";
+

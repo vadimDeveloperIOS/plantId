@@ -39,7 +39,6 @@ class DiagnosticsViewController: UIViewController {
     }
     
     func showScan() {
-        // TODO: - потом вернуть
         if UserDefaultsService.shared.diagnosticsLimit == 1 && ProFeatureService.shared.getHasActiveSubscription() == false {
             let vc = PaywallViewController()
             vc.modalPresentationStyle = .overFullScreen

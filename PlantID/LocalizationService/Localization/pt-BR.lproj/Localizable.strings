@@ -187,3 +187,60 @@
 
 "you_do_not_have_any_verified_plants" = "Você não tem plantas verificadas.";
 "identify_232323" = "Identifique sua planta ou verifique sua condição agora!";
+
+
+"sounds_for_plants_title" = "Sons para Plantas";
+"sounds_for_plants_subtitle" = "Reproduza frequências sonoras calmantes que podem apoiar um crescimento mais saudável e criar um ambiente relaxante para suas plantas.";
+
+"gentle_white_noise_title" = "Ruído Branco Suave";
+"gentle_white_noise_subtitle" = "Ruído branco suave que cria uma atmosfera calma.";
+
+"water_drops_title" = "Gotas de Água";
+"water_drops_subtitle" = "Gotas de água rítmicas imitam um ambiente natural.";
+
+"soft_breeze_title" = "Brisa Suave";
+"soft_breeze_subtitle" = "Um vento suave lembra as plantas da natureza.";
+
+"harmonic_tones_title" = "Tons Harmônicos";
+"harmonic_tones_subtitle" = "Tons puros com harmônicos suaves podem estimular o crescimento.";
+
+"ocean_waves_title" = "Ondas do Mar";
+"ocean_waves_subtitle" = "Sons rítmicos de ondas criam um fundo relaxante.";
+
+"morning_birds_title" = "Pássaros da Manhã";
+"morning_birds_subtitle" = "O canto dos pássaros recria a sensação de um ecossistema natural.";
+
+// NOTES
+"plan_name" = "Nome da Planta:";
+
+"growth_diary_title" = "Diário de Crescimento";
+"growth_diary_subtitle" = "Acompanhe o crescimento da sua planta com fotos semanais. O aplicativo cria um time-lapse para visualizar mudanças e identificar problemas cedo.";
+
+"plant_stories_title" = "Histórias das Plantas";
+
+"add_name" = "Adicionar nome...";
+"add_note" = "Adicionar nota...";
+
+"week" = "Semana";
+"add_week_number" = "Adicionar número da semana";
+"save" = "SALVAR";
+
+"add_new_plant_title" = "Adicionar uma nova Planta";
+
+"how_it_works_title" = "Como funciona:";
+
+"step1_title" = "Passo 1";
+"step1_subtitle" = "Tire uma foto da sua planta diretamente no aplicativo.";
+
+"step2_title" = "Passo 2";
+"step2_subtitle" = "Adicione uma nota (rega, replantio, adubação, etc.).";
+
+"step3_title" = "Passo 3";
+"step3_subtitle" = "Após algumas semanas, receba um diário de crescimento animado — a história da sua planta em movimento.";
+
+"bottom_text" = "Comece seu Diário de Crescimento hoje e veja sua coleção ganhar vida!";
+
+"add_new_plant_button" = "ADICIONAR UMA NOVA PLANTA";
+
+"home2222" = "Aqui você pode manter um diário de suas observações das plantas.";
+"home3333" = "Para começar, basta clicar em “Ver tudo”.";

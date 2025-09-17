@@ -186,3 +186,59 @@
 
 "you_do_not_have_any_verified_plants" = "確認済みの植物がありません。";
 "identify_232323" = "植物を識別するか、今すぐ状態をチェック！";
+
+"sounds_for_plants_title" = "植物のためのサウンド";
+"sounds_for_plants_subtitle" = "植物の健やかな成長を助け、落ち着いた環境を作り出すかもしれない穏やかな音を再生します。";
+
+"gentle_white_noise_title" = "やさしいホワイトノイズ";
+"gentle_white_noise_subtitle" = "穏やかなホワイトノイズが落ち着いた雰囲気を作り出します。";
+
+"water_drops_title" = "水滴";
+"water_drops_subtitle" = "リズミカルな水滴音が自然な環境を模倣します。";
+
+"soft_breeze_title" = "そよ風";
+"soft_breeze_subtitle" = "やさしい風の音が植物に自然を思い出させます。";
+
+"harmonic_tones_title" = "ハーモニックトーン";
+"harmonic_tones_subtitle" = "柔らかな倍音を含む純粋なトーンが成長を刺激するかもしれません。";
+
+"ocean_waves_title" = "海の波";
+"ocean_waves_subtitle" = "波のリズムが心地よい背景音を作ります。";
+
+"morning_birds_title" = "朝の鳥";
+"morning_birds_subtitle" = "小鳥のさえずりが自然の生態系の雰囲気を再現します。";
+
+// NOTES
+"plan_name" = "植物名:";
+
+"growth_diary_title" = "成長日記";
+"growth_diary_subtitle" = "毎週の写真で植物の成長を記録します。アプリはタイムラプスを作成し、変化を可視化して早期に問題を発見できます。";
+
+"plant_stories_title" = "植物ストーリー";
+
+"add_name" = "名前を追加...";
+"add_note" = "メモを追加...";
+
+"week" = "週";
+"add_week_number" = "週番号を追加";
+"save" = "保存";
+
+"add_new_plant_title" = "新しい植物を追加";
+
+"how_it_works_title" = "使い方:";
+
+"step1_title" = "ステップ1";
+"step1_subtitle" = "アプリで直接植物の写真を撮ります。";
+
+"step2_title" = "ステップ2";
+"step2_subtitle" = "メモを追加（給水、植え替え、施肥など）。";
+
+"step3_title" = "ステップ3";
+"step3_subtitle" = "数週間後、成長日記のアニメーションを受け取ります ― あなたの植物の物語が動き出します。";
+
+"bottom_text" = "今日から成長日記を始めて、コレクションが命を吹き込まれるのを見ましょう！";
+
+"add_new_plant_button" = "新しい植物を追加";
+
+"home2222" = "ここで植物の観察日記をつけることができます。";
+"home3333" = "始めるには、「すべて表示」をクリックするだけです。";

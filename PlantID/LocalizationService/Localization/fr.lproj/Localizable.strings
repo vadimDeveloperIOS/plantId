@@ -186,3 +186,60 @@
 
 "you_do_not_have_any_verified_plants" = "Vous n’avez aucune plante vérifiée.";
 "identify_232323" = "Identifiez votre plante ou vérifiez son état dès maintenant !";
+
+
+"sounds_for_plants_title" = "Sons pour les plantes";
+"sounds_for_plants_subtitle" = "Diffusez des fréquences apaisantes qui peuvent favoriser une croissance plus saine et créer une ambiance relaxante pour vos plantes.";
+
+"gentle_white_noise_title" = "Bruit blanc doux";
+"gentle_white_noise_subtitle" = "Un bruit blanc léger qui crée une atmosphère calme.";
+
+"water_drops_title" = "Gouttes d'eau";
+"water_drops_subtitle" = "Des gouttes d'eau rythmiques imitent un environnement naturel.";
+
+"soft_breeze_title" = "Brise légère";
+"soft_breeze_subtitle" = "Un vent doux rappelle aux plantes la nature.";
+
+"harmonic_tones_title" = "Tons harmoniques";
+"harmonic_tones_subtitle" = "Des tons purs avec de douces harmoniques peuvent stimuler la croissance.";
+
+"ocean_waves_title" = "Vagues de l’océan";
+"ocean_waves_subtitle" = "Des sons de vagues rythmiques créent une ambiance apaisante.";
+
+"morning_birds_title" = "Oiseaux du matin";
+"morning_birds_subtitle" = "Le chant des oiseaux recrée la sensation d’un écosystème naturel.";
+
+// NOTES
+"plan_name" = "Nom de la plante :";
+
+"growth_diary_title" = "Journal de croissance";
+"growth_diary_subtitle" = "Suivez la croissance de votre plante avec des photos hebdomadaires. L’application crée un time-lapse pour visualiser les changements et détecter les problèmes tôt.";
+
+"plant_stories_title" = "Histoires de plantes";
+
+"add_name" = "Ajouter un nom...";
+"add_note" = "Ajouter une note...";
+
+"week" = "Semaine";
+"add_week_number" = "Ajouter le numéro de semaine";
+"save" = "ENREGISTRER";
+
+"add_new_plant_title" = "Ajouter une nouvelle plante";
+
+"how_it_works_title" = "Comment ça marche :";
+
+"step1_title" = "Étape 1";
+"step1_subtitle" = "Prenez une photo de votre plante directement dans l’application.";
+
+"step2_title" = "Étape 2";
+"step2_subtitle" = "Ajoutez une note (arrosage, rempotage, fertilisation, etc.).";
+
+"step3_title" = "Étape 3";
+"step3_subtitle" = "Après quelques semaines, recevez un journal de croissance animé — l’histoire de votre plante en mouvement.";
+
+"bottom_text" = "Commencez votre journal de croissance aujourd’hui et voyez votre collection prendre vie !";
+
+"add_new_plant_button" = "AJOUTER UNE NOUVELLE PLANTE";
+
+"home2222" = "Ici vous pouvez tenir un journal de vos observations des plantes.";
+"home3333" = "Pour commencer, il vous suffit de cliquer sur « Tout voir ».";

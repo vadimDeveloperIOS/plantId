@@ -184,3 +184,60 @@
 
 "you_do_not_have_any_verified_plants" = "您沒有任何已驗證的植物。";
 "identify_232323" = "立即識別您的植物或檢查其狀態！";
+
+
+"sounds_for_plants_title" = "植物之聲";
+"sounds_for_plants_subtitle" = "播放舒緩的音頻頻率，幫助植物更健康地生長，並營造舒適的環境。";
+
+"gentle_white_noise_title" = "柔和白噪音";
+"gentle_white_noise_subtitle" = "柔和的白噪音營造寧靜氛圍。";
+
+"water_drops_title" = "水滴聲";
+"water_drops_subtitle" = "有節奏的水滴聲模擬自然環境。";
+
+"soft_breeze_title" = "微風";
+"soft_breeze_subtitle" = "輕柔的風聲讓植物想起大自然。";
+
+"harmonic_tones_title" = "和諧音調";
+"harmonic_tones_subtitle" = "帶有柔和泛音的純淨音調可能刺激生長。";
+
+"ocean_waves_title" = "海浪聲";
+"ocean_waves_subtitle" = "有節奏的海浪聲營造舒緩的背景。";
+
+"morning_birds_title" = "晨鳥";
+"morning_birds_subtitle" = "鳥鳴聲重現自然生態系統的感覺。";
+
+// NOTES
+"plan_name" = "植物名稱：";
+
+"growth_diary_title" = "成長日記";
+"growth_diary_subtitle" = "透過每週的照片記錄植物的成長。應用程式會建立縮時攝影以視覺化變化並及早發現問題。";
+
+"plant_stories_title" = "植物故事";
+
+"add_name" = "新增名稱...";
+"add_note" = "新增備註...";
+
+"week" = "週";
+"add_week_number" = "新增週數";
+"save" = "儲存";
+
+"add_new_plant_title" = "新增植物";
+
+"how_it_works_title" = "使用方式：";
+
+"step1_title" = "步驟 1";
+"step1_subtitle" = "直接在應用程式中拍攝植物的照片。";
+
+"step2_title" = "步驟 2";
+"step2_subtitle" = "新增備註（澆水、換盆、施肥等）。";
+
+"step3_title" = "步驟 3";
+"step3_subtitle" = "幾週後，收到一個動畫成長日記——植物的動態故事。";
+
+"bottom_text" = "立即開始你的成長日記，讓你的收藏煥發生機！";
+
+"add_new_plant_button" = "新增植物";
+
+"home2222" = "在這裡，你可以記錄植物觀察日記。";
+"home3333" = "要開始，只需點擊「查看全部」。";

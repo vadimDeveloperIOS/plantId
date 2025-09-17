@@ -185,3 +185,58 @@
 "you_do_not_have_any_verified_plants" = "您没有任何已验证的植物。";
 "identify_232323" = "立即识别您的植物或检查其状态！";
 
+"sounds_for_plants_title" = "植物之声";
+"sounds_for_plants_subtitle" = "播放舒缓的音频频率，帮助植物更健康地生长，并营造一个宁静的环境。";
+
+"gentle_white_noise_title" = "柔和的白噪音";
+"gentle_white_noise_subtitle" = "柔和的白噪音营造平静的氛围。";
+
+"water_drops_title" = "水滴声";
+"water_drops_subtitle" = "有节奏的水滴声模拟自然环境。";
+
+"soft_breeze_title" = "微风";
+"soft_breeze_subtitle" = "轻柔的风声让植物想起大自然。";
+
+"harmonic_tones_title" = "和谐音调";
+"harmonic_tones_subtitle" = "带有柔和谐波的纯净音调可能促进生长。";
+
+"ocean_waves_title" = "海浪声";
+"ocean_waves_subtitle" = "有节奏的海浪声营造舒缓的背景。";
+
+"morning_birds_title" = "晨鸟";
+"morning_birds_subtitle" = "鸟鸣声再现自然生态系统的感觉。";
+
+// NOTES
+"plan_name" = "植物名称：";
+
+"growth_diary_title" = "成长日记";
+"growth_diary_subtitle" = "通过每周的照片记录植物的成长。应用会创建延时摄影来可视化变化并及早发现问题。";
+
+"plant_stories_title" = "植物故事";
+
+"add_name" = "添加名称...";
+"add_note" = "添加备注...";
+
+"week" = "周";
+"add_week_number" = "添加周数";
+"save" = "保存";
+
+"add_new_plant_title" = "添加新植物";
+
+"how_it_works_title" = "工作原理：";
+
+"step1_title" = "步骤 1";
+"step1_subtitle" = "直接在应用中拍摄植物的照片。";
+
+"step2_title" = "步骤 2";
+"step2_subtitle" = "添加备注（浇水、换盆、施肥等）。";
+
+"step3_title" = "步骤 3";
+"step3_subtitle" = "几周后，收到一个动画成长日记——植物的动态故事。";
+
+"bottom_text" = "立即开始您的成长日记，让您的收藏焕发生机！";
+
+"add_new_plant_button" = "添加新植物";
+
+"home2222" = "在这里，您可以记录植物观察日记。";
+"home3333" = "要开始，只需点击“查看全部”。";
