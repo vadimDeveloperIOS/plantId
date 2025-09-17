@@ -71,6 +71,8 @@ final class AddDiaryViewController: UIViewController, PHPickerViewControllerDele
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+        tabBarController?.hideTabBar(true)
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {

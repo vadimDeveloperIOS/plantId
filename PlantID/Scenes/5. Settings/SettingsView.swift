@@ -32,16 +32,18 @@ final class SettingsView: BaseViewWithNavigationBarGreen {
 //        }
 //    }
     
-    private let scrollView: UIScrollView = {
+    private(set) lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.alwaysBounceVertical = true
+        sv.keyboardDismissMode = .interactive
         return sv
     }()
     
-    private let contentView: UIView = {
-        let v = UIView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        return v
+    private lazy var container: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     private lazy var headerTitle: UILabel = {
@@ -204,11 +206,11 @@ final class SettingsView: BaseViewWithNavigationBarGreen {
         
         addSubview(scrollView)
 
-        scrollView.addSubview(contentView)
+        scrollView.addSubview(container)
         
-        contentView.addSubview(headerTitle)
-        contentView.addSubview(publishButon)
-        contentView.addSubview(stack)
+        container.addSubview(headerTitle)
+        container.addSubview(publishButon)
+        container.addSubview(stack)
         
         stack.addArrangedSubview(notificationsCell)
         stack.addArrangedSubview(supportCell)
@@ -220,29 +222,29 @@ final class SettingsView: BaseViewWithNavigationBarGreen {
     override func setupLayout() {
         super.setupLayout()
         
-        scrollView.topAnchor ~= greenNabBg.bottomAnchor
+        scrollView.topAnchor ~= greenNabBg.bottomAnchor + 20
         scrollView.leftAnchor ~= leftAnchor
         scrollView.rightAnchor ~= rightAnchor
         scrollView.bottomAnchor ~= bottomAnchor
         
-        contentView.leftAnchor ~= scrollView.leftAnchor
-        contentView.rightAnchor ~= scrollView.rightAnchor
-        contentView.topAnchor ~= scrollView.topAnchor
-        contentView.bottomAnchor ~= scrollView.bottomAnchor
-        contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
+        container.topAnchor ~= scrollView.topAnchor
+        container.leftAnchor ~= scrollView.leftAnchor
+        container.rightAnchor ~= scrollView.rightAnchor
+        container.bottomAnchor ~= scrollView.bottomAnchor
+        container.widthAnchor ~= widthAnchor
         
-        headerTitle.centerXAnchor ~= centerXAnchor
-        headerTitle.topAnchor ~= contentView.topAnchor + 30
+        headerTitle.centerXAnchor ~= container.centerXAnchor
+        headerTitle.topAnchor ~= container.topAnchor
 
-        publishButon.leftAnchor ~= contentView.leftAnchor + 26
-        publishButon.rightAnchor ~= contentView.rightAnchor - 26
+        publishButon.leftAnchor ~= container.leftAnchor + 26
+        publishButon.rightAnchor ~= container.rightAnchor - 26
         publishButon.topAnchor ~= headerTitle.bottomAnchor + 30
         publishButon.heightAnchor ~= 130
 
-        stack.leftAnchor ~= contentView.leftAnchor + 26
-        stack.rightAnchor ~= contentView.rightAnchor - 26
+        stack.leftAnchor ~= container.leftAnchor + 26
+        stack.rightAnchor ~= container.rightAnchor - 26
         stack.topAnchor ~= publishButon.bottomAnchor + 20
-        stack.bottomAnchor ~= contentView.bottomAnchor - 30
+        stack.bottomAnchor ~= container.bottomAnchor - 30
     }
 }
 

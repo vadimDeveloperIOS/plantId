@@ -90,7 +90,7 @@ class AboutPlantsViewController: UIViewController {
         let newValue = CoreDataSevice.shared.createPlantInfo()
         newValue.id = createId
         newValue.didAddToMyPlants = false
-        newValue.plantName = viewModel.aboutInfo.titleAccent
+        newValue.plantName = viewModel.aboutInfo.plantNameValue
         newValue.plantDescr = viewModel.plantInfo.paragraphs.first
         newValue.photos = jpegDatas as NSArray
         newValue.plantSize = nil

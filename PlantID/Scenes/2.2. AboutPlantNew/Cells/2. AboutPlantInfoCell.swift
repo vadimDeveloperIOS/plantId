@@ -216,7 +216,10 @@ final class AboutPlantInfoContent: View {
             return
         }
         
-        print(vm)
+        print("!!!!! titlePrimary - \(vm.titlePrimary)")
+        print("!!!!! titleAccent - \(vm.titleAccent)")
+        print("!!!!! plantNamePrefix - \(vm.plantNamePrefix)")
+        print("!!!!! plantNameValue - \(vm.plantNameValue)")
 
         titlePrimaryLabel.text = vm.titlePrimary
         titleAccentLabel.text = vm.titleAccent
