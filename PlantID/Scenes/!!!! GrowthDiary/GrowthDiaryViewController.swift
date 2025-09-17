@@ -13,12 +13,6 @@ final class GrowthDiaryViewController: UIViewController {
     private let viewModel = GrowthDiaryViewModel()
     private let startRoot = StartGrowthDiaryView()
     
-    var coreDataIsEmpry: Bool = false {
-        didSet {
-            view = coreDataIsEmpry ? startRoot : root
-        }
-    }
-    
     override func loadView() {
         view = startRoot
         
@@ -41,7 +35,6 @@ final class GrowthDiaryViewController: UIViewController {
             case .addNew:
                 self.addNewDiadry()
             }
-            root.needToHideBack = true
         }
         startRoot.actionHandler = { [weak self] action in
             guard let self else { return }
@@ -58,7 +51,8 @@ final class GrowthDiaryViewController: UIViewController {
             
             switch action {
             case .addNewPlant:
-                self.addNewDiadry()
+//                self.addNewDiadry()
+                self.showNext()
             }
         }
     }
@@ -66,7 +60,6 @@ final class GrowthDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: false)
-        setupStartRoot()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,6 +111,30 @@ final class GrowthDiaryViewController: UIViewController {
                     )
             }
             
+            startRoot.viewModel = StartGrowthDiaryView.Model(
+                headerTitle: TextForStartGrowthDiary.title,
+                headerSubtitle: TextForStartGrowthDiary.subtitle,
+                steps: [
+                    .init(
+                        imageName: "step1_icon",
+                        stepTitle: TextForStartGrowthDiary.step1Title,
+                        stepSubtitle: TextForStartGrowthDiary.step1Subtitle
+                    ),
+                    .init(
+                        imageName: "step2_icon",
+                        stepTitle: TextForStartGrowthDiary.step2Title,
+                        stepSubtitle: TextForStartGrowthDiary.step2Subtitle
+                    ),
+                    .init(
+                        imageName: "step3_icon",
+                        stepTitle: TextForStartGrowthDiary.step3Title,
+                        stepSubtitle: TextForStartGrowthDiary.step3Subtitle
+                    )
+                ],
+                bottomText: TextForStartGrowthDiary.bottomText,
+                buttonTitle: TextForStartGrowthDiary.addNewPlant
+            )
+            
             root.viewModel =
                 .init(
                     textForFirstLbl: TextForGrowthDiary.title,
@@ -130,10 +147,7 @@ final class GrowthDiaryViewController: UIViewController {
                                 backgroundImageName: "my_plants_btnn"
                             )
                 )
-            
-            self.coreDataIsEmpry = stories == []
         }
-        
     }
     
     private func editDiary(index: Int) {
@@ -189,6 +203,7 @@ final class GrowthDiaryViewController: UIViewController {
     }
     
     private func addNewDiadry() {
+        
         let vc = AddDiaryViewController()
         vc.viewModel =
             .init(
@@ -206,31 +221,7 @@ final class GrowthDiaryViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    
-    private func setupStartRoot() {
-        
-        startRoot.viewModel = StartGrowthDiaryView.Model(
-            headerTitle: TextForStartGrowthDiary.title,
-            headerSubtitle: TextForStartGrowthDiary.subtitle,
-            steps: [
-                .init(
-                    imageName: "step1_icon",
-                    stepTitle: TextForStartGrowthDiary.step1Title,
-                    stepSubtitle: TextForStartGrowthDiary.step1Subtitle
-                ),
-                .init(
-                    imageName: "step2_icon",
-                    stepTitle: TextForStartGrowthDiary.step2Title,
-                    stepSubtitle: TextForStartGrowthDiary.step2Subtitle
-                ),
-                .init(
-                    imageName: "step3_icon",
-                    stepTitle: TextForStartGrowthDiary.step3Title,
-                    stepSubtitle: TextForStartGrowthDiary.step3Subtitle
-                )
-            ],
-            bottomText: TextForStartGrowthDiary.bottomText,
-            buttonTitle: TextForStartGrowthDiary.addNewPlant
-        )
+    private func showNext() {
+        view = root
     }
 }

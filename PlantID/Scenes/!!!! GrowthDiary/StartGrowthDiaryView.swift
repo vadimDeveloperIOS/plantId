@@ -108,7 +108,8 @@ final class StartGrowthDiaryView: BaseViewWithNavigationBarGreen {
         b.setTitleColor(.white, for: .normal)
         b.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 14)
         b.addAction(UIAction { [weak self] _ in
-            self?.actionHandlerChild(.addNewPlant)
+            guard let self else { return }
+            self.actionHandlerChild(.addNewPlant)
         }, for: .touchUpInside)
         b.widthAnchor ~= 244
         b.heightAnchor ~= 70
