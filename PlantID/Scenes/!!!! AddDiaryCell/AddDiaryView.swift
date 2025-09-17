@@ -87,7 +87,7 @@ final class AddDiaryView: BaseViewWithNavigationBarGreen {
         return view
     }()
     
-    private lazy var cell: AddDiaryContent = {
+    private(set) lazy var cell: AddDiaryContent = {
         let view = AddDiaryContent()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.actionHandler = { [weak self] action in

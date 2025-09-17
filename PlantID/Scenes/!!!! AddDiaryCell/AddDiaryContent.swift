@@ -15,6 +15,7 @@ final class AddDiaryContent: View {
     var actionHandler: (Action) -> Void = { _ in }
     
     struct Model {
+        var id: UUID?
         var photo: UIImage? = nil
         var name: String? = nil
         var notes: [Note] = []
@@ -42,6 +43,13 @@ final class AddDiaryContent: View {
             viewModel.notes.forEach { note in
                 createNote(model: note)
             }
+        }
+    }
+    
+    var changePhoto: UIImage? {
+        didSet {
+            guard let changePhoto else { return }
+            addPhoto.setBackgroundImage(changePhoto, for: .normal)
         }
     }
     
@@ -77,7 +85,7 @@ final class AddDiaryContent: View {
         return v
     }()
     
-    private lazy var fieldName: CustomTF = {
+    private(set) lazy var fieldName: CustomTF = {
         let view = CustomTF()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.placeholder = TextForAddDiary.addName
@@ -107,7 +115,7 @@ final class AddDiaryContent: View {
         return v
     }()
     
-    private lazy var fieldWeekNumber: CustomTF = {
+    private(set) lazy var fieldWeekNumber: CustomTF = {
         let view = CustomTF()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.placeholder = TextForAddDiary.addWeekNumber
@@ -119,7 +127,7 @@ final class AddDiaryContent: View {
         return view
     }()
     
-    private lazy var note: UITextView = {
+    private(set) lazy var note: UITextView = {
         let view = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
@@ -182,7 +190,7 @@ final class AddDiaryContent: View {
 }
 
 
-fileprivate class CustomTF: UITextField {
+class CustomTF: UITextField {
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))

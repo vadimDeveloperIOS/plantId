@@ -84,6 +84,8 @@ final class GrowthDiaryContent: View {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor ~= 88
         view.heightAnchor ~= 88
+        view.layer.cornerRadius = 44
+        view.clipsToBounds = true
         return view
     }()
     

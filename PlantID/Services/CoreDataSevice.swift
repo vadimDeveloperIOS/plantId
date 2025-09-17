@@ -50,11 +50,11 @@ final class CoreDataSevice {
         
         do {
             let plants = try context.fetch(request)
-            print("✅ ПОЛУЧЕНЫ ДАННЫЕ ( \(plants.count) -  PlantInfo ) from Core Data")
+            print("✅ ПОЛУЧЕНЫ ДАННЫЕ ( \(plants.count) -  PlantInfo ) from Core Data \n")
             return plants.first
         }
         catch {
-            print("🛑 🛑 🛑 \(#function) - данные не получены ")
+            print("🛑 🛑 🛑 \(#function) - данные не получены \n")
             return nil
         }
     }
@@ -78,9 +78,31 @@ final class CoreDataSevice {
         }
     }
     
-    func createGrowthDiary() -> PlantInfo {
-        let plant = PlantInfo(context: context)
-        return plant
+    func createGrowthDiary() -> GrowthDiary {
+        let diary = GrowthDiary(context: context)
+        print("✅ [CoreDataSevice] Создан новый экземпляр сущности дневника \n")
+        return diary
+    }
+    
+    func createNote() -> Note {
+        let note = Note(context: context)
+        print("✅ [CoreDataSevice] Создан новый экземпляр сущности Note \n")
+        return note
+    }
+    
+    func getDiary(id: UUID) throws -> GrowthDiary? {
+        let request: NSFetchRequest<GrowthDiary> = GrowthDiary.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        
+        do {
+            let diary = try context.fetch(request)
+            print("✅ [CoreDataSevice] Получен дневник растения - \(String(describing: diary.first?.name)) \n")
+            return diary.first
+        }
+        catch {
+            print("🛑 [CoreDataSevice] - данные не получены, \(error) \n")
+            return nil
+        }
     }
     
     // MARK: SAVE

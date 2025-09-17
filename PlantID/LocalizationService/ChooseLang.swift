@@ -139,3 +139,23 @@ enum TextForAddDiary {
         static let subtitle = "growth_diary_subtitle".localized
         static let addNewPlant = "add_new_plant_title".localized
 }
+
+enum TextForStartGrowthDiary {
+    static let title = "growth_diary_title".localized
+    static let subtitle = "growth_diary_subtitle".localized
+    
+    static let howItWorks = "how_it_works_title".localized
+    
+    static let step1Title = "step1_title".localized
+    static let step1Subtitle = "step1_subtitle".localized
+    
+    static let step2Title = "step2_title".localized
+    static let step2Subtitle = "step2_subtitle".localized
+    
+    static let step3Title = "step3_title".localized
+    static let step3Subtitle = "step3_subtitle".localized
+    
+    static let bottomText = "bottom_text".localized
+    static let addNewPlant = "add_new_plant_button".localized
+}
+

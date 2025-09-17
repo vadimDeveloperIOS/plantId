@@ -240,3 +240,22 @@
 "growth_diary_subtitle" = "Track your plant's growth with weekly photos. The app creates a time-lapse to visualize changes and spot issues early.";
 
 "add_new_plant_title" = "Add a new Plant";
+
+
+"growth_diary_title" = "Growth Diary";
+"growth_diary_subtitle" = "Track your plant's growth with weekly photos. The app creates a time-lapse to visualize changes and spot issues early.";
+
+"how_it_works_title" = "How it works:";
+
+"step1_title" = "Step 1";
+"step1_subtitle" = "Take a photo of your plant directly in the app.";
+
+"step2_title" = "Step 2";
+"step2_subtitle" = "Add a note (watering, repotting, fertilizing, etc.).";
+
+"step3_title" = "Step 3";
+"step3_subtitle" = "After a few weeks, receive an animated growth diary — your plant's story in motion.";
+
+"bottom_text" = "Start your Growth Diary today and see your collection come to life!";
+
+"add_new_plant_button" = "ADD A NEW PLANT";

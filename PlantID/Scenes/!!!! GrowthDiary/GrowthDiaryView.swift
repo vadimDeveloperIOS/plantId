@@ -12,6 +12,7 @@ final class GrowthDiaryView: BaseViewWithNavigationBarGreen {
     // MARK: - Actions
     enum ActionChild {
         case edit(index: Int)
+        case addNew
     }
     var actionHandlerChild: (ActionChild) -> Void = { _ in }
     
@@ -54,10 +55,12 @@ final class GrowthDiaryView: BaseViewWithNavigationBarGreen {
     // MARK: - Section & Cell items
     private enum SectionItem: Int, Hashable, CaseIterable {
         case stories
+        case btn
     }
     
     enum CellItem: Hashable {
         case stories(GrowthDiaryContent.Model)
+        case btn(PrimaryCTAButtonContent.Model)
     }
     
     // MARK: - Model
@@ -66,6 +69,7 @@ final class GrowthDiaryView: BaseViewWithNavigationBarGreen {
         let textForSecondLbl: String
         let textForThirdLbl: String
         var stories: [GrowthDiaryContent.Model]
+        var btn: PrimaryCTAButtonContent.Model
     }
     
     var viewModel: Model? {
@@ -78,6 +82,9 @@ final class GrowthDiaryView: BaseViewWithNavigationBarGreen {
                 CellItem.stories($0)
             }
             snapshot.appendItems(stories, toSection: .stories)
+            
+            let btn = CellItem.btn(vm.btn)
+            snapshot.appendItems( [btn], toSection: .btn)
             dataSource.apply(snapshot, animatingDifferences: true)
             
             firsTitle.text = vm.textForFirstLbl
@@ -106,12 +113,24 @@ final class GrowthDiaryView: BaseViewWithNavigationBarGreen {
                 self?.actionHandlerChild(.edit(index: indexPath.item))
             }
         }
+        let primaryCTARegistration = UICollectionView.CellRegistration<PrimaryCTAButtonCell, PrimaryCTAButtonContent.Model> { [weak self] cell, indexPath, item in
+            cell.viewModel = item
+            cell.actionHandler = {
+                self?.actionHandlerChild(.addNew)
+            }
+        }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
             switch itemIdentifier {
             case .stories(let model):
                 return collectionView.dequeueConfiguredReusableCell(
                     using: storyRegistration,
+                    for: indexPath,
+                    item: model
+                )
+            case .btn(let model):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: primaryCTARegistration,
                     for: indexPath,
                     item: model
                 )
@@ -154,7 +173,7 @@ final class GrowthDiaryView: BaseViewWithNavigationBarGreen {
             // item
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(150)
+                heightDimension: .estimated(80)
             )
             let item  = NSCollectionLayoutItem(layoutSize: itemSize)
             let group = NSCollectionLayoutGroup.vertical(layoutSize: itemSize, subitems: [item])

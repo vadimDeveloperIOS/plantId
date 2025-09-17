@@ -11,9 +11,16 @@ final class GrowthDiaryViewController: UIViewController {
     
     private let root = GrowthDiaryView()
     private let viewModel = GrowthDiaryViewModel()
+    private let startRoot = StartGrowthDiaryView()
+    
+    var coreDataIsEmpry: Bool = false {
+        didSet {
+            view = coreDataIsEmpry ? startRoot : root
+        }
+    }
     
     override func loadView() {
-        view = root
+        view = startRoot
         
         root.actionHandler = { [weak self] action in
             guard let self else { return }
@@ -25,26 +32,47 @@ final class GrowthDiaryViewController: UIViewController {
                 self.tabBarController?.selectedIndex = 4
             }
         }
-        
         root.actionHandlerChild = { [weak self] action in
             guard let self else { return }
             
             switch action {
             case .edit(index: let index):
-                self.showAddOrEdit()
+                self.editDiary(index: index)
+            case .addNew:
+                self.addNewDiadry()
             }
             root.needToHideBack = true
+        }
+        startRoot.actionHandler = { [weak self] action in
+            guard let self else { return }
+            
+            switch action {
+            case .back:
+                self.navigationController?.popToRootViewController(animated: true)
+            case .setting:
+                self.tabBarController?.selectedIndex = 4
+            }
+        }
+        startRoot.actionHandlerChild = { [weak self] action in
+            guard let self else { return }
+            
+            switch action {
+            case .addNewPlant:
+                self.addNewDiadry()
+            }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: false)
+        setupStartRoot()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        test1()
+        
+        getStories()
     }
     
     private func getStories() {
@@ -60,17 +88,31 @@ final class GrowthDiaryViewController: UIViewController {
                     
                 var notes: [GrowthDiaryContent.Model.NoteModel] = []
                 
+//                if let n = $0.notes as? Set<Note> {
+//                    notes = n.compactMap { val in
+//                        .init(
+//                            noteTitle: val.title ?? "No value",
+//                            noteText: val.noteText ?? "No value"
+//                        )
+//                    }
+//                }
                 if let n = $0.notes as? Set<Note> {
-                    notes = n.compactMap { val in
-                        .init(
-                            noteTitle: val.title ?? "No value",
-                            noteText: val.noteText ?? "No value"
-                        )
-                    }
+                    notes = n
+                        .sorted { (lhs: Note, rhs: Note) in
+                            let left = Int(lhs.title?.components(separatedBy: CharacterSet.decimalDigits.inverted).joined() ?? "") ?? 0
+                            let right = Int(rhs.title?.components(separatedBy: CharacterSet.decimalDigits.inverted).joined() ?? "") ?? 0
+                            return left < right
+                        }
+                        .map { val in
+                                .init(
+                                    noteTitle: val.title ?? "No value",
+                                    noteText: val.noteText ?? "No value"
+                                )
+                        }
                 }
                 return
                     .init(
-                        photo: photo ?? UIImage(systemName: "photo.circle")!.withTintColor(#colorLiteral(red: 0.6107943058, green: 0.7969731688, blue: 0.4673035145, alpha: 1)),
+                        photo: photo ?? UIImage(named: "empty_photo_add_diary")!,
                         name: $0.name ?? "No value",
                         notes: notes
                     )
@@ -81,53 +123,72 @@ final class GrowthDiaryViewController: UIViewController {
                     textForFirstLbl: TextForGrowthDiary.title,
                     textForSecondLbl: TextForGrowthDiary.subtitle,
                     textForThirdLbl: TextForGrowthDiary.plantStories,
-                    stories: stories
-                )
-        }
-    }
-    
-    private func test1() {
-        
-        root.viewModel =
-            .init(
-                textForFirstLbl: TextForGrowthDiary.title,
-                textForSecondLbl: TextForGrowthDiary.subtitle,
-                textForThirdLbl: TextForGrowthDiary.plantStories,
-                stories: [
-                    
-                    .init(
-                        photo: UIImage(systemName: "photo.circle")!.withTintColor(#colorLiteral(red: 0.6107943058, green: 0.7969731688, blue: 0.4673035145, alpha: 1), renderingMode: .alwaysOriginal),
-                        name: "Text Name",
-                        notes: [
+                    stories: stories,
+                    btn:
                             .init(
-                                noteTitle: "Week 1",
-                                noteText: "SomeText week 1 SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText"
-                            ),
-                            .init(
-                                noteTitle: "Week 2",
-                                noteText: "SomeText week 2 SomeText SomeText SomeText"
+                                title: "add_new_plant_title".localized,
+                                backgroundImageName: "my_plants_btnn"
                             )
-                        ]),
-                    
-                        .init(
-                            photo: UIImage(systemName: "photo.circle")!.withTintColor(#colorLiteral(red: 0.6107943058, green: 0.7969731688, blue: 0.4673035145, alpha: 1), renderingMode: .alwaysOriginal),
-                            name: "Plant 2",
-                            notes: [
-                                .init(
-                                    noteTitle: "Week 3",
-                                    noteText: "SomeTe week 3 SomeTextxt SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText SomeText"
-                                ),
-                                .init(
-                                    noteTitle: "Week 4",
-                                    noteText: "SomeText week 4 SomeText SomeText  SomeText SomeText SomeText "
-                                )
-                            ])
-                ])
+                )
+            
+            self.coreDataIsEmpry = stories == []
+        }
         
     }
     
-    // TEST
-    private func showAddOrEdit() {
+    private func editDiary(index: Int) {
+        guard index >= 0, index < viewModel.diares.count else { return }
+
+        let vc = AddDiaryViewController()
+        let selectedDiary = viewModel.diares[index]
+        
+        var photo: UIImage?
+        if let data = selectedDiary.photo, let img = UIImage(data: data) {
+            photo = img
+        }
+        
+        var notes: [AddDiaryContent.Model.Note] = []
+//        if let n = selectedDiary.notes as? Set<Note> {
+//            notes = n.compactMap { val in
+//                .init(
+//                    title: val.title ?? "No value",
+//                    text: val.noteText ?? "No value"
+//                )
+//            }
+//        }
+        if let n = selectedDiary.notes as? Set<Note> {
+            notes = n
+                .sorted { (lhs: Note, rhs: Note) in
+                    let left = Int(lhs.title?.components(separatedBy: CharacterSet.decimalDigits.inverted).joined() ?? "") ?? 0
+                    let right = Int(rhs.title?.components(separatedBy: CharacterSet.decimalDigits.inverted).joined() ?? "") ?? 0
+                    return left < right
+                }
+                .map { val in
+                    AddDiaryContent.Model.Note(
+                        title: val.title ?? "No value",
+                        text: val.noteText ?? "No value"
+                    )
+                }
+        }
+        vc.viewModel =
+            .init(
+                textFirstTitle: TextForAddDiary.title,
+                textSecondTitle: TextForAddDiary.subtitle,
+                textThirdTitle: TextForAddDiary.addNewPlant,
+                cellModel:
+                        .init(
+                            id: selectedDiary.id,
+                            photo: photo,
+                            name: selectedDiary.name,
+                            notes: notes
+                        ),
+                textButton: TextForAddDiary.save
+                
+            )
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func addNewDiadry() {
         let vc = AddDiaryViewController()
         vc.viewModel =
             .init(
@@ -136,24 +197,40 @@ final class GrowthDiaryViewController: UIViewController {
                 textThirdTitle: TextForAddDiary.addNewPlant,
                 cellModel:
                         .init(
-                            photo: UIImage(named: "fake123"),
-                            name: "Some plant",
-                            notes: [
-                                
-                                .init(
-                                    title: "Week 1",
-                                    text: "Some week 1 text some text some text some text some text some text some text some text some text some text some text"
-                                ),
-                                
-                                .init(
-                                    title: "Week 4",
-                                    text: "Some week 4 text"
-                                )
-                            ]),
+                            id: nil,
+                            photo: nil,
+                            name: nil,
+                            notes: [ ]),
                 textButton: TextForAddDiary.save
             )
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     
+    private func setupStartRoot() {
+        
+        startRoot.viewModel = StartGrowthDiaryView.Model(
+            headerTitle: TextForStartGrowthDiary.title,
+            headerSubtitle: TextForStartGrowthDiary.subtitle,
+            steps: [
+                .init(
+                    imageName: "step1_icon",
+                    stepTitle: TextForStartGrowthDiary.step1Title,
+                    stepSubtitle: TextForStartGrowthDiary.step1Subtitle
+                ),
+                .init(
+                    imageName: "step2_icon",
+                    stepTitle: TextForStartGrowthDiary.step2Title,
+                    stepSubtitle: TextForStartGrowthDiary.step2Subtitle
+                ),
+                .init(
+                    imageName: "step3_icon",
+                    stepTitle: TextForStartGrowthDiary.step3Title,
+                    stepSubtitle: TextForStartGrowthDiary.step3Subtitle
+                )
+            ],
+            bottomText: TextForStartGrowthDiary.bottomText,
+            buttonTitle: TextForStartGrowthDiary.addNewPlant
+        )
+    }
 }
