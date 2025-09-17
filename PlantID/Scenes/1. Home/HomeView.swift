@@ -19,6 +19,8 @@ final class HomeView: View {
     private typealias MyPlants = UICollectionView.CellRegistration<MyPlantsHomeCell, MyPlantsCellContent.Model>
     private typealias AIAssistant = UICollectionView.CellRegistration<AIAssistantHomeCell, String>
     private typealias History = UICollectionView.CellRegistration<HistoryHomeCell, HistoryCellContent.BigCellModel>
+    private typealias Sounds = UICollectionView.CellRegistration<SoundsHomeCell, SoundsHomeContent.Model>
+    private typealias Diaries = UICollectionView.CellRegistration<GrowthDiaryCell, GrowthDiaryContent.Model>
     
     // SECTIONS REGISTRATION
     private typealias SectionSnap = NSDiffableDataSourceSectionSnapshot<CellItem>
@@ -31,6 +33,8 @@ final class HomeView: View {
         case myPlants
         case aiAssistant
         case history
+        case sounds
+        case diaries
     }
     
     private enum CellItem: Hashable {
@@ -39,6 +43,8 @@ final class HomeView: View {
         case myPlants(MyPlantsCellContent.Model)
         case aiAssistant
         case history(HistoryCellContent.BigCellModel)
+        case sounds(SoundsHomeContent.Model)
+        case diaries(GrowthDiaryContent.Model)
     }
     
     enum Action {
@@ -46,6 +52,9 @@ final class HomeView: View {
         case add(indexPath: Int)
         case viewAllMyPlants
         case viewAllHistory
+        case playOrStopMusic(Int)
+        case viewAllSounds
+        case viewAllDiaries
     }
     var actionHandler: (Action) -> Void = { _ in }
 
@@ -54,6 +63,8 @@ final class HomeView: View {
         let learnAboutPlants: [LearnAboutPlantsHomeCellContent.BigCellModel]
         let myPlants: [MyPlantsCellContent.Model]
         let history: [HistoryCellContent.BigCellModel]
+        var sounds: [SoundsHomeContent.Model]
+        let diaries: [GrowthDiaryContent.Model]
     }
     
     var viewModel: Model? {
@@ -66,15 +77,12 @@ final class HomeView: View {
                 .learnAboutPlants,
                 .myPlants,
                 .aiAssistant,
-                .history
+                .history,
+                .sounds,
+                .diaries
             ])
             let search = viewModel.search
             snapshot.appendItems( [.search(search)], toSection: .search)
-            
-//            let learnAboutPlants = viewModel.learnAboutPlants.map {
-//                CellItem.learnAboutPlants($0)
-//            }
-//            snapshot.appendItems( learnAboutPlants, toSection: .learnAboutPlants)
             
             let myPlants = viewModel.myPlants.map {
                 CellItem.myPlants($0)
@@ -87,6 +95,56 @@ final class HomeView: View {
             }
             snapshot.appendItems(history, toSection: .history)
             
+            let sounds = viewModel.sounds.map {
+                CellItem.sounds($0)
+            }
+            snapshot.appendItems(sounds, toSection: .sounds)
+            
+            let diariesPrefix = viewModel.diaries.prefix(2)
+            let diaries = diariesPrefix.map {
+                CellItem.diaries($0)
+            }
+            snapshot.appendItems(diaries, toSection: .diaries)
+            
+            dataSource.apply(snapshot, animatingDifferences: true)
+        }
+    }
+    
+    var updateSoundCellIndex: Int? {
+        didSet {
+            guard var vm = viewModel, let index = updateSoundCellIndex else { return }
+            
+            if index == 8 {
+                for i in vm.sounds.indices {
+                    vm.sounds[i].isPlaying = false
+                }
+                self.viewModel?.sounds = vm.sounds
+
+                var snapshot = dataSource.snapshot()
+                let items = snapshot.itemIdentifiers(inSection: .sounds)
+                snapshot.reloadItems(items)
+                dataSource.apply(snapshot, animatingDifferences: true)
+                return
+            }
+
+            // 1) Запоминаем, играла ли выбранная до нажатия
+            let wasPlaying = vm.sounds[index].isPlaying
+
+            // 2) Вырубаем у всех
+            for i in vm.sounds.indices {
+                vm.sounds[i].isPlaying = false
+            }
+
+            // 3) У выбранной ставим инверсию прошлого состояния
+            vm.sounds[index].isPlaying = !wasPlaying
+
+            // 4) Обновляем модель
+            self.viewModel?.sounds = vm.sounds
+
+            // 5) Обновляем UI (перезагрузим всю секцию sounds)
+            var snapshot = dataSource.snapshot()
+            let items = snapshot.itemIdentifiers(inSection: .sounds)
+            snapshot.reloadItems(items)
             dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
@@ -144,6 +202,22 @@ final class HomeView: View {
                 }
             }
         }
+        
+        let soundsRegistration = Sounds { cell, indexPath, itemIdentifier in
+            cell.viewModel = itemIdentifier
+            cell.actionHandler = { [weak self] action in
+                guard let self else { return }
+                switch action {
+                case .playOrStop:
+                    self.actionHandler(.playOrStopMusic(indexPath.item))
+                }
+            }
+        }
+        
+        let diariesRegistration = Diaries { cell, indexPath, itemIdentifier in
+            cell.viewModel = itemIdentifier
+            cell.hideEditButton = false
+        }
 
         let headerRegistration = UICollectionView.SupplementaryRegistration<SectionHeaderView>(
             elementKind: "Header"
@@ -151,6 +225,10 @@ final class HomeView: View {
 //            guard let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section] else { return }
             
             guard let section = self?.dataSource.sectionIdentifier(for: indexPath.section) else { return }
+            
+            view.textForSection = nil
+            view.needToShowButton = false
+            view.actionHandler = { _ in }
             
 //            if section == .learnAboutPlants {
 //                view.textForSection = TextForHomeScene.learnAboutPlants
@@ -174,6 +252,29 @@ final class HomeView: View {
                     switch action {
                     case .viewAll:
                         self.actionHandler(.viewAllHistory)
+                    }
+                }
+            }
+            
+            if section == .sounds {
+                view.textForSection = TextForSounds.title
+                view.needToShowButton = true
+                view.actionHandler = { [weak self] action in
+                    guard let self else { return }
+                    switch action {
+                    case .viewAll:
+                        self.actionHandler(.viewAllSounds)
+                    }
+                }
+            }
+            if section == .diaries {
+                view.textForSection = TextForStartGrowthDiary.title
+                view.needToShowButton = true
+                view.actionHandler = { [weak self] action in
+                    guard let self else { return }
+                    switch action {
+                    case .viewAll:
+                        self.actionHandler(.viewAllDiaries)
                     }
                 }
             }
@@ -215,6 +316,18 @@ final class HomeView: View {
                     for: indexPath,
                     item: viewModel
                 )
+            case .sounds(let viewModel):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: soundsRegistration,
+                    for: indexPath,
+                    item: viewModel
+                )
+            case .diaries(let viewModel):
+                return collectionView.dequeueConfiguredReusableCell(
+                    using: diariesRegistration,
+                    for: indexPath,
+                    item: viewModel
+                )
             }
         }
 
@@ -250,7 +363,9 @@ final class HomeView: View {
              .learnAboutPlants,
              .myPlants,
              .aiAssistant,
-             .history
+             .history,
+             .sounds,
+             .diaries
          ])
         
         snapshot.appendItems([.search(vm.search)], toSection: .search)
@@ -272,6 +387,16 @@ final class HomeView: View {
             return query.isEmpty || name.contains(query.lowercased())
         }
         snapshot.appendItems(filteredHistory, toSection: .history)
+        
+        var diaries: [CellItem] = []
+        diaries = vm.diaries.map { CellItem.diaries($0) }
+        
+        let filteredDiaries = diaries.filter { item in
+            let name = itemModelName(item).lowercased()
+            return query.isEmpty || name.contains(query.lowercased())
+        }
+        snapshot.appendItems(filteredDiaries, toSection: .diaries)
+        
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
@@ -291,6 +416,11 @@ final class HomeView: View {
         case .history(let viewModel):
             guard viewModel.firstText != "" else { break }
             return viewModel.firstText
+        case .sounds(_):
+            break
+        case .diaries(let viewModel):
+            guard viewModel.name != "" else { break }
+            return viewModel.name
         }
         return ""
     }
@@ -325,6 +455,14 @@ private extension HomeView {
             case .history:
                 return historySection(
                     estimatedHeight: 112
+                )
+            case .sounds:
+                return soundsSection(
+                    estimatedHeight: 90
+                )
+            case .diaries:
+                return diariesSection(
+                    estimatedHeight: 130
                 )
             }
         }
@@ -400,7 +538,10 @@ private extension HomeView {
     }
 
     static func myPlantsSection(
-        estimatedHeight: CGFloat
+        estimatedHeight: CGFloat,
+        top: CGFloat = 10,
+        bottom: CGFloat = 35
+        
     ) -> NSCollectionLayoutSection {
         
         // Каждая карточка занимает половину ширины группы и всю её высоту
@@ -433,9 +574,9 @@ private extension HomeView {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.contentInsets = .init(
-            top: 10,
+            top: top,
             leading: 16,
-            bottom: 35,
+            bottom: bottom,
             trailing: 16
         )
         section.interGroupSpacing = 16 // расстояние между карточками (ячейками)
@@ -474,7 +615,89 @@ private extension HomeView {
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 10,
             leading: 16,
-            bottom: 20,
+            bottom: 40,
+            trailing: 16
+        )
+        section.interGroupSpacing = 16
+        section.boundarySupplementaryItems = [sectionHeader]
+        return section
+    }
+    
+    static func soundsSection( estimatedHeight: CGFloat ) -> NSCollectionLayoutSection {
+        
+        // Каждая карточка занимает половину ширины группы и всю её высоту
+        let item = NSCollectionLayoutItem(
+            layoutSize: .init(
+                widthDimension: .estimated(88),
+                heightDimension: .estimated(88)
+            )
+        )
+        // Группа-«страница» с двумя карточками
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize:
+                    .init(
+                        widthDimension: .fractionalWidth(0.92),
+                        heightDimension: .estimated(estimatedHeight)
+                    ),
+            subitems: [item]
+        )
+        
+        group.interItemSpacing = .fixed(10) // расстояние между карточками в группе
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(10)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: "Header",
+            alignment: .top
+        )
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.contentInsets = .init(
+            top: 10,
+            leading: 16,
+            bottom: 40,
+            trailing: 16
+        )
+        section.interGroupSpacing = 16 // расстояние между карточками (ячейками)
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        return section
+    }
+    
+    private static func diariesSection( estimatedHeight: CGFloat ) -> NSCollectionLayoutSection {
+        
+        let item  = NSCollectionLayoutItem(
+            layoutSize:
+                .init(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .estimated(estimatedHeight)
+                )
+        )
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize:
+                    .init(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .estimated(estimatedHeight)
+                    ),
+            subitems: [item]
+        )
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(10)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: "Header",
+            alignment: .top
+        )
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 10,
+            leading: 16,
+            bottom: 40,
             trailing: 16
         )
         section.interGroupSpacing = 16

@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let nav = UINavigationController(rootViewController: pageVC)
         
         // TODO: ВЕРНУТЬ
-        /*
+        
 
         if UserDefaultsService.shared.hasSeenOnboarding == false {
             nav.navigationBar.isHidden = true
@@ -31,12 +31,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = tabsViewController
         }
          
-         */
-        
-        // TODO: УДАЛИТЬ
-        let vc = UINavigationController(rootViewController: GrowthDiaryViewController())
-        window.rootViewController = vc
-        //____________________________
+//        // TODO: УДАЛИТЬ
+//        let vc = UINavigationController(rootViewController: GrowthDiaryViewController())
+//        window.rootViewController = vc
+//        //____________________________
         
         window.makeKeyAndVisible()
         self.window = window

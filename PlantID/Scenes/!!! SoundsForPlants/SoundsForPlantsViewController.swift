@@ -52,13 +52,13 @@ final class SoundsForPlantsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViewModel()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         SoundService.shared.stop()
         updateViewModel()
+        tabBarController?.hideTabBar(true)
     }
     
     deinit {

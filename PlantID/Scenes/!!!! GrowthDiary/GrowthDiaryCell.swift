@@ -19,6 +19,12 @@ final class GrowthDiaryCell: UICollectionViewCell {
         }
     }
     
+    var hideEditButton = false {
+        didSet {
+            content.hideEditButton = hideEditButton
+        }
+    }
+    
     var actionHandler: (GrowthDiaryContent.Action) -> Void {
         get { content.actionHandler }
         set { content.actionHandler = newValue }
@@ -75,6 +81,14 @@ final class GrowthDiaryContent: View {
             
             viewModel.notes.forEach { note in
                 createNote(model: note)
+            }
+        }
+    }
+    
+    var hideEditButton: Bool = false {
+        didSet {
+            if hideEditButton == true {
+                editBtn.isHidden = true
             }
         }
     }
